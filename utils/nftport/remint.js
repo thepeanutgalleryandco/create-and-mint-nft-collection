@@ -10,7 +10,7 @@ const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`
 
 const TIMEOUT = 2000; // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
 const reMintedArray = [];
-const limit = RateLimit(ACCOUNT_DETAILS.max_rate_limit); //Ratelimit for your APIKey
+const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); //Ratelimit for your APIKey
 const re = new RegExp("^([0-9]+).json"); //Will be used to ensure only JSON files from the JSONDIR is used in the meta's updated.
 
 let date_ob = new Date();
@@ -71,7 +71,9 @@ function timer(ms) {
 
 async function fetchWithRetry(meta) {
   return new Promise((resolve, reject) => {
-    const fetch_retry = (_meta) => {
+    let numberOfRetries = Number(ACCOUNT_DETAILS.numberOfRetries);
+
+    const fetch_retry = (_meta, _numberOfRetries) => {
       let url = "https://api.nftport.xyz/v0/mints/customizable";
 
       const mintInfo = {
@@ -98,30 +100,30 @@ async function fetchWithRetry(meta) {
           return res.json();
         }
         else {
-          console.error(`ERROR STATUS: ${status}`)
-          console.log('Retrying')
-          await timer(TIMEOUT)
-          fetch_retry(_meta)
+          throw `ERROR STATUS: ${status}`;
         }
       })
       .then(async (json) => {
         if(json.response === "OK"){
           return resolve(json);
         } else {
-          console.error(`NOK: ${json.error}`)
-          console.log('Retrying')
-          await timer(TIMEOUT)
-          fetch_retry(_meta)
+          throw `NOK: ${json.error}`;
         }
       })
       .catch(async (error) => {
         console.error(`CATCH ERROR: ${error}`)
-        console.log('Retrying')
-        await timer(TIMEOUT)
-        fetch_retry(_meta)
+
+        if (_numberOfRetries !== 0) {
+          console.log(`Retrying mint`);
+          await timer(TIMEOUT)
+          fetch_retry(_meta, _numberOfRetries - 1)
+        } else {
+          console.log(`All requests unsuccessful for ${_meta.custom_fields.edition}`);
+          reject(error)
+        }
       });
     }
-    return fetch_retry(meta);
+    return fetch_retry(meta, numberOfRetries);
   });
 }
 

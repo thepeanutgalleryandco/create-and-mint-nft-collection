@@ -30,6 +30,9 @@ If you would like to support my NFT collection, please take a look at the below.
 ### "Quota Limit Reached" or "Too many requests" errors
 Users have been experiencing issues in terms of API limitting. A new library "async-sema" was added and you can now adjust your APIKey's rate limit from the ACCOUNT_DETAILS constant file. It seems to be not an exact science, so to be more successful in processing all of your files in one go, try to put the max_rate_limit at one less than your APIKey's limit.
 
+### Retry Limit Addition
+Added a retry limit for the API calls into NFTPort so that after x number of retries, the attempt for the specific file will be stopped and the next file will be tried. This was added to be able to potentially process other files as a specific file might have issues.
+
 ## How To Use The Codebase
 Below is a rough guideline of the order in which the processes can be used.
 
@@ -88,7 +91,11 @@ This process will also update the "_metadata.json" file with the add the metadat
 *Important* - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update line #7 in the utils/nftport/uploadMetas.js file to point to "genericJSONDir" instead of "jsonDir" as this is where your meta files live with the generic image.
 
 ### 11. Minting NFTs
-Use the "NFTPort - Mint Command" below to start minting all of your NFTs. Please remember to change your json minting directory at line #8 if you want to make use of a Reveal and you want to mint the generic json files.
+Use the "NFTPort - Mint Command" below to start minting all of your NFTs.
+Use the "NFTPort - Mint_Range Command" below to start minting a range of NFTs between specific editions.
+Use the "NFTPort - Mint_Item Command" below to start minting a specific NFT edition.
+
+Please remember to change your json minting directory at line #8 if you want to make use of a Reveal and you want to mint the generic json files.
 
 The following issues has been seen while minting:
 - Transactions receiving back a NOK - These will need to be re-minted and can't be found on the blockchain.
@@ -153,6 +160,14 @@ Use the following command from the code's root directory.
 
 ## NFTPort Commands
 Use the following command from the code's root directory.
+
+### Mint_Item Command
+- node utils/nftport/mint_item.js
+- npm run mint_item
+
+### Mint_Range Command
+- node utils/nftport/mint_range.js
+- npm run mint_range
 
 ### Mint Command
 - node utils/nftport/mint.js

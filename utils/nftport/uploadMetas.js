@@ -8,7 +8,7 @@ const readDir = (`${FOLDERS.jsonDir}`); // Change this directory to genericJSOND
 
 const re = new RegExp("^([0-9]+).json$"); //Will be used to ensure only JSON files from the JSONDIR is used in the meta's updated.
 const TIMEOUT = 1000; // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.
-const limit = RateLimit(ACCOUNT_DETAILS.max_rate_limit); //Ratelimit for your APIKey
+const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); //Ratelimit for your APIKey
 const allMetadata = [];
 let date_ob = new Date();
 const backupDate = date_ob.getFullYear() + "_" + ("0" + (date_ob.getMonth() + 1)).slice(-2) + "_" + ("0" + date_ob.getDate()).slice(-2) + "_" + date_ob.getHours() + "_" + date_ob.getMinutes() + "_" + date_ob.getSeconds();
@@ -34,19 +34,24 @@ async function main() {
 
   for (const metaData of metaDatas) {
     console.log(`Starting with ${metaData.name}`);
-    if (!("metadata_uri" in metaData)) {
-      try {
-        await limit()
-        const response = await fetchWithRetry(JSON.stringify(metaData, null, 2));
-        metaData["metadata_uri"] = `${response.metadata_uri}`;
-        allMetadata.push(JSON.stringify(response, null, 2));
-        console.log(`${response.name} metadata uploaded!`);
-      } catch(err) {
-        console.log(`Catch: ${err}`)
+
+    try {
+      if (!("metadata_uri" in metaData)) {
+        try {
+          await limit()
+          const response = await fetchWithRetry(JSON.stringify(metaData, null, 2));
+          metaData["metadata_uri"] = `${response.metadata_uri}`;
+          allMetadata.push(JSON.stringify(response, null, 2));
+          console.log(`${response.name} metadata uploaded!`);
+        } catch(err) {
+          console.log(`Catch: ${err}`)
+        }
+      } else {
+        allMetadata.push(metaData);
+        console.log(`${metaData.name} metadata already uploaded`);
       }
-    } else {
-      allMetadata.push(metaData);
-      console.log(`${metaData.name} metadata already uploaded`);
+    } catch(err) {
+      console.log(`Catch: ${err}`)
     }
   };
 
@@ -71,7 +76,9 @@ function timer(ms) {
 async function fetchWithRetry(jsonMeta)  {
 
   return new Promise((resolve, reject) => {
-    const fetch_retry = (_jsonMeta) => {
+    let numberOfRetries = Number(ACCOUNT_DETAILS.numberOfRetries);
+
+    const fetch_retry = (_jsonMeta, _numberOfRetries) => {
       let url = "https://api.nftport.xyz/v0/metadata";
       let options = {
         method: "POST",
@@ -89,30 +96,30 @@ async function fetchWithRetry(jsonMeta)  {
             return res.json();
           }
           else {
-            console.error(`ERROR STATUS: ${status}`)
-            console.log('Retrying')
-            await timer(TIMEOUT)
-            fetch_retry(_jsonMeta)
+            throw `ERROR STATUS: ${status}`;
           }
       })
       .then(async (json) => {
         if(json.response === "OK"){
           return resolve(json);
         } else {
-          console.error(`NOK: ${json.error}`)
-          console.log('Retrying')
-          await timer(TIMEOUT)
-          fetch_retry(_jsonMeta)
+          throw `NOK: ${json.error}`;
         }
       })
       .catch(async (error) => {
         console.error(`CATCH ERROR: ${error}`)
-        console.log('Retrying')
-        await timer(TIMEOUT)
-        fetch_retry(_jsonMeta)
+
+        if (_numberOfRetries !== 0) {
+          console.log(`Retrying mint`);
+          await timer(TIMEOUT)
+          fetch_retry(_jsonMeta, _numberOfRetries - 1)
+        } else {
+          console.log(`All requests unsuccessful for ${_jsonMeta}`);
+          reject(error)
+        }
       });
     }
 
-    return fetch_retry(jsonMeta);
+    return fetch_retry(jsonMeta, numberOfRetries);
   });
 }

@@ -10,9 +10,14 @@ const readDir = (`${FOLDERS.jsonDir}`); // Change this directory to genericJSOND
 const TIMEOUT = 1000; // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
 const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); //Ratelimit for your APIKey
 const mintedArray = [];
+const mintingRange = [];
 
 if (!fs.existsSync(`${FOLDERS.mintedDir}`)) {
   fs.mkdirSync(`${FOLDERS.mintedDir}`);
+}
+
+for (let x = Number(ACCOUNT_DETAILS.mint_range[0]); x < Number(ACCOUNT_DETAILS.mint_range[1])+1; x++)  {
+  mintingRange.push(x);
 }
 
 async function main() {
@@ -21,68 +26,74 @@ async function main() {
   );
 
   for (const meta of metaData) {
-    console.log(`Starting check of ${meta.name}.json object`);
-    const mintFile = `${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`;
+    console.log(`Starting with ${meta.custom_fields.edition}`);
 
-    try {
-      fs.accessSync(mintFile);
-      const mintedFile = fs.readFileSync(mintFile)
-
-      if(mintedFile.length > 0) {
-        const mintedMeta = JSON.parse(mintedFile)
-
-        if(mintedMeta.mintData.response !== "OK" || mintedMeta.mintData.error !== null) {
-          console.log(`Response: ${mintedMeta.mintData.response} , Error: ${mintedMeta.mintData.error} found, will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
-          throw 'Edition not minted at all'
-        } else {
-          let options = {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          };
-
-          let txnCheck = await fetch(`${mintedMeta.mintData.transaction_external_url}`, options)
-            .then(response => {
-              return response.text();
-            })
-            .then(text => {
-              if (text.toLowerCase().includes('search not found')) {
-                console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but transaction was not found at ${mintedMeta.mintData.transaction_external_url}. Will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
-                throw 'Edition minted, but not on blockchain'
-              }
-              return ;
-            })
-            .catch(err => {
-              console.error('error:' + err)
-              throw err;
-          });
-        }
-      }
-      console.log(`Check done for ${meta.name}.json object.`);
-      mintedArray.push(JSON.stringify(meta, null, 2));
-      fs.writeFileSync(`${FOLDERS.mintedDir}/_minted.json`, '[\n' + mintedArray + '\n]');
-      console.log(`${meta.name} already minted`);
-    } catch(err) {
-      console.log(`Check done for ${meta.name}.json object.`);
-      console.log(`Starting mint of ${meta.name}.json object`);
+    if (mintingRange.includes(meta.custom_fields.edition)) {
+      console.log(`Starting check of ${meta.name}.json object`);
+      const mintFile = `${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`;
 
       try {
-        await limit()
-        let mintData = await fetchWithRetry(meta);
-        const combinedData = {
-          metaData: meta,
-          mintData: mintData
-        }
-        mintedArray.push(JSON.stringify(combinedData, null, 2));
+        fs.accessSync(mintFile);
+        const mintedFile = fs.readFileSync(mintFile)
 
+        if(mintedFile.length > 0) {
+          const mintedMeta = JSON.parse(mintedFile)
+
+          if(mintedMeta.mintData.response !== "OK" || mintedMeta.mintData.error !== null) {
+            console.log(`Response: ${mintedMeta.mintData.response} , Error: ${mintedMeta.mintData.error} found, will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
+            throw 'Edition not minted at all'
+          } else {
+            let options = {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+
+            let txnCheck = await fetch(`${mintedMeta.mintData.transaction_external_url}`, options)
+              .then(response => {
+                return response.text();
+              })
+              .then(text => {
+                if (text.toLowerCase().includes('search not found')) {
+                  console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but transaction was not found at ${mintedMeta.mintData.transaction_external_url}. Will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
+                  throw 'Edition minted, but not on blockchain'
+                }
+                return ;
+              })
+              .catch(err => {
+                console.error('error:' + err)
+                throw err;
+            });
+          }
+        }
+        console.log(`Check done for ${meta.name}.json object.`);
+        mintedArray.push(JSON.stringify(meta, null, 2));
         fs.writeFileSync(`${FOLDERS.mintedDir}/_minted.json`, '[\n' + mintedArray + '\n]');
-        writeMintData(`${meta.custom_fields.edition}`, combinedData)
-        console.log(`Minted: ${meta.name}!`);
+        console.log(`${meta.name} already minted`);
       } catch(err) {
-        console.log(`Catch: ${err}`)
+        console.log(`Check done for ${meta.name}.json object.`);
+        console.log(`Starting mint of ${meta.name}.json object`);
+
+        try {
+          await limit()
+          let mintData = await fetchWithRetry(meta);
+          const combinedData = {
+            metaData: meta,
+            mintData: mintData
+          }
+          mintedArray.push(JSON.stringify(combinedData, null, 2));
+
+          fs.writeFileSync(`${FOLDERS.mintedDir}/_minted.json`, '[\n' + mintedArray + '\n]');
+          writeMintData(`${meta.custom_fields.edition}`, combinedData)
+          console.log(`Minted: ${meta.name}!`);
+        } catch(err) {
+          console.log(`Catch: ${err}`)
+        }
       }
     }
+
+    console.log(`Done with ${meta.custom_fields.edition}`);
   }
 }
 
