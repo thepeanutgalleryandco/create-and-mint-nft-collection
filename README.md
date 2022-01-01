@@ -30,6 +30,9 @@ If you would like to support my NFT collection, please take a look at the below.
 ### "Quota Limit Reached" or "Too many requests" errors
 Users have been experiencing issues in terms of API limitting. A new library "async-sema" was added and you can now adjust your APIKey's rate limit from the ACCOUNT_DETAILS constant file. It seems to be not an exact science, so to be more successful in processing all of your files in one go, try to put the max_rate_limit at one less than your APIKey's limit.
 
+### Retry Limit Addition
+Added a retry limit for the API calls into NFTPort so that after x number of retries, the attempt for the specific file will be stopped and the next file will be tried. This was added to be able to potentially process other files as a specific file might have issues.
+
 ## How To Use The Codebase
 Below is a rough guideline of the order in which the processes can be used.
 
