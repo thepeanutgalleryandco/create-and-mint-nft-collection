@@ -90,8 +90,6 @@ This process will also update the "_metadata.json" file with the add the metadat
 ### 11. Minting NFTs
 Use the "NFTPort - Mint Command" below to start minting all of your NFTs. Please remember to change your json minting directory at line #8 if you want to make use of a Reveal and you want to mint the generic json files.
 
-Use the "NFTPort - Mint_Range Command" below to start minting a range of NFTs between specific editions. Please remember to change your json minting directory at line #8 if you want to make use of a Reveal and you want to mint the generic json files.
-
 The following issues has been seen while minting:
 - Transactions receiving back a NOK - These will need to be re-minted and can't be found on the blockchain.
 - Transactions receiving back an OK - Some of the transaction hashes and transaction URLs can't be found on the blockchain. These will need to be re-minted.
@@ -119,45 +117,55 @@ Use the following command from the code's root directory.
 
 ### Check Mints
 - node utils/check_mints.js
+- npm run check_mints
 
 ### Pixelate Command
 - node utils/pixelate.js
+- npm run pixelate
 
 ### Preview Command
 - node utils/preview.js
+- npm run preview
 
 ### Preview_Gif Command
 - node utils/preview_gif.js
+- npm run preview_gif
 
 ### Rarity Command
 - node utils/rarity.js
+- npm run rarity
 
 ### Update_Image_Info Command
 - node utils/update_image_info.js
+- npm run update_image_info
 
 ### Update_Json_To_Generic_Meta Command
 - node utils/update_json_to_generic_meta.js
+- npm run update_json_to_generic_meta
 
 ### Update_Metadata_Info Command
 - node utils/update_metadata_info.js
+- npm run update_metadata_info
 
 ### Update_Nft_Info Command
 - node utils/update_nft_info.js
+- npm run update_nft_info
 
 ## NFTPort Commands
 Use the following command from the code's root directory.
 
 ### Mint Command
 - node utils/nftport/mint.js
+- npm run mint
 
-### Mint_Range Command
-- node utils/nftport/mint_range.js
-- 
 ### ReMint Command
 - node utils/nftport/remint.js
+- npm run remint
 
 ### UploadFiles Command
 - node utils/nftport/uploadFiles.js
+- npm run uploadFiles
 
 ### UploadMetas Command
 - node utils/nftport/uploadMetas.js
+- npm run uploadMetas
