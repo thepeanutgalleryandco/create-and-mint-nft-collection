@@ -1,6 +1,6 @@
 {
-  "name": "nft-mint-the-peanut-gallery-and-co",
-  "version": "1.0",
+  "name": "create-and-mint-nft-collection",
+  "version": "1.0.0",
   "description": "Source code to create and mint generative art via NFTPort API. Special thanks to codeSTACKr and Hashlips for their source codebase.",
   "main": "index.js",
   "bin": "index.js",
@@ -13,12 +13,20 @@
   },
   "scripts": {
     "build": "node index.js",
+    "check_mints": "node utils/check_mints.js",
     "generate": "node index.js",
-    "rarity": "node utils/rarity.js",
-    "preview": "node utils/preview.js",
+    "mint": "node utils/nftport/mint.js",
     "pixelate": "node utils/pixelate.js",
-    "update_info": "node utils/update_info.js",
-    "preview_gif": "node utils/preview_gif.js"
+    "preview_gif": "node utils/preview_gif.js",
+    "preview": "node utils/preview.js",
+    "rarity": "node utils/rarity.js",
+    "remint": "node utils/nftport/remint.js",
+    "update_image_info": "node utils/update_image_info.js",
+    "update_json_to_generic_meta": "node utils/update_json_to_generic_meta.js",
+    "update_metadata_info": "node utils/update_metadata_info.js",
+    "update_nft_info": "node utils/update_nft_info.js",
+    "uploadFiles": "node utils/nftport/uploadFiles.js",
+    "uploadMetas": "node utils/nftport/uploadMetas.js"
   },
   "author": "Rohan de Jongh (thepeanutgalleryandco)",
   "license": "MIT",
