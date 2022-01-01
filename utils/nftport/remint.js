@@ -10,7 +10,7 @@ const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`
 
 const TIMEOUT = 2000; // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
 const reMintedArray = [];
-const limit = RateLimit(ACCOUNT_DETAILS.max_rate_limit); //Ratelimit for your APIKey
+const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); //Ratelimit for your APIKey
 const re = new RegExp("^([0-9]+).json"); //Will be used to ensure only JSON files from the JSONDIR is used in the meta's updated.
 
 let date_ob = new Date();

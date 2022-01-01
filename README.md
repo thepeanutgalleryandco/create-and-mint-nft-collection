@@ -88,7 +88,11 @@ This process will also update the "_metadata.json" file with the add the metadat
 *Important* - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update line #7 in the utils/nftport/uploadMetas.js file to point to "genericJSONDir" instead of "jsonDir" as this is where your meta files live with the generic image.
 
 ### 11. Minting NFTs
-Use the "NFTPort - Mint Command" below to start minting all of your NFTs. Please remember to change your json minting directory at line #8 if you want to make use of a Reveal and you want to mint the generic json files.
+Use the "NFTPort - Mint Command" below to start minting all of your NFTs.
+Use the "NFTPort - Mint_Range Command" below to start minting a range of NFTs between specific editions.
+Use the "NFTPort - Mint_Item Command" below to start minting a specific NFT edition.
+
+Please remember to change your json minting directory at line #8 if you want to make use of a Reveal and you want to mint the generic json files.
 
 The following issues has been seen while minting:
 - Transactions receiving back a NOK - These will need to be re-minted and can't be found on the blockchain.
@@ -153,6 +157,14 @@ Use the following command from the code's root directory.
 
 ## NFTPort Commands
 Use the following command from the code's root directory.
+
+### Mint_Item Command
+- node utils/nftport/mint_item.js
+- npm run mint_item
+
+### Mint_Range Command
+- node utils/nftport/mint_range.js
+- npm run mint_range
 
 ### Mint Command
 - node utils/nftport/mint.js

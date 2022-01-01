@@ -15,6 +15,8 @@
     "build": "node index.js",
     "check_mints": "node utils/check_mints.js",
     "generate": "node index.js",
+    "mint_item": "node utils/nftport/mint_item.js",
+    "mint_range": "node utils/nftport/mint_range.js",
     "mint": "node utils/nftport/mint.js",
     "pixelate": "node utils/pixelate.js",
     "preview_gif": "node utils/preview_gif.js",
