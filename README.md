@@ -1,10 +1,5 @@
 # The Peanut Gallery And Co's take on the code bases created by Hashlips and codeSTACKr
 
-## Active Branches
-
-- [main](https://github.com/codeSTACKr/video-source-code-create-nft-collection/tree/main) = Source code from codeSTACKr
-- [create-and-mint-nft-collection](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection) = Standardization fixes, Rate limitting addition, Check and Re-mint files.
-
 Base code is from
 - [hashlips_art_engine](https://github.com/HashLips/hashlips_art_engine)
 - [codeSTACKr](https://github.com/codeSTACKr/video-source-code-create-nft-collection/)
