@@ -20,16 +20,15 @@ If you feel that this has benefitted you in any way and would like to make a con
 If you would like to support my NFT collection, please take a look at the below.
 - https://opensea.io/collection/steak-bites (Polygon chain)
 
-## UPDATES & FIXES
-
-### Dependencies for scripts to run
+## Dependencies for scripts to run
 - `npm install`
 - `npm install node-fetch@2`
 - `npm install async-sema`
 
+## UPDATES & FIXES
+
 ### "Quota Limit Reached" or "Too many requests" errors
-Users have been experiencing issues in terms of API limitting. A new library "async-sema" was added and you can now adjust your APIKey's rate limit from the ACCOUNT_DETAILS
-constant file. It seems to be not an exact science, so to be more successful in processing all of your files in one go, try to put the max_rate_limit at one less than your APIKey's limit.
+Users have been experiencing issues in terms of API limitting. A new library "async-sema" was added and you can now adjust your APIKey's rate limit from the ACCOUNT_DETAILS constant file. It seems to be not an exact science, so to be more successful in processing all of your files in one go, try to put the max_rate_limit at one less than your APIKey's limit.
 
 ## How To Use The Codebase
 Below is a rough guideline of the order in which the processes can be used.
