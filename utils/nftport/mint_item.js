@@ -53,7 +53,11 @@ async function main() {
                 if (text.toLowerCase().includes('search not found')) {
                   console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but transaction was not found at ${mintedMeta.mintData.transaction_external_url}. Will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
                   throw 'Edition minted, but not on blockchain'
+                } else if (text.toLowerCase().includes('</i>fail</span>') || text.toLowerCase().includes('</i>failed</span>')) {
+                  console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but the transaction has a failed status on the blockchain. Will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
+                  throw 'Edition minted, but is in a failed status on the blockchain'
                 }
+
                 return ;
               })
               .catch(err => {

@@ -1,6 +1,6 @@
 {
   "name": "create-and-mint-nft-collection",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Source code to create and mint generative art via NFTPort API. Special thanks to codeSTACKr and Hashlips for their source codebase.",
   "main": "index.js",
   "bin": "index.js",
@@ -15,6 +15,7 @@
     "build": "node index.js",
     "check_mints": "node utils/check_mints.js",
     "generate": "node index.js",
+    "migrate_json_between_ipfs_and_metadata": "node utils/migrate_json_between_ipfs_and_metadata.js",
     "mint_item": "node utils/nftport/mint_item.js",
     "mint_range": "node utils/nftport/mint_range.js",
     "mint": "node utils/nftport/mint.js",
