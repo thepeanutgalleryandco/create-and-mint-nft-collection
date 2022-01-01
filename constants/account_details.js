@@ -6,7 +6,8 @@ const ACCOUNT_DETAILS = {
   chain: '[CHAIN_TO_MINT_TO]', //Add the chain where the NFTs will be minted to here. At the time of writing, "polygon" and "rinkeby" are possible values.
   max_rate_limit: 'x', //Add your rate limit linked to your APIKey / account from NFTPort. This is a numeric field, so should be without quotes. Ex. '2'
   mint_range: ['y','z'], //Add your min (y) and max (z) values in here and all NFTs in this range will be minted and these values are inclusive. Ex. '5','10'
-  mint_item: 'w' //Add your NFT edition number in here and this specific NFT will be minted. Ex. '3'
+  mint_item: 'w', //Add your NFT edition number in here and this specific NFT will be minted. Ex. '3'
+  numberOfRetries: 'v' //Add your API retry count here so that your NFTPort APIs can attempt a retry if unsuccessful at first.  Ex. '3'
 };
 
 module.exports = {

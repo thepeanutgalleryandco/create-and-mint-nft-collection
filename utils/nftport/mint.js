@@ -94,7 +94,9 @@ function timer(ms) {
 
 async function fetchWithRetry(meta) {
   return new Promise((resolve, reject) => {
-    const fetch_retry = (_meta) => {
+    let numberOfRetries = Number(ACCOUNT_DETAILS.numberOfRetries);
+
+    const fetch_retry = (_meta, _numberOfRetries) => {
       let url = "https://api.nftport.xyz/v0/mints/customizable";
 
       const mintInfo = {
@@ -121,30 +123,30 @@ async function fetchWithRetry(meta) {
           return res.json();
         }
         else {
-          console.error(`ERROR STATUS: ${status}`)
-          console.log('Retrying')
-          await timer(TIMEOUT)
-          fetch_retry(_meta)
+          throw `ERROR STATUS: ${status}`;
         }
       })
       .then(async (json) => {
         if(json.response === "OK"){
           return resolve(json);
         } else {
-          console.error(`NOK: ${json.error}`)
-          console.log('Retrying')
-          await timer(TIMEOUT)
-          fetch_retry(_meta)
+          throw `NOK: ${json.error}`;
         }
       })
       .catch(async (error) => {
         console.error(`CATCH ERROR: ${error}`)
-        console.log('Retrying')
-        await timer(TIMEOUT)
-        fetch_retry(_meta)
+
+        if (_numberOfRetries !== 0) {
+          console.log(`Retrying mint`);
+          await timer(TIMEOUT)
+          fetch_retry(_meta, _numberOfRetries - 1)
+        } else {
+          console.log(`All requests unsuccessful for ${_meta.custom_fields.edition}`);
+          reject(error)
+        }
       });
     }
-    return fetch_retry(meta);
+    return fetch_retry(meta, numberOfRetries);
   });
 }
 

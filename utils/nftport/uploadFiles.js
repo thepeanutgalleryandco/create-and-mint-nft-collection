@@ -20,26 +20,31 @@ async function main() {
 
   for (const file of files) {
     console.log(`Starting upload of file ${file}`);
-    if (re.test(file)) {
-      const fileName = path.parse(file).name;
-      let jsonFile = fs.readFileSync(`${FOLDERS.jsonDir}/${fileName}.json`);
-      let metaData = JSON.parse(jsonFile);
 
-      if(!metaData.file_url.includes('https://')) {
-        await limit()
-        const response = await fetchWithRetry(file);
-        metaData.file_url = response.ipfs_url;
+    try {
+      if (re.test(file)) {
+        const fileName = path.parse(file).name;
+        let jsonFile = fs.readFileSync(`${FOLDERS.jsonDir}/${fileName}.json`);
+        let metaData = JSON.parse(jsonFile);
 
-        fs.writeFileSync(
-          `${FOLDERS.jsonDir}/${fileName}.json`,
-          JSON.stringify(metaData, null, 2)
-        );
-        console.log(`${response.file_name} uploaded & ${fileName}.json updated!`);
-      } else {
-        console.log(`${fileName} already uploaded.`);
+        if(!metaData.file_url.includes('https://')) {
+          await limit()
+          const response = await fetchWithRetry(file);
+          metaData.file_url = response.ipfs_url;
+
+          fs.writeFileSync(
+            `${FOLDERS.jsonDir}/${fileName}.json`,
+            JSON.stringify(metaData, null, 2)
+          );
+          console.log(`${response.file_name} uploaded & ${fileName}.json updated!`);
+        } else {
+          console.log(`${fileName} already uploaded.`);
+        }
+
+        allMetadata.push(metaData);
       }
-
-      allMetadata.push(metaData);
+    } catch(err) {
+      console.log(`Catch: ${err}`)
     }
   }
 
@@ -58,7 +63,9 @@ function timer(ms) {
 async function fetchWithRetry(file) {
 
   return new Promise((resolve, reject) => {
-    const fetch_retry = (_file) => {
+    let numberOfRetries = Number(ACCOUNT_DETAILS.numberOfRetries);
+
+    const fetch_retry = (_file, _numberOfRetries) => {
       const formData = new FormData();
       const fileStream = fs.createReadStream(`${FOLDERS.imagesDir}/${file}`);
       formData.append("file", fileStream);
@@ -79,29 +86,29 @@ async function fetchWithRetry(file) {
             return res.json();
           }
           else {
-            console.error(`ERROR STATUS: ${status}`)
-            console.log('Retrying')
-            await timer(TIMEOUT)
-            fetch_retry(_file)
+            throw `ERROR STATUS: ${status}`;
           }
       })
       .then(async (json) => {
         if(json.response === "OK"){
           return resolve(json);
         } else {
-          console.error(`NOK: ${json.error}`)
-          console.log('Retrying')
-          await timer(TIMEOUT)
-          fetch_retry(_file)
+          throw `NOK: ${json.error}`;
         }
       })
       .catch(async (error) => {
         console.error(`CATCH ERROR: ${error}`)
-        console.log('Retrying')
-        await timer(TIMEOUT)
-        fetch_retry(_file)
+
+        if (_numberOfRetries !== 0) {
+          console.log(`Retrying mint`);
+          await timer(TIMEOUT)
+          fetch_retry(_file, _numberOfRetries - 1)
+        } else {
+          console.log(`All requests unsuccessful for ${FOLDERS.imagesDir}/${file}`);
+          reject(error)
+        }
       });
     }
-    return fetch_retry(file);
+    return fetch_retry(file, numberOfRetries);
   });
 }

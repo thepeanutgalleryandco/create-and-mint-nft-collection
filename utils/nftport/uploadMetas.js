@@ -34,19 +34,24 @@ async function main() {
 
   for (const metaData of metaDatas) {
     console.log(`Starting with ${metaData.name}`);
-    if (!("metadata_uri" in metaData)) {
-      try {
-        await limit()
-        const response = await fetchWithRetry(JSON.stringify(metaData, null, 2));
-        metaData["metadata_uri"] = `${response.metadata_uri}`;
-        allMetadata.push(JSON.stringify(response, null, 2));
-        console.log(`${response.name} metadata uploaded!`);
-      } catch(err) {
-        console.log(`Catch: ${err}`)
+
+    try {
+      if (!("metadata_uri" in metaData)) {
+        try {
+          await limit()
+          const response = await fetchWithRetry(JSON.stringify(metaData, null, 2));
+          metaData["metadata_uri"] = `${response.metadata_uri}`;
+          allMetadata.push(JSON.stringify(response, null, 2));
+          console.log(`${response.name} metadata uploaded!`);
+        } catch(err) {
+          console.log(`Catch: ${err}`)
+        }
+      } else {
+        allMetadata.push(metaData);
+        console.log(`${metaData.name} metadata already uploaded`);
       }
-    } else {
-      allMetadata.push(metaData);
-      console.log(`${metaData.name} metadata already uploaded`);
+    } catch(err) {
+      console.log(`Catch: ${err}`)
     }
   };
 
@@ -71,7 +76,9 @@ function timer(ms) {
 async function fetchWithRetry(jsonMeta)  {
 
   return new Promise((resolve, reject) => {
-    const fetch_retry = (_jsonMeta) => {
+    let numberOfRetries = Number(ACCOUNT_DETAILS.numberOfRetries);
+
+    const fetch_retry = (_jsonMeta, _numberOfRetries) => {
       let url = "https://api.nftport.xyz/v0/metadata";
       let options = {
         method: "POST",
@@ -89,30 +96,30 @@ async function fetchWithRetry(jsonMeta)  {
             return res.json();
           }
           else {
-            console.error(`ERROR STATUS: ${status}`)
-            console.log('Retrying')
-            await timer(TIMEOUT)
-            fetch_retry(_jsonMeta)
+            throw `ERROR STATUS: ${status}`;
           }
       })
       .then(async (json) => {
         if(json.response === "OK"){
           return resolve(json);
         } else {
-          console.error(`NOK: ${json.error}`)
-          console.log('Retrying')
-          await timer(TIMEOUT)
-          fetch_retry(_jsonMeta)
+          throw `NOK: ${json.error}`;
         }
       })
       .catch(async (error) => {
         console.error(`CATCH ERROR: ${error}`)
-        console.log('Retrying')
-        await timer(TIMEOUT)
-        fetch_retry(_jsonMeta)
+
+        if (_numberOfRetries !== 0) {
+          console.log(`Retrying mint`);
+          await timer(TIMEOUT)
+          fetch_retry(_jsonMeta, _numberOfRetries - 1)
+        } else {
+          console.log(`All requests unsuccessful for ${_jsonMeta}`);
+          reject(error)
+        }
       });
     }
 
-    return fetch_retry(jsonMeta);
+    return fetch_retry(jsonMeta, numberOfRetries);
   });
 }
