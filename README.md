@@ -20,6 +20,7 @@ If you feel that this has benefitted you in any way and would like to make a con
 If you would like to support my NFT collection, please take a look at the below.
 - https://opensea.io/collection/steak-bites (Polygon chain)
 
+
 ## Dependencies for scripts to run
 - `npm install`
 - `npm install node-fetch@2`
@@ -27,11 +28,15 @@ If you would like to support my NFT collection, please take a look at the below.
 
 ## UPDATES & FIXES
 
-### "Quota Limit Reached" or "Too many requests" errors
-Users have been experiencing issues in terms of API limitting. A new library "async-sema" was added and you can now adjust your APIKey's rate limit from the ACCOUNT_DETAILS constant file. It seems to be not an exact science, so to be more successful in processing all of your files in one go, try to put the max_rate_limit at one less than your APIKey's limit.
+### Multiple Codebase Usage
+Some users have already started creating their files and minting some of their files from previous code bases which makes use of both _ipfsMetas.json and _metadata.json files. This code base only makes use of the _metadata.json file. There is a new utils/migrate_json_between_ipfs_and_metadata.js script that will migrate the metadata_uri field from the ipfs file over to the metadata file so that the minting processes of this repo can work without issues. Please run it by making use of the "Main - Migrate_Json_Between_Ipfs_And_Metadata Command" below.
 
 ### Retry Limit Addition
 Added a retry limit for the API calls into NFTPort so that after x number of retries, the attempt for the specific file will be stopped and the next file will be tried. This was added to be able to potentially process other files as a specific file might have issues.
+
+### "Quota Limit Reached" or "Too many requests" errors
+Users have been experiencing issues in terms of API limitting. A new library "async-sema" was added and you can now adjust your APIKey's rate limit from the ACCOUNT_DETAILS constant file. It seems to be not an exact science, so to be more successful in processing all of your files in one go, try to put the max_rate_limit at one less than your APIKey's limit.
+
 
 ## How To Use The Codebase
 Below is a rough guideline of the order in which the processes can be used.
@@ -116,6 +121,7 @@ Go and check out your mints on your marketplace and refresh the metadata where n
 
 GOOD LUCK!
 
+
 ## Main Commands
 Use the following command from the code's root directory.
 
@@ -125,6 +131,10 @@ Use the following command from the code's root directory.
 ### Check Mints
 - node utils/check_mints.js
 - npm run check_mints
+
+### Migrate_Json_Between_Ipfs_And_Metadata
+- node utils/migrate_json_between_ipfs_and_metadata.js
+- npm run migrate_json_between_ipfs_and_metadata
 
 ### Pixelate Command
 - node utils/pixelate.js
