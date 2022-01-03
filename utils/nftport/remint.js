@@ -82,13 +82,13 @@ async function main() {
         // so if a transaction is not showing up, then it is best to check the transaction hash / url to determine what happened.
         // The check_mints and remint processes can also be used to attempt to mint missing transactions.
         if (mintData.response !== 'OK' || mintData.error !== null) {
-          console.log(`Re-minting ${meta.name} failed! Response: ${mintData.response} , Error: ${mintData.error}`);
+          console.log(`Re-minting ${meta_metaData.name} failed! Response: ${mintData.response} , Error: ${mintData.error}`);
         } else {
           console.log(`Re-minted: ${meta_metaData.name}!`);
         }
 
       } catch(err) {
-        console.log(err)
+        console.log(`Catch: Re-minting ${file} failed with ${err}!`)
       }
     }
   }

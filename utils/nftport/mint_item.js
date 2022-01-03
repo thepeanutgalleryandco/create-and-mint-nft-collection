@@ -135,7 +135,7 @@ async function main() {
           }
 
         } catch(err) {
-          console.log(`Catch: ${err}`)
+          console.log(`Catch: Minting ${meta.name} failed with ${err}!`)
         }
       }
     }
