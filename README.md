@@ -28,6 +28,10 @@ If you would like to support my NFT collection, please take a look at the below.
 
 ## UPDATES & FIXES
 
+### Addition Of Error Checking After Minting API Calls
+Added a check after minting API calls to see if the response is OK and the error is null, otherwise it will notify the user that the mint failed.
+The "Main - Check_Mints Command" below can be used after the minting process has run along with the "Main - Remint Command" afterwards to only remint the items that were not successful.
+
 ### Multiple Codebase Usage
 Some users have already started creating their files and minting some of their files from previous code bases which makes use of both _ipfsMetas.json and _metadata.json files. This code base only makes use of the _metadata.json file. There is a new utils/migrate_json_between_ipfs_and_metadata.js script that will migrate the metadata_uri field from the ipfs file over to the metadata file so that the minting processes of this repo can work without issues. Please run it by making use of the "Main - Migrate_Json_Between_Ipfs_And_Metadata Command" below.
 
@@ -128,7 +132,7 @@ Use the following command from the code's root directory.
 ### Build Command
 - npm run build
 
-### Check Mints
+### Check_Mints
 - node utils/check_mints.js
 - npm run check_mints
 
