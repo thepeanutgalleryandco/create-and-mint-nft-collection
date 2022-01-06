@@ -9,8 +9,8 @@ const path = require("path");
 
 const TIMEOUT = Number(ACCOUNT_DETAILS.timeout); // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.
 const allMetadata = [];
-const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); //Ratelimit for your APIKey
-const re = new RegExp("^([0-9]+).png"); //Will be used to ensure only JSON files from the JSONDIR is used in the meta's updated.
+const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); // Ratelimit for your APIKey
+const re = new RegExp("^([0-9]+).png"); // Will be used to ensure only JSON files from the JSONDIR is used in the meta's updated.
 
 async function main() {
   const files = fs.readdirSync(`${FOLDERS.imagesDir}`);

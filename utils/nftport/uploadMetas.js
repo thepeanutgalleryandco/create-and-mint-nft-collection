@@ -6,10 +6,11 @@ const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
 const readDir = (`${FOLDERS.jsonDir}`); // Change this directory to genericJSONDir if you are uploading generic images first in order to do a reveal.
 
-const re = new RegExp("^([0-9]+).json$"); //Will be used to ensure only JSON files from the JSONDIR is used in the meta's updated.
+const re = new RegExp("^([0-9]+).json$"); // Will be used to ensure only JSON files from the JSONDIR is used in the meta's updated.
 const TIMEOUT = Number(ACCOUNT_DETAILS.timeout); // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.
-const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); //Ratelimit for your APIKey
+const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); // Ratelimit for your APIKey
 const allMetadata = [];
+
 let date_ob = new Date();
 const backupDate = date_ob.getFullYear() + "_" + ("0" + (date_ob.getMonth() + 1)).slice(-2) + "_" + ("0" + date_ob.getDate()).slice(-2) + "_" + date_ob.getHours() + "_" + date_ob.getMinutes() + "_" + date_ob.getSeconds();
 
