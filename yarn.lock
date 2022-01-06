@@ -47,6 +47,11 @@
     "delegates" "^1.0.0"
     "readable-stream" "^3.6.0"
 
+"async-sema@^3.1.1":
+  "integrity" "sha512-tLRNUXati5MFePdAk8dw7Qt7DpxPB60ofAgn8WRhW6a2rcimZnYBP9oxHiv0OHy+Wz7kPMG+t4LGdt31+4EmGg=="
+  "resolved" "https://registry.npmjs.org/async-sema/-/async-sema-3.1.1.tgz"
+  "version" "3.1.1"
+
 "asynckit@^0.4.0":
   "integrity" "sha1-x57Zf380y48robyXkLzDZkdLS3k="
   "resolved" "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
