@@ -31,8 +31,6 @@ const PIXELIMAGESPATH = '/pixel_images';
 const PIXELIMAGESDIR = path.join(BUILDDIR, `${PIXELIMAGESPATH}`);
 const REMINTEDPATH = '/reMinted';
 const REMINTEDDIR = path.join(BUILDDIR, `${REMINTEDPATH}`);
-const REVEALEDPATH = '/revealed';
-const REVEALEDDIR = path.join(BUILDDIR, `${REVEALEDPATH}`);
 const SOURCEPATH = '/src';
 const SOURCEDIR = path.join(BASEDIR, `${SOURCEPATH}`);
 
@@ -68,8 +66,6 @@ const FOLDERS = {
   pixelImagesDir: `${PIXELIMAGESDIR}`,
   remintedPath: `${REMINTEDPATH}`,
   remintedDir: `${REMINTEDDIR}`,
-  revealedPath: `${REVEALEDPATH}`,
-  revealedDir: `${REVEALEDDIR}`,
   sourcePath: `${SOURCEPATH}`,
   sourceDir: `${SOURCEDIR}`
 };
