@@ -103,7 +103,7 @@ function timer(ms) {
   return new Promise(res => setTimeout(res, ms));
 }
 
-// fetchWithRetry function - This function is used to perform API calls to mint data
+// fetchWithRetry function - This function is used to perform API calls to upload image files
 async function fetchWithRetry(file) {
 
   return new Promise((resolve, reject) => {

@@ -152,7 +152,7 @@ async function fetchWithRetry(meta) {
     // Constant that will perform an API call and return a resolve or reject
     const fetch_retry = (_meta, _numberOfRetries) => {
 
-      // Set the mint API URL
+      // Set the API URL
       let url = "https://api.nftport.xyz/v0/mints/customizable";
 
       // Set the mint info required for the API from the meta field and account_details.js file

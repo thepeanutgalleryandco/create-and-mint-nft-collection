@@ -8,7 +8,8 @@ const ACCOUNT_DETAILS = {
   mint_range: ['y','z'], // Add your min (y) and max (z) values in here and all NFTs in this range will be minted and these values are inclusive. Ex. '5','10'
   mint_item: 'w', // Add your NFT edition number in here and this specific NFT will be minted. Ex. '3'
   numberOfRetries: '2', // Add your API retry count here so that your NFTPort APIs can attempt a retry if unsuccessful at first.  Ex. '3'
-  timeout: '1000' // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
+  timeout: '1000', // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
+  salesInterval: '900000' // This is the interval that will be used to check for sales on your contract and then reveal the NFT. 900000 = 15 minutes.
 };
 
 module.exports = {
