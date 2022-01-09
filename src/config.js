@@ -8,10 +8,10 @@ const network = NETWORK.eth;
 const solanaMetadata = {
   symbol: "STB",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-  external_url: "https://thepeanutgalleryandco.co.za/",
+  external_url: "YOUR_WEBSITE_URL_HERE", // Add your website URL here. Ex. https://thepeanutgalleryandco.co.za/
   creators: [
     {
-      address: "[YOUR_WALLET_ADDRESS_HERE]", //Add your owner wallet address here. Ex. 0x5cE5D823f4bD8Ec610868fBa65832B479152C7E1
+      address: "YOUR_WALLET_ADDRESS_HERE", // Add your owner wallet address here. Ex. 0x5cE5D823f4bD8Ec610868fBa65832B479152C7E1
       share: 100,
     },
   ],
@@ -74,10 +74,11 @@ const background = {
   default: "#000000",
 };
 
-//These are additional items that will be added to each NFT. You can remove them or add new ones as well if needed.
+// These are additional items that will be added to each NFT. You can remove them or add new ones as well if needed.
+// Uncomment the lines if you would like to use these and update the details.
 const extraMetadata = {
-  creator: "[NFT_CREATOR_HERE]", //Add the creator of the NFT collection here. Ex. The Peanut Gallery And Co
-  external_url: "https://thepeanutgalleryandco.co.za/"  //Add your website URL here. This will be added to each of your NFTs.
+  //creator: "NFT_CREATOR_HERE", // Add the creator of the NFT collection here. Ex. The Peanut Gallery And Co
+  //external_url: "YOUR_WEBSITE_URL_HERE"  // Add your website URL here. This will be added to each of your NFTs. Ex. https://thepeanutgalleryandco.co.za/
 };
 
 const rarityDelimiter = "#";
