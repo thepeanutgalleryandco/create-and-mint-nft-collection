@@ -25,7 +25,7 @@ data.forEach((item) => {
 });
 
 fs.writeFileSync(
-  `${FOLDERS.jsonDir}/_metadata.json`,
+  `${FOLDERS.jsonDir}/_ipfsMetas.json`,
   JSON.stringify(data, null, 2)
 );
 
