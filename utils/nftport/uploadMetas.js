@@ -32,7 +32,7 @@ if (!fs.existsSync(`${FOLDERS.backupJSONDir}/${backupDate}_meta`)) {
 }
 
 // Make a copy of the metadata.json file into the backupDate_meta directory.
-fs.copyFileSync(`${readDir.jsonDir}/_metadata.json`, `${FOLDERS.backupJSONDir}/${backupDate}_meta/_metadata.json`);
+fs.copyFileSync(`${readDir}/_metadata.json`, `${FOLDERS.backupJSONDir}/${backupDate}_meta/_metadata.json`);
 
 // Main function - called asynchronously
 async function main() {
