@@ -17,9 +17,6 @@ if (!fs.existsSync(`${FOLDERS.mintedDir}`)) {
   fs.mkdirSync(`${FOLDERS.mintedDir}`);
 }
 
-// Start the main process.
-main();
-
 // Main function - called asynchronously
 async function main() {
 
@@ -143,6 +140,9 @@ async function main() {
     console.log(`Done with ${meta.custom_fields.edition}`);
   }
 }
+
+// Start the main process.
+main();
 
 // timer function - This function is used to add a timeout in between actions.
 function timer(ms) {

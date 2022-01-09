@@ -38,9 +38,6 @@ if (!fs.existsSync(`${FOLDERS.backupMintedDir}/${backupDate}`)) {
   fs.mkdirSync(`${FOLDERS.backupMintedDir}/${backupDate}`);
 }
 
-// Start the main process.
-main();
-
 // Main function - called asynchronously
 async function main() {
 
@@ -93,6 +90,9 @@ async function main() {
     }
   }
 }
+
+// Start the main process.
+main();
 
 // timer function - This function is used to add a timeout in between actions.
 function timer(ms) {

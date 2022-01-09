@@ -7,7 +7,7 @@ const ACCOUNT_DETAILS = {
   max_rate_limit: '1', // Update your ratelimit linked to your APIKey / account from NFTPort. This is a numeric field. Ex. '1'
   mint_range: ['y','z'], // Add your min (y) and max (z) values in here and all NFTs in this range will be minted and these values are inclusive. Ex. '5','10'
   mint_item: 'w', // Add your NFT edition number in here and this specific NFT will be minted. Ex. '3'
-  numberOfRetries: 'v', // Add your API retry count here so that your NFTPort APIs can attempt a retry if unsuccessful at first.  Ex. '3'
+  numberOfRetries: '2', // Add your API retry count here so that your NFTPort APIs can attempt a retry if unsuccessful at first.  Ex. '3'
   timeout: '1000' // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
 };
 

@@ -23,9 +23,6 @@ for (let x = Number(ACCOUNT_DETAILS.mint_range[0]); x < Number(ACCOUNT_DETAILS.m
   mintingRange.push(x);
 }
 
-// Start the main process.
-main();
-
 // Main function - called asynchronously
 async function main() {
 
@@ -148,6 +145,9 @@ async function main() {
     console.log(`Done with ${meta.custom_fields.edition}`);
   }
 }
+
+// Start the main process.
+main();
 
 // timer function - This function is used to add a timeout in between actions.
 function timer(ms) {

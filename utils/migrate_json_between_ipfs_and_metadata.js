@@ -18,13 +18,13 @@ if (!fs.existsSync(`${FOLDERS.backupJSONDir}`)) {
 }
 
 // Check if a backupDate directory already exists and if not, then create it.
-if (!fs.existsSync(`${FOLDERS.backupJSONDir}/${backupDate}`)) {
-  fs.mkdirSync(`${FOLDERS.backupJSONDir}/${backupDate}`);
+if (!fs.existsSync(`${FOLDERS.backupJSONDir}/${backupDate}_meta`)) {
+  fs.mkdirSync(`${FOLDERS.backupJSONDir}/${backupDate}_meta`);
 }
 
 // Make a copy of the metadata.json and ipfsMetas.json files into the backupDate directory.
-fs.copyFileSync(`${FOLDERS.jsonDir}/_metadata.json`, `${FOLDERS.backupJSONDir}/${backupDate}/_metadata.json`);
-fs.copyFileSync(`${FOLDERS.jsonDir}/_ipfsMetas.json`, `${FOLDERS.backupJSONDir}/${backupDate}/_ipfsMetas.json`);
+fs.copyFileSync(`${FOLDERS.jsonDir}/_metadata.json`, `${FOLDERS.backupJSONDir}/${backupDate}_meta/_metadata.json`);
+fs.copyFileSync(`${FOLDERS.jsonDir}/_ipfsMetas.json`, `${FOLDERS.backupJSONDir}/${backupDate}_meta/_ipfsMetas.json`);
 
 // read metadata.json file contents
 let rawdataMetaDataFile = fs.readFileSync(`${FOLDERS.jsonDir}/_metadata.json`);
