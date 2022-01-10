@@ -15,6 +15,8 @@ const GIFSPATH = '/gifs';
 const GIFSDIR = path.join(BUILDDIR, `${GIFSPATH}`);
 const IMAGESPATH = '/images';
 const IMAGESDIR = path.join(BUILDDIR, `${IMAGESPATH}`);
+const IPFSMETASPATH = '/ipfsMetas';
+const IPFSMETASDIR = path.join(BUILDDIR, `${IPFSMETASPATH}`);
 const JSONPATH = '/json';
 const JSONDIR = path.join(BUILDDIR, `${JSONPATH}`);
 const BACKUPJSONDIR = path.join(BACKUPDIR, `${JSONPATH}`);
@@ -50,6 +52,8 @@ const FOLDERS = {
   gifsDir: `${GIFSDIR}`,
   imagesPath: `${IMAGESPATH}`,
   imagesDir: `${IMAGESDIR}`,
+  ipfsMetasPath: `${IPFSMETASPATH}`,
+  ipfsMetasDir: `${IPFSMETASDIR}`,
   jsonPath: `${JSONPATH}`,
   jsonDir: `${JSONDIR}`,
   backupJSONDir: `${BACKUPJSONDIR}`,

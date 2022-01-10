@@ -5,10 +5,11 @@ const ACCOUNT_DETAILS = {
   mint_to_address: 'YOUR_WALLET_ADDRESS_HERE', // Add your wallet address here that will be the owner of the minted NFTs. Ex. 0x5cE5D823f4bD8Ec610293fBa65832B479152C7E1
   chain: 'CHAIN_TO_MINT_TO', // Add the chain where the NFTs will be minted to here. At the time of writing, "polygon" and "rinkeby" are possible values.
   max_rate_limit: '1', // Update your ratelimit linked to your APIKey / account from NFTPort. Ex. '1'
+  numberOfRetries: '2', // Add your API retry count here so that your NFTPort APIs can attempt a retry if unsuccessful at first.  Ex. '3'
+  timeout: '1000', // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
   mint_range: ['1','2'], // Add your min and max values in here and all NFTs in this range will be minted and these values are inclusive. Ex. '5','10'
   mint_item: '1', // Add your NFT edition number in here and this specific NFT will be minted. Ex. '3'
-  numberOfRetries: '2', // Add your API retry count here so that your NFTPort APIs can attempt a retry if unsuccessful at first.  Ex. '3'
-  timeout: '1000' // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
+  uploadGenericMeta: false // When this value is false, then the build/json directory's _metadata.json file will be used when uploadMetas.js is called. When this value is true, then the build/genericJSON directory's _metadata.json file will be used when uploadMetas.js is called.
 };
 
 module.exports = {

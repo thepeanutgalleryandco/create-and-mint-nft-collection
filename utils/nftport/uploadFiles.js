@@ -34,6 +34,7 @@ if (!fs.existsSync(`${FOLDERS.backupJSONDir}/${backupDate}_meta`)) {
 
 // Make a copy of the metadata.json file into the backupDate directory.
 fs.copyFileSync(`${FOLDERS.jsonDir}/_metadata.json`, `${FOLDERS.backupJSONDir}/${backupDate}_meta/_metadata.json`);
+console.log(`Backed up _metadata.json to ${FOLDERS.backupJSONDir}/${backupDate}_meta/_metadata.json before starting process.`);
 
 // Main function - called asynchronously
 async function main() {
@@ -160,7 +161,7 @@ async function fetchWithRetry(file) {
 
         // Check if there are any retry attempts left
         if (_numberOfRetries !== 0) {
-          console.log(`Retrying upload`);
+          console.log(`Retrying file upload`);
 
           // Before performing the next API call, wait for the timeout specified in the account_details.js file
           // The total number of retries gets decremented when issuing the API call again
