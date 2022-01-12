@@ -181,7 +181,7 @@ async function fetchWithRetry(meta) {
 
       // Set the mint info required for the API from the meta field and account_details.js file
       const mintInfo = {
-        chain: ACCOUNT_DETAILS.chain,
+        chain: ACCOUNT_DETAILS.chain.toLowerCase(),
         contract_address: ACCOUNT_DETAILS.contract_address,
         metadata_uri: _meta.metadata_uri,
         mint_to_address: ACCOUNT_DETAILS.mint_to_address,
