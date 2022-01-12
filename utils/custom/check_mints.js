@@ -1,6 +1,5 @@
 // Load modules and constants
 const fs = require("fs");
-const path = require("path");
 const fetch = require('node-fetch');
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
@@ -9,9 +8,6 @@ const re = new RegExp("^([0-9]+).json$"); // Will be used to ensure only JSON fi
 let failedErrorCount = 0;
 let failedTxnCount = 0;
 let totalFailedCount = 0;
-
-// Start the main process.
-main();
 
 // Main function - called asynchronously
 async function main() {
@@ -52,6 +48,9 @@ async function main() {
   }
 
 }
+
+// Start the main process.
+main();
 
 // checkFileForFailures function - Takes in a file name and will check the file's minting data object to determine whether or not a re-mint is required for it.
 async function checkFileForFailures(file) {
@@ -110,7 +109,3 @@ async function checkFileForFailures(file) {
         });
     }
 }
-
-const writeCheckedMintData = (_edition, _data) => {
-  fs.writeFileSync(`${FOLDERS.failedMintsDir}/${_edition}.json`, _data);
-};

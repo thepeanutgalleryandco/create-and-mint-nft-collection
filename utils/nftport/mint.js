@@ -2,34 +2,29 @@
 const { RateLimit } = require('async-sema');
 const fs = require("fs");
 const fetch = require("node-fetch");
-const path = require("path");
+
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
-const readDir = (`${FOLDERS.jsonDir}`); // Change this directory to genericJSONDir if you are uploading generic images first in order to do a reveal.
 
 const TIMEOUT = Number(ACCOUNT_DETAILS.timeout); // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.
 const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); // Ratelimit for your APIKey
-const mintedArray = [];
 
 // Check if the mintedDir directory exists, if it does not exist then create it.
 if (!fs.existsSync(`${FOLDERS.mintedDir}`)) {
   fs.mkdirSync(`${FOLDERS.mintedDir}`);
 }
 
-// Start the main process.
-main();
-
 // Main function - called asynchronously
 async function main() {
 
-  // Load metadata.json file
-  const metaData = JSON.parse(
-    fs.readFileSync(`${readDir}/_metadata.json`)
+  // Load _ipfsMetas.json file and parse it as JSON
+  const ipfsMetas = JSON.parse(
+    fs.readFileSync(`${FOLDERS.ipfsMetasDir}/_ipfsMetas.json`)
   );
 
-  // Loop through each JSON object within the JSON array of the metadata.json file
-  for (const meta of metaData) {
+  // Loop through each JSON object within the JSON array of the _ipfsMetas.json file
+  for (const meta of ipfsMetas) {
     console.log(`Starting check of ${meta.name}.json object`);
 
     // Set the minted filename for the JSON object
@@ -73,7 +68,7 @@ async function main() {
               // Check if the HTML text contains the works 'search not found'
               // Throw an error so that the JSON object can be minted again.
               if (text.toLowerCase().includes('search not found')) {
-                console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but transaction was not found at ${mintedMeta.mintData.transaction_external_url}. Will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
+                console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but transaction was not found. Will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
                 throw 'Edition minted, but not on blockchain'
               } // Check if the HTML text contains the works 'fail or failed'
                 // Throw an error so that the JSON object can be minted again.
@@ -92,10 +87,6 @@ async function main() {
       }
 
       console.log(`Check done for ${meta.name}.json object.`);
-
-      // Add the JSON object to a JSON array of minted items and write it to a minted.json file in the mintedDir directory.
-      mintedArray.push(JSON.stringify(meta, null, 2));
-      fs.writeFileSync(`${FOLDERS.mintedDir}/_minted.json`, '[\n' + mintedArray + '\n]');
       console.log(`${meta.name} already minted`);
 
     } // Should any of the above checks in the try block throw an error, then the JSON object that threw the error will be minted again
@@ -116,9 +107,7 @@ async function main() {
           mintData: mintData
         }
 
-        // Add the combined JSON object to a JSON array of minted items and write it to a minted.json file in the mintedDir directory.
-        mintedArray.push(JSON.stringify(combinedData, null, 2));
-        fs.writeFileSync(`${FOLDERS.mintedDir}/_minted.json`, '[\n' + mintedArray + '\n]');
+        // Write a json file containing the minted data to the mintedDir directory
         writeMintData(`${meta.custom_fields.edition}`, combinedData)
 
         // Check if the mint was successful at an API level, the Transaction could still have failed on the blockchain itself,
@@ -137,6 +126,9 @@ async function main() {
   }
 }
 
+// Start the main process.
+main();
+
 // timer function - This function is used to add a timeout in between actions.
 function timer(ms) {
   return new Promise(res => setTimeout(res, ms));
@@ -152,12 +144,12 @@ async function fetchWithRetry(meta) {
     // Constant that will perform an API call and return a resolve or reject
     const fetch_retry = (_meta, _numberOfRetries) => {
 
-      // Set the mint API URL
+      // Set the API URL
       let url = "https://api.nftport.xyz/v0/mints/customizable";
 
       // Set the mint info required for the API from the meta field and account_details.js file
       const mintInfo = {
-        chain: ACCOUNT_DETAILS.chain,
+        chain: ACCOUNT_DETAILS.chain.toLowerCase(),
         contract_address: ACCOUNT_DETAILS.contract_address,
         metadata_uri: _meta.metadata_uri,
         mint_to_address: ACCOUNT_DETAILS.mint_to_address,
@@ -207,7 +199,7 @@ async function fetchWithRetry(meta) {
 
           // Before performing the next API call, wait for the timeout specified in the account_details.js file
           // The total number of retries gets decremented when issuing the API call again
-          await timer(TIMEOUT)
+          //await timer(TIMEOUT) // Commented out functionality as it cause the process to hang at times.
           fetch_retry(_meta, _numberOfRetries - 1)
 
         } // If the total number of retries have been reached, then respond with a reject and finish the fetch_retry process

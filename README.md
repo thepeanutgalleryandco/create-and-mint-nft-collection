@@ -1,6 +1,6 @@
 # The Peanut Gallery And Co's take on the code bases created by Hashlips and codeSTACKr
 
-Base code is from
+Base code is from the below repos - Massive thank you to the teams behind these repos!
 - [hashlips_art_engine](https://github.com/HashLips/hashlips_art_engine)
 - [codeSTACKr](https://github.com/codeSTACKr/video-source-code-create-nft-collection/)
 
@@ -133,43 +133,43 @@ Use the following command from the code's root directory.
 - npm run build
 
 ### Check_Mints
-- node utils/check_mints.js
+- node utils/custom/check_mints.js
 - npm run check_mints
 
 ### Migrate_Json_Between_Ipfs_And_Metadata
-- node utils/migrate_json_between_ipfs_and_metadata.js
+- node utils/custom/migrate_json_between_ipfs_and_metadata.js
 - npm run migrate_json_between_ipfs_and_metadata
 
 ### Pixelate Command
-- node utils/pixelate.js
+- node utils/art_engine/pixelate.js
 - npm run pixelate
 
 ### Preview Command
-- node utils/preview.js
+- node utils/art_engine/preview.js
 - npm run preview
 
 ### Preview_Gif Command
-- node utils/preview_gif.js
+- node utils/art_engine/preview_gif.js
 - npm run preview_gif
 
 ### Rarity Command
-- node utils/rarity.js
+- node utils/art_engine/rarity.js
 - npm run rarity
 
 ### Update_Image_Info Command
-- node utils/update_image_info.js
+- node utils/custom/update_image_info.js
 - npm run update_image_info
 
 ### Update_Json_To_Generic_Meta Command
-- node utils/update_json_to_generic_meta.js
+- node utils/custom/update_json_to_generic_meta.js
 - npm run update_json_to_generic_meta
 
 ### Update_Metadata_Info Command
-- node utils/update_metadata_info.js
+- node utils/custom/update_metadata_info.js
 - npm run update_metadata_info
 
 ### Update_Nft_Info Command
-- node utils/update_nft_info.js
+- node utils/custom/update_nft_info.js
 - npm run update_nft_info
 
 ## NFTPort Commands
