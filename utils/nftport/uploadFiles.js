@@ -6,7 +6,6 @@ const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
 const FormData = require("form-data");
 const fetch = require("node-fetch");
-const path = require("path");
 
 const TIMEOUT = Number(ACCOUNT_DETAILS.timeout); // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.
 const allMetadata = [];
@@ -53,7 +52,7 @@ async function main() {
       if (re.test(file)) {
 
         // Load the json file that matches the image file's name and parse it as JSON
-        const fileName = path.parse(file).name;
+        const fileName = `${file.substring(0, file.length - 4)}`;
         let jsonFile = fs.readFileSync(`${FOLDERS.jsonDir}/${fileName}.json`);
         let metaData = JSON.parse(jsonFile);
 
@@ -165,7 +164,7 @@ async function fetchWithRetry(file) {
 
           // Before performing the next API call, wait for the timeout specified in the account_details.js file
           // The total number of retries gets decremented when issuing the API call again
-          await timer(TIMEOUT)
+          //await timer(TIMEOUT) // Commented out functionality as it cause the process to hang at times.
           fetch_retry(_file, _numberOfRetries - 1)
 
         } // If the total number of retries have been reached, then respond with a reject and finish the fetch_retry process

@@ -2,48 +2,43 @@
 const { RateLimit } = require('async-sema');
 const fs = require("fs");
 const fetch = require("node-fetch");
-const path = require("path");
+
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
-const readDir = (`${FOLDERS.jsonDir}`); // Change this directory to genericJSONDir if you are uploading generic images first in order to do a reveal.
 
 const TIMEOUT = Number(ACCOUNT_DETAILS.timeout); // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.
 const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); // Ratelimit for your APIKey
-const mintedArray = [];
-const mintingRange = [];
+
+// Check if the values in mint_range is logically sound to loop through
+if (Number(ACCOUNT_DETAILS.mint_range[0]) >= Number(ACCOUNT_DETAILS.mint_range[1])) {
+  console.log(`Please fix mint_range values in account_details.js as ${ACCOUNT_DETAILS.mint_range[0]} is greater than or equal to ${ACCOUNT_DETAILS.mint_range[1]}`);
+  process.exit(1);
+}
 
 // Check if the mintedDir directory exists, if it does not exist then create it.
 if (!fs.existsSync(`${FOLDERS.mintedDir}`)) {
   fs.mkdirSync(`${FOLDERS.mintedDir}`);
 }
 
-// Populate the mintingRange array with all the numbers in between the range set in the accounts.js file.
-for (let x = Number(ACCOUNT_DETAILS.mint_range[0]); x < Number(ACCOUNT_DETAILS.mint_range[1])+1; x++)  {
-  mintingRange.push(x);
-}
-
 // Main function - called asynchronously
 async function main() {
 
-  // Load metadata.json file
-  const metaData = JSON.parse(
-    fs.readFileSync(`${readDir}/_metadata.json`)
-  );
-
-  // Loop through each JSON object within the JSON array of the metadata.json file
-  for (const meta of metaData) {
-    console.log(`Starting with ${meta.custom_fields.edition}`);
-
-    // Check if the the edition of the json object can be found within the list of editions populated in the mintingRange arrag and only if it can be found
-    // then continue processing the object, otherwise skip it.
-    if (mintingRange.includes(meta.custom_fields.edition)) {
-      console.log(`Starting check of ${meta.name}.json object`);
+  // Loop through the numbers in the mint_range
+  for (let mintItem = Number(ACCOUNT_DETAILS.mint_range[0]); mintItem < Number(ACCOUNT_DETAILS.mint_range[1])+1; mintItem++)  {
+    
+    try {
+      
+      // Load the mintItem.json file from ipfsMetasDir directory and parse it as JSON
+      meta = JSON.parse(fs.readFileSync(`${FOLDERS.ipfsMetasDir}/${mintItem}.json`));
 
       // Set the minted filename for the JSON object
       const mintFile = `${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`;
-
+      
       try {
+        
+        console.log(`Starting check of ${mintFile} file`);
+
         // Load the minted filename
         fs.accessSync(mintFile);
         const mintedFile = fs.readFileSync(mintFile)
@@ -80,7 +75,7 @@ async function main() {
                 // Check if the HTML text contains the works 'search not found'
                 // Throw an error so that the JSON object can be minted again.
                 if (text.toLowerCase().includes('search not found')) {
-                  console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but transaction was not found at ${mintedMeta.mintData.transaction_external_url}. Will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
+                  console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but transaction was not found. Will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
                   throw 'Edition minted, but not on blockchain'
                 } // Check if the HTML text contains the works 'fail or failed'
                   // Throw an error so that the JSON object can be minted again.
@@ -97,16 +92,13 @@ async function main() {
             });
           }
         }
-        console.log(`Check done for ${meta.name}.json object.`);
 
-        // Add the JSON object to a JSON array of minted items and write it to a minted.json file in the mintedDir directory.
-        mintedArray.push(JSON.stringify(meta, null, 2));
-        fs.writeFileSync(`${FOLDERS.mintedDir}/_minted.json`, '[\n' + mintedArray + '\n]');
+        console.log(`Check done for ${mintFile} file`);
         console.log(`${meta.name} already minted`);
 
       } // Should any of the above checks in the try block throw an error, then the JSON object that threw the error will be minted again
         catch(err) {
-        console.log(`Check done for ${meta.name}.json object.`);
+        console.log(`Check done for ${mintFile} file`);
         console.log(`Starting mint of ${meta.name}.json object`);
 
         try {
@@ -122,9 +114,7 @@ async function main() {
             mintData: mintData
           }
 
-          // Add the combined JSON object to a JSON array of minted items and write it to a minted.json file in the mintedDir directory.
-          mintedArray.push(JSON.stringify(combinedData, null, 2));
-          fs.writeFileSync(`${FOLDERS.mintedDir}/_minted.json`, '[\n' + mintedArray + '\n]');
+          // Write a json file containing the minted data to the mintedDir directory
           writeMintData(`${meta.custom_fields.edition}`, combinedData)
 
           // Check if the mint was successful at an API level, the Transaction could still have failed on the blockchain itself,
@@ -140,9 +130,10 @@ async function main() {
           console.log(`Catch: Minting ${meta.name} failed with ${err}!`)
         }
       }
+    } catch (error) {
+      console.log(`File Loading Error: ${error}`);
+      console.log(`File ${mintItem}.json does not exist, please double check mint range and files available.`);
     }
-
-    console.log(`Done with ${meta.custom_fields.edition}`);
   }
 }
 
@@ -219,7 +210,7 @@ async function fetchWithRetry(meta) {
 
           // Before performing the next API call, wait for the timeout specified in the account_details.js file
           // The total number of retries gets decremented when issuing the API call again
-          await timer(TIMEOUT)
+          //await timer(TIMEOUT) // Commented out functionality as it cause the process to hang at times.
           fetch_retry(_meta, _numberOfRetries - 1)
 
         } // If the total number of retries have been reached, then respond with a reject and finish the fetch_retry process

@@ -1,6 +1,5 @@
 // Load modules and constants
 const fs = require("fs");
-const path = require("path");
 const fetch = require('node-fetch');
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
@@ -110,7 +109,3 @@ async function checkFileForFailures(file) {
         });
     }
 }
-
-const writeCheckedMintData = (_edition, _data) => {
-  fs.writeFileSync(`${FOLDERS.failedMintsDir}/${_edition}.json`, _data);
-};
