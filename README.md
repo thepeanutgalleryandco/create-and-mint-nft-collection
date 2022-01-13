@@ -348,3 +348,20 @@ Use the following command from the code's root directory.
 <img width="623" alt="Screenshot 2022-01-14 at 01 42 34" src="https://user-images.githubusercontent.com/52892685/149426210-8bbc03ae-d658-42c7-9a52-d275883ac738.png">
 
 
+
+## EXAMPLE - REVEAL (TBD)
+N/A
+
+
+
+## EXAMPLE - METADATA ALREADY UPLOADED OUTPUT
+<img width="1594" alt="Screenshot 2022-01-14 at 01 46 44" src="https://user-images.githubusercontent.com/52892685/149426543-1226ae6c-63b6-4ab7-9ee6-8cc8ece04acb.png">
+
+
+
+## EXAMPLE - EDITION ALREADY MINTED
+<img width="545" alt="Screenshot 2022-01-14 at 01 47 30" src="https://user-images.githubusercontent.com/52892685/149426612-5036e729-9e1e-4492-8652-88037d4f054e.png">
+
+
+## EXAMPLE - MINT FAILED, USING CHECK_MINTS AND REMINT
+<img width="820" alt="Screenshot 2022-01-14 at 01 48 42" src="https://user-images.githubusercontent.com/52892685/149426726-c581480a-b3ef-4f9f-b5b0-a55f02ee0dc2.png">
