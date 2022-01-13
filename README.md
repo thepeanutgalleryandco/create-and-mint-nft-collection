@@ -163,7 +163,7 @@ Create an account on [Pinata](https://app.pinata.cloud/) and then upload your im
 Use the `Custom - Update_Image_Info Command` below to update the json files for each NFT.
 This process will `only` update the `file_url` field within the json file as well as in the `_metadata.json` file.
 
-Upload the json directory onto Pinata and copy the CID into the `constants/nft_details.js` file against the `metaDataJSONFilesBase` key. This should be either of your `json` or `genericJSON` directories, depending on whether you are doing a reveal or not. Just a note, it would make sense to get both of your json directories uploaded if you are doing a reveal so that you can simply update the metadata of your unrevealed NFT, but please see the section on NFT reveal steps to follow in the example `EXAMPLE` below.
+Upload the json directory onto Pinata and copy the CID into the `constants/nft_details.js` file against the `metaDataJSONFilesBase` key. This should be either of your `json` or `genericJSON` directories, depending on whether you are doing a reveal or not. Just a note, it would make sense to get both of your json directories uploaded if you are doing a reveal so that you can simply update the metadata of your unrevealed NFT, but please see the section on NFT reveal steps to follow in the example `EXAMPLE - Reveal` below.
 
 Use the `Custom - Update_Metadata_Info Command` below to update the json files for each NFT.
 This process will create a new `ipfsMetas`, update each NFT json file with a `metadata_uri` field and create a `_ipfsMetas.json` file. All the new json files will be added to the `ipfsMetas` folder.
@@ -177,7 +177,7 @@ This process will `only` update the `file_url` field within the json file as wel
 Use the `NFTPort - UploadMetas Command` below to upload the json metadata files for each NFT to IPFS and then create a `ipfsMetas` folder with an `_ipfsMetas.json` file and a json file for every NFT, containing the upload API response.
 The new json files in the `ipfsMetas` directory will now contain a `metadata_uri` field and this has also been added to each object inside the `_ipfsMetas.json` file.
 
-`Important` - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update the `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file so that the genericJSON directory's metadata will be used instead of the json directory. Please see the section on NFT reveal steps to follow in the example `EXAMPLE` below.
+`Important` - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update the `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file so that the genericJSON directory's metadata will be used instead of the json directory. Please see the section on NFT reveal steps to follow in the example `EXAMPLE - Reveal` below.
 
 
 ### 11. Minting NFTs
@@ -301,3 +301,50 @@ Use the following command from the code's root directory.
 ### UploadMetas Command
 - node utils/nftport/uploadMetas.js
 - npm run uploadMetas
+
+
+
+## EXAMPLE - NO REVEAL
+
+### Download Repo And Extract
+<img width="1002" alt="Screenshot 2022-01-14 at 01 26 11" src="https://user-images.githubusercontent.com/52892685/149424701-b7db389e-2be7-4be5-a597-af1400cdaa1e.png">
+
+
+### Install Packages
+<img width="1188" alt="Screenshot 2022-01-14 at 01 31 50" src="https://user-images.githubusercontent.com/52892685/149425212-9bc5dc99-a0b8-4216-8481-d1d1fe533ee0.png">
+
+
+### Update src/config.js
+<img width="1257" alt="Screenshot 2022-01-14 at 01 33 20" src="https://user-images.githubusercontent.com/52892685/149425340-fcdec29c-7e11-44d8-8f84-49d2d8b64464.png">
+
+
+### Update constants/account_details.js
+<img width="1599" alt="Screenshot 2022-01-14 at 01 28 02" src="https://user-images.githubusercontent.com/52892685/149424830-25efe8f5-a83f-4c5d-ae55-53ff14345e2b.png">
+
+
+### Update constants/nft_details.js
+<img width="1597" alt="Screenshot 2022-01-14 at 01 28 27" src="https://user-images.githubusercontent.com/52892685/149424877-e52dc6f2-b365-4905-b261-91bd6fe3a5bb.png">
+
+
+### Art Engine - Build
+<img width="1167" alt="Screenshot 2022-01-14 at 01 35 14" src="https://user-images.githubusercontent.com/52892685/149425539-a5208921-cc64-4594-b3c5-0fa981254abb.png">
+
+
+### Upload Files
+<img width="1311" alt="Screenshot 2022-01-14 at 01 37 22" src="https://user-images.githubusercontent.com/52892685/149425728-b15be911-e988-4b0b-993b-71dc98d258a8.png">
+
+<img width="755" alt="Screenshot 2022-01-14 at 01 38 23" src="https://user-images.githubusercontent.com/52892685/149425829-0e99b018-0338-4d5c-912e-1b34864b811c.png">
+
+
+### Upload Metas
+<img width="1552" alt="Screenshot 2022-01-14 at 01 39 46" src="https://user-images.githubusercontent.com/52892685/149425953-716edba4-da7f-43f8-b901-5a67606dd50e.png">
+
+<img width="520" alt="Screenshot 2022-01-14 at 01 40 49" src="https://user-images.githubusercontent.com/52892685/149426049-68feafe4-84d0-4838-911d-671ed3d4415f.png">
+
+
+### Mint
+<img width="526" alt="Screenshot 2022-01-14 at 01 41 35" src="https://user-images.githubusercontent.com/52892685/149426121-0cbe6184-5723-43a9-90d1-ad6aff9d9268.png">
+
+<img width="623" alt="Screenshot 2022-01-14 at 01 42 34" src="https://user-images.githubusercontent.com/52892685/149426210-8bbc03ae-d658-42c7-9a52-d275883ac738.png">
+
+
