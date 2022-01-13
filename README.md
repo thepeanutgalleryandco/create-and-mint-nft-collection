@@ -4,21 +4,29 @@ Base code is from the below repos - Massive thank you to the teams behind these 
 - [hashlips_art_engine](https://github.com/HashLips/hashlips_art_engine)
 - [codeSTACKr](https://github.com/codeSTACKr/video-source-code-create-nft-collection/)
 
-File Uploads can be done via Pinata or a similar service that gives you a single CID for images and another one for meta files or [NFTPort](https://nftport.xyz) can be used.
+File Uploads can be done via [Pinata](https://app.pinata.cloud/) or a similar service that gives you a single CID for images and another one for meta files or [NFTPort](https://nftport.xyz) can be used.
+
 Minting uses [NFTPort](https://nftport.xyz)
+
 
 ## Reference the following videos from both the core code developers for more details.
 Please note that some of the commands have changed and have been updated compared to the original videos, please see them under the different sections for each script / process that you can run.
-- Hashlips - [video](https://www.youtube.com/playlist?list=PLvfQp12V0hS3AVImYdMNfkdvRtZEe7xqY)
-- codeSTACKr - [video](https://youtu.be/AaCgydeMu64)
+- [Hashlips](https://www.youtube.com/playlist?list=PLvfQp12V0hS3AVImYdMNfkdvRtZEe7xqY)
+- [codeSTACKr](https://youtu.be/AaCgydeMu64)
 
-## TIP Address
+
+
+## TIP / Contributions Address
 If you feel that this has benefitted you in any way and would like to make a contribution towards The Peanut Gallery And Co, then please use the following MetaMask wallet address:
-- 0x5cE5D823f4bD8Ec610868fBa65832B479152C7E1
+- `0x5cE5D823f4bD8Ec610868fBa65832B479152C7E1`
+
+
 
 ## NFT Collection
 If you would like to support my NFT collection, please take a look at the below.
-- https://opensea.io/collection/steak-bites (Polygon chain)
+- [Steak-Bites Collection On Opensea](https://opensea.io/collection/steak-bites)
+![Banner V4](https://user-images.githubusercontent.com/52892685/149317695-82707703-a8db-4e17-8dc2-98d59aefae2e.png)
+
 
 
 ## Dependencies for scripts to run
@@ -26,55 +34,119 @@ If you would like to support my NFT collection, please take a look at the below.
 - `npm install node-fetch@2`
 - `npm install async-sema`
 
+
+
 ## UPDATES & FIXES
 
-### Addition Of Error Checking After Minting API Calls
-Added a check after minting API calls to see if the response is OK and the error is null, otherwise it will notify the user that the mint failed.
-The "Main - Check_Mints Command" below can be used after the minting process has run along with the "Main - Remint Command" afterwards to only remint the items that were not successful.
-
-### Multiple Codebase Usage
-Some users have already started creating their files and minting some of their files from previous code bases which makes use of both _ipfsMetas.json and _metadata.json files. This code base only makes use of the _metadata.json file. There is a new utils/migrate_json_between_ipfs_and_metadata.js script that will migrate the metadata_uri field from the ipfs file over to the metadata file so that the minting processes of this repo can work without issues. Please run it by making use of the "Main - Migrate_Json_Between_Ipfs_And_Metadata Command" below.
-
-### Retry Limit Addition
-Added a retry limit for the API calls into NFTPort so that after x number of retries, the attempt for the specific file will be stopped and the next file will be tried. This was added to be able to potentially process other files as a specific file might have issues.
-
-### "Quota Limit Reached" or "Too many requests" errors
-Users have been experiencing issues in terms of API limitting. A new library "async-sema" was added and you can now adjust your APIKey's rate limit from the ACCOUNT_DETAILS constant file. It seems to be not an exact science, so to be more successful in processing all of your files in one go, try to put the max_rate_limit at one less than your APIKey's limit.
 
 
 ## How To Use The Codebase
 Below is a rough guideline of the order in which the processes can be used.
 
-### 1. Update The Main Configuration File
-Update the src/config.js file with the different settings for your generative art collection.
+### 1. Download and unzip the main branch of this repo
 
-### 2. Configure NFT Creation Details
+
+### 2. Run the dependency npm commands in the unzipped folder.
+Example of the contents of the root folder before running the installs:
+<img width="1021" alt="Screenshot 2022-01-13 at 12 45 28" src="https://user-images.githubusercontent.com/52892685/149315776-324ddb37-7942-4369-86ee-7ce5d664a0e8.png">
+
+Example of the contents of the root folder after running the installs:
+<img width="1009" alt="Screenshot 2022-01-13 at 12 46 51" src="https://user-images.githubusercontent.com/52892685/149315979-f758dcb3-b6c0-409e-9ff0-9c01b0672150.png">
+
+
+### 3. Update The Main Configuration File For The Art Engine
+Update the src/config.js file with the different settings for your generative art collection. 
+Please watch the videos linked earlier on how to configure the Art Engine.
+
+Modify the following parts at the very least, below are just sample values that I used in a demo.
+
+#### a. If you are planning on using Solana, then update this section.
+<img width="1134" alt="Screenshot 2022-01-13 at 12 47 25" src="https://user-images.githubusercontent.com/52892685/149316077-8479678d-57fc-418f-9a91-4d74c26e8b59.png">
+
+#### b. Update your layer folder names, order in which they need to be processed and the number of images to create
+<img width="420" alt="Screenshot 2022-01-13 at 12 47 53" src="https://user-images.githubusercontent.com/52892685/149316165-e1b92db3-ce8d-428e-9b30-76f2b606f960.png">
+
+
+#### c. Update the width and height of your canvas
+<img width="228" alt="Screenshot 2022-01-13 at 12 48 07" src="https://user-images.githubusercontent.com/52892685/149316206-fb068e39-274e-45d2-8376-0eeb16586109.png">
+
+
+#### d. Update the extra metadata that you want to add into your NFT's metadata. You can remove both fields inside of this extraMetadata object or add more if you like
+<img width="1305" alt="Screenshot 2022-01-13 at 12 49 21" src="https://user-images.githubusercontent.com/52892685/149316407-bc9d5970-832c-450a-8e5a-9cd8efa430a7.png">
+
+
+### 4. Configure The NFT Creation Details
 Update the constants/nft_details.js file with the details that you want to be added to your metadata for your generative art collection.
 
-### 3. Configure Account Details - If you are using NFTPort
-Update the constants/account_details.js file with the NFTPort account details. These will only be used with the NFTPort scripts. This will be needed if you are uploading files or minting via NFTPort. Please ensure that your contract allows for NFT updates if you are planning on doing NFT reveals after purchases.
+- `description` - The description that will be added to each of your NFTs
+- `namePrefix` - The name prefix that will be added for each of your NFTs. Ex. Steaks #1, Steaks #2
+- `imageFilesBase` - Pinned IPFS CID when making use of a service like Pinata. Ex. QmP12prm2rp1omr1Ap2orm1oprm12FQWFQOFOGdnasnsda . Only update this if you are planning to upload the files via a service other than NFTPort where you host a single URL / CID base.
+- `metaDataJSONFilesBase` - Pinned IPFS CID when making use of a service like Pinata. Ex. QmP12prm2rp1omr1Ap2orm1oprm12FQWFQOFOGdnasnsda . Only update this if you are planning to upload the files via a service other than NFTPort where you host a single URL / CID base.
+- `blankFilenameInLayers` - This value is a boolean with a value of false or true. If true, then any layer that contains "blank" in the metadata will be skipped and not added to the properties of the NFT. When set to false, then the information will be added to the metadata and added to the properties of the NFT.
+- `genericTitle` - Replace with what you want the generic titles to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
+- `genericDescription` - Replace with what you want the generic descriptions to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
+- `genericURL` - Replace with the image URL that your generic NFTs should show. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 
-### 4. Create Image Layers
-Create your different art layers, keeping all of them at the same Canvas size and ensuring they are all exported as .png files.
+Modify only the parts that you will be using and keep the rest as set by default.
+For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the imageFilesBase and metaDataJSONFilesBase fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the genericTitle, genericDescription and genericURL fields. If you want your NFT properties on Opensea to show, for example "Shirt - Blank - 15%", then set the blankFilenameInLayers value to false.
 
-### 5. Main Generative Art Creation
-Use the 'Main - Build Command' below to create your generative art collection along with their metadata json files.
+Example configuration:
+<img width="1605" alt="Screenshot 2022-01-13 at 12 50 38" src="https://user-images.githubusercontent.com/52892685/149316620-6b7f64c3-705c-4ff3-93b6-990180b7f1d5.png">
 
-### 6. Additional Art Creation Options
-- Use the 'Main - Pixelate Command' below to create a pixelated art collection from your previous generative art collection.
-- Use the 'Main - Preview Command' below to create a preview of your generative art collection by combining a few of the images into a single image.
-- Use the 'Main - Preview_Gif Command' below to create a preview_gif of your generative art collection by combining a few of the images into a single gif that loops through some of your images.
 
-### 7. Rarity Information
-- Use the 'Main - Rarity Command' below to generate a JSON output to the terminal that will show you how your layers will be distributed.
+### 5. Configure The NFTPort Account Details And API Limits - Only modify this if you are using NFTPort for uploading
+Update the constants/account_details.js file with the NFTPort account details. These will only be used with the NFTPort scripts. This will be needed if you are uploading files or minting via NFTPort. Please ensure that your NFT contract was created with the "metadata_updatable" variable set to true as this allows for NFT metadata updates to be made and is needed if you are planning on doing NFT reveals after purchases. If not, then you can't change your NFT data and you will need to burn the NFT from the contract to remove it. This will cost you funds / tokens, so make sure you create your contract correctly!
+
+- `auth` - Add your APIKey here that the NFTPort team will provide. Ex. orm1or1-efe1-112a-cccd-kqwfkfmk
+- `contract_address` - Add your contract address here, not your transaction hash. After creating a contract on NFTPort, retrieve the contract address via the APIs. Ex. 0xfe81cm1l28b21753ebe117c84als2d6588e150ff
+- `mint_to_address` - Add your wallet address here that will be the owner of the minted NFTs. Ex. 0x5cE5D823f4bD8Ec610293fBa65832B479152C7E1
+- `chain` - Add the chain where the NFTs will be minted to here. At the time of writing, "polygon" and "rinkeby" are possible values.
+- `max_rate_limit` - This will rate limit your API calls towards the NFTPort platform. Be sure to set it according to what is allowed for your APIKey. Ex. '1'
+- `numberOfRetries` - This is the retry count that your NFTPort API calls will attempt when not receiving a successful response from the API. It is not advised to make the retry count too high.  Ex. '3'
+- `timeout` - This is the waiting time in between API calls when errors arise on the APIs. This has been disabled at the moment as it causes the scripts to hang at times. E.x. 5000 = 5 seconds.
+- `mint_range` - If you only want to mint a specific range of editions, e.x everything between editions 5 and 10.
+- `mint_item` - If you only want to mint a specific edition, e.x 1.
+- `uploadGenericMeta` - If you are planning on using a reveal, then set this value to true, otherwise keep this as false. When it is true, then the uploadMetas file will read from the genericJSON directory to upload the metadata. If set to false (default), then it will read from the json directory which contains your revealed items.
+
+Modify only the parts that you will be using and keep the rest as set by default.
+For example, if you are having issues and want more retries on the API or a higher rate limit, only then modify those fields. If you are planning on only minting a single edition or a range of editions, only then modify those fields. If you are planning on doing a reveal, only then modify the uploadGenericMeta field.
+
+Example configuration:
+<img width="1619" alt="Screenshot 2022-01-13 at 12 51 10" src="https://user-images.githubusercontent.com/52892685/149316724-d88b9ea9-54d4-427c-acd8-ba64857f15dc.png">
+
+
+### 6. Create Image Layers
+Create your different art layers, keeping all of them at the same Canvas size and ensuring they are all exported as .png files. 
+
+
+### 7. Art Engine - 
+Review the Hashlips videos on what all of the configuration items in the `src/config.js` file means and what you need to set them to. 
+All of the `Art Engine Commands` make use of this configuration file along with the `constants/account_details.js` file.
+
+Only run the commands from sections a, b and c that you would like to make use of.
+
+#### a. Creation / Build
+Use the `Art Engine - Build Command` below to create your generative art collection along with their metadata json files.
+
+#### b. Additional Art Creation Options
+- Use the `Art Engine - Pixelate Command` below to create a pixelated art collection from your previous generative art collection.
+- Use the `Art Engine - Preview Command` below to create a preview of your generative art collection by combining a few of the images into a single image.
+- Use the `Art Engine - Preview_Gif Command` below to create a preview_gif of your generative art collection by combining a few of the images into a single gif that loops through some of your images.
+
+#### c. Rarity Information
+Use the `Art Engine - Rarity Command` below to generate a JSON output to the terminal that will show you how your layers will be distributed.
+
 
 ### 8. Update NFT's Info (Description And Name)
-- Use the 'Main - Update_Nft_Info Command' below to update all NFT JSON files with the new namePrefix and description from the constants/nft_details.js file.
+- Use the `Custom - Update_Nft_Info Command` below to update all NFT JSON files with the new namePrefix and description from the `constants/nft_details.js` file.
+
+Please note that this should be run before you run the `NFTPort - UploadFiles Command`, `NFTPORT - UploadMetas Command` and `NFTPORT - Mint Command` commands.
+Use this only if you want to use a different name and description for your NFTs compared to what got generated with the `Art Engine - Build Command` command.
 
 ### 9. Update NFTs For Reveal - Generic Image Until Purchased, Then Only Reveal NFT
 - Use the 'Main - Update_Json_To_Generic_Meta Command' below to update all NFT files with the generic image URL that will be shown as your NFTs picture before a purchase. Please remember that your contract needs to be updateable to use this, otherwise this image will stay the image of your NFT, before and after purchase. Please remember to update the file_url field with the URL where the generic image is, otherwise you will get the one in the code base. This process will create a new genericJSON directory where the _metadata.json file will be located along with each file's generic JSON object file. Remember to change your Upload Metas process to point to this directory instead of the normal json directory if you are making use of reveals.
 
-### 10. Uploading Files
+### 12. Uploading Files
 There are two options that you can follow to upload your images and json files onto IPFS. Option 1 would be to go via a service like Pinata that gives a static CID to be used, while Option 2 would be to go directly via NFTPort, however, the CID will be unique for each file.
 
 #### Option 1 - Pinata Or Similar Service
@@ -99,7 +171,7 @@ This process will also update the "_metadata.json" file with the add the metadat
 
 *Important* - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update line #7 in the utils/nftport/uploadMetas.js file to point to "genericJSONDir" instead of "jsonDir" as this is where your meta files live with the generic image.
 
-### 11. Minting NFTs
+### 13. Minting NFTs
 Use the "NFTPort - Mint Command" below to start minting all of your NFTs.
 Use the "NFTPort - Mint_Range Command" below to start minting a range of NFTs between specific editions.
 Use the "NFTPort - Mint_Item Command" below to start minting a specific NFT edition.
@@ -110,12 +182,12 @@ The following issues has been seen while minting:
 - Transactions receiving back a NOK - These will need to be re-minted and can't be found on the blockchain.
 - Transactions receiving back an OK - Some of the transaction hashes and transaction URLs can't be found on the blockchain. These will need to be re-minted.
 
-### 12. Checking NFT Mint Files For Issues
+### 14. Checking NFT Mint Files For Issues
 Use the "Main - Check Mints Command" below to start checking each mint file to determine if there are any issues with the minted files. The check performs validation of the issues experienced in the Minting NFTs section and writes out the json files into a failedMints directory. Every time this runs, it clears out the folder and starts again.
 
 *Please note that this process takes time to complete as it runs through every minted json file*
 
-### 13. Re-Mint Failed NFTs
+### 15. Re-Mint Failed NFTs
 Use the "NFTPort - ReMint Command" below to start re-minting each of the json files in the failedMints directory. This process will write out a newly minted file in the reMinted directory as well as update the json file in the original minted directory. Due to this, a backup folder will be created every time this process runs with the date to keep a backup of the json file in the minted directory at the time of running this process just as a safe guard so that you have access to the original information or how the information changed in between your processing.
 
 ### Check Your Work On The Marketplace
@@ -125,20 +197,9 @@ Go and check out your mints on your marketplace and refresh the metadata where n
 
 GOOD LUCK!
 
-
-## Main Commands
-Use the following command from the code's root directory.
-
+## Art Engine Commands
 ### Build Command
 - npm run build
-
-### Check_Mints
-- node utils/custom/check_mints.js
-- npm run check_mints
-
-### Migrate_Json_Between_Ipfs_And_Metadata
-- node utils/custom/migrate_json_between_ipfs_and_metadata.js
-- npm run migrate_json_between_ipfs_and_metadata
 
 ### Pixelate Command
 - node utils/art_engine/pixelate.js
@@ -156,6 +217,14 @@ Use the following command from the code's root directory.
 - node utils/art_engine/rarity.js
 - npm run rarity
 
+
+## Main Commands
+Use the following command from the code's root directory.
+
+### Check_Mints
+- node utils/custom/check_mints.js
+- npm run check_mints
+
 ### Update_Image_Info Command
 - node utils/custom/update_image_info.js
 - npm run update_image_info
@@ -171,6 +240,7 @@ Use the following command from the code's root directory.
 ### Update_Nft_Info Command
 - node utils/custom/update_nft_info.js
 - npm run update_nft_info
+
 
 ## NFTPort Commands
 Use the following command from the code's root directory.
@@ -198,3 +268,20 @@ Use the following command from the code's root directory.
 ### UploadMetas Command
 - node utils/nftport/uploadMetas.js
 - npm run uploadMetas
+
+
+
+
+This is a major release with a complete re-work of the code base from v1.1.4 to be more streamlined and fit in a bit more with the core code base from codeSTACKr and Hashlips.
+
+- Re-worked the main code to work with ipfsMetas folder and file when minting.
+- The numberOfRetries value in the account_details.js file is now by default 2.
+- A backup of files are made automatically by the scripts where needed.
+- Added comments throughout all the script files so that developers can follow more easily.
+- Reveal functionality was added and then removed as it is experimental as I couldn't test it yet.
+- Added real values in the account_details.js file to cause less confusion for users.
+- Moved generic information for the use of unreveal NFTs to the nft_details.js file. The name, description and generic URL can now be set from here.
+- Migrated scripts into subfolders. The following folders are located under scripts: art_engine, custom and nftport.
+- Added a new uploadGenericMeta variable to the account_details.js file. This is by default set to false, which means no reveal is needed and the uploadMetas process will read from the json directory. If it is set to true, then the uploadMetas process will read from the genericJSON directory as a reveal is needed and generic metadata should be uploaded.
+- Lowercasing the value that users fill in for the chain field in the account_details.js file so that the API do not reject API requests.
+- Updated READMe.
