@@ -15,11 +15,9 @@ Please note that some of the commands have changed and have been updated compare
 - [codeSTACKr](https://youtu.be/AaCgydeMu64)
 
 
-
 ## TIP / Contributions Address
 If you feel that this has benefitted you in any way and would like to make a contribution towards The Peanut Gallery And Co, then please use the following MetaMask wallet address:
 - `0x5cE5D823f4bD8Ec610868fBa65832B479152C7E1`
-
 
 
 ## NFT Collection
@@ -28,16 +26,13 @@ If you would like to support my NFT collection, please take a look at the below.
 ![Banner V4](https://user-images.githubusercontent.com/52892685/149317695-82707703-a8db-4e17-8dc2-98d59aefae2e.png)
 
 
-
 ## Dependencies for scripts to run
 - `npm install`
 - `npm install node-fetch@2`
 - `npm install async-sema`
 
 
-
 ## UPDATES & FIXES
-
 
 
 ## How To Use The Codebase
@@ -214,7 +209,6 @@ Go and check out your mints on your marketplace and refresh the metadata where n
 GOOD LUCK!
 
 
-
 ## Art Engine Commands
 ### Build Command
 - npm run build
@@ -238,7 +232,6 @@ GOOD LUCK!
 ### Rarity Command
 - node utils/art_engine/rarity.js
 - npm run rarity
-
 
 
 ## Main Commands
@@ -267,7 +260,6 @@ Use the following command from the code's root directory.
 ### Update_Nft_Info Command
 - node utils/custom/update_nft_info.js
 - npm run update_nft_info
-
 
 
 ## NFTPort Commands
@@ -301,7 +293,6 @@ Use the following command from the code's root directory.
 ### UploadMetas Command
 - node utils/nftport/uploadMetas.js
 - npm run uploadMetas
-
 
 
 ## EXAMPLE - NO REVEAL
@@ -345,23 +336,149 @@ Use the following command from the code's root directory.
 ### Mint
 <img width="526" alt="Screenshot 2022-01-14 at 01 41 35" src="https://user-images.githubusercontent.com/52892685/149426121-0cbe6184-5723-43a9-90d1-ad6aff9d9268.png">
 
+<img width="225" alt="Screenshot 2022-01-14 at 11 56 04" src="https://user-images.githubusercontent.com/52892685/149496202-dadf2585-3bcd-4143-bcb2-a13b33c9dff5.png">
+
 <img width="623" alt="Screenshot 2022-01-14 at 01 42 34" src="https://user-images.githubusercontent.com/52892685/149426210-8bbc03ae-d658-42c7-9a52-d275883ac738.png">
 
 
+## EXAMPLE - REVEAL
+### Download Repo And Extract
+<img width="1002" alt="Screenshot 2022-01-14 at 01 26 11" src="https://user-images.githubusercontent.com/52892685/149424701-b7db389e-2be7-4be5-a597-af1400cdaa1e.png">
 
-## EXAMPLE - REVEAL (TBD)
-N/A
 
+### Install Packages
+<img width="1188" alt="Screenshot 2022-01-14 at 01 31 50" src="https://user-images.githubusercontent.com/52892685/149425212-9bc5dc99-a0b8-4216-8481-d1d1fe533ee0.png">
+
+
+### Update src/config.js
+<img width="1257" alt="Screenshot 2022-01-14 at 01 33 20" src="https://user-images.githubusercontent.com/52892685/149425340-fcdec29c-7e11-44d8-8f84-49d2d8b64464.png">
+
+
+### Update constants/account_details.js
+Make sure that your `uploadGenericMeta` key's value is set to `false` initially and that your contract's `metadata_updatable` value is set to `true`.
+<img width="1387" alt="Screenshot 2022-01-14 at 11 15 57" src="https://user-images.githubusercontent.com/52892685/149490361-b42e8b80-e495-4629-afb5-a1b009e722b8.png">
+
+
+### Update constants/nft_details.js
+<img width="1597" alt="Screenshot 2022-01-14 at 01 28 27" src="https://user-images.githubusercontent.com/52892685/149424877-e52dc6f2-b365-4905-b261-91bd6fe3a5bb.png">
+
+
+### Art Engine - Build
+<img width="1167" alt="Screenshot 2022-01-14 at 01 35 14" src="https://user-images.githubusercontent.com/52892685/149425539-a5208921-cc64-4594-b3c5-0fa981254abb.png">
+
+
+### Update JSON To Generic Meta
+This script will utilize the generic field's values set in the `constants/nft_details.js` file and create a new `genericJSON` directory which will contain the metadata that you want to mint for the unrevealed NFTs.
+
+<img width="569" alt="Screenshot 2022-01-14 at 11 34 41" src="https://user-images.githubusercontent.com/52892685/149493069-446f1000-d0a4-4dcc-a199-566e7ea1b8a0.png">
+
+<img width="222" alt="Screenshot 2022-01-14 at 11 34 24" src="https://user-images.githubusercontent.com/52892685/149493036-6ef22890-73f0-45e9-84f3-63c8d6018481.png">
+
+<img width="617" alt="Screenshot 2022-01-14 at 11 24 26" src="https://user-images.githubusercontent.com/52892685/149491586-621410d4-1620-4f85-aa73-272eceac77c0.png">
+
+
+### Upload Files
+<img width="1311" alt="Screenshot 2022-01-14 at 01 37 22" src="https://user-images.githubusercontent.com/52892685/149425728-b15be911-e988-4b0b-993b-71dc98d258a8.png">
+
+<img width="755" alt="Screenshot 2022-01-14 at 01 38 23" src="https://user-images.githubusercontent.com/52892685/149425829-0e99b018-0338-4d5c-912e-1b34864b811c.png">
+
+
+### Upload Metas - This will upload your `json` directory's files
+<img width="1552" alt="Screenshot 2022-01-14 at 01 39 46" src="https://user-images.githubusercontent.com/52892685/149425953-716edba4-da7f-43f8-b901-5a67606dd50e.png">
+
+<img width="227" alt="Screenshot 2022-01-14 at 11 36 52" src="https://user-images.githubusercontent.com/52892685/149493374-4cd82378-52c7-4244-b5d0-2786b28280f1.png">
+
+<img width="520" alt="Screenshot 2022-01-14 at 01 40 49" src="https://user-images.githubusercontent.com/52892685/149426049-68feafe4-84d0-4838-911d-671ed3d4415f.png">
+
+
+### Rename `ipfsMetas` directory 
+Rename the `ipfsMetas` directory to `realIPFSMetas` or anything other than `ipfsMetas` as these are the files to be used for revealing your data after purchases.
+
+<img width="224" alt="Screenshot 2022-01-14 at 11 19 53" src="https://user-images.githubusercontent.com/52892685/149490897-c7edcaca-d620-474d-9569-d0668f8cc57b.png">
+
+
+### Update constants/account_details.js
+Update your `uploadGenericMeta` key's value to `true`.
+<img width="1388" alt="Screenshot 2022-01-14 at 11 07 32" src="https://user-images.githubusercontent.com/52892685/149489118-e8163e8d-bd6f-4a19-8135-990af69b883c.png">
+
+
+### Upload Metas - This will upload your `genericJSON` directory's files
+<img width="1380" alt="Screenshot 2022-01-14 at 11 31 40" src="https://user-images.githubusercontent.com/52892685/149492663-2a278c8f-786a-4ffa-bc53-c2399fdf6a83.png">
+
+<img width="228" alt="Screenshot 2022-01-14 at 11 37 54" src="https://user-images.githubusercontent.com/52892685/149493517-5a087df0-0a6f-4bf8-827b-13f921170502.png">
+
+<img width="619" alt="Screenshot 2022-01-14 at 11 28 04" src="https://user-images.githubusercontent.com/52892685/149492147-cd7b71ad-e3b6-4d97-9ea7-f41309766157.png">
+
+
+### Mint - This will mint your `unrevealed` NFTs' metadata
+<img width="423" alt="Screenshot 2022-01-14 at 11 53 47" src="https://user-images.githubusercontent.com/52892685/149495913-28fd8389-497d-4fd0-b396-f2b16a119fc1.png">
+
+<img width="225" alt="Screenshot 2022-01-14 at 11 56 04" src="https://user-images.githubusercontent.com/52892685/149496202-dadf2585-3bcd-4143-bcb2-a13b33c9dff5.png">
+
+<img width="862" alt="Screenshot 2022-01-14 at 11 58 51" src="https://user-images.githubusercontent.com/52892685/149496615-308986e6-6398-430f-a9b4-a41a765bd7c9.png">
+
+
+### Manually Update Metadata After Purchase
+Once your NFT has sold, go to [NFTPort](https://www.nftport.xyz/) and go to the docs / API section. From there, go to the Minting section and choose the `Update a minted NFT` API. Take the packet on the API's right hand side and update it with the details from your unrevealed folder. (`realIPFSMetas or whatever you called your backup folder`)
+
+Send the API request on the right hand side and if all goes well, then your NFT's metadata will now be updated and the revealed image will show.
+
+**Please note that if you want to freeze the metadata so that no more updates can happen, then include the optional `freeze_metadata: true` field and key to the json packet that you will send in the API call**
+
+<img width="569" alt="Screenshot 2022-01-14 at 11 48 39" src="https://user-images.githubusercontent.com/52892685/149495092-87ba2020-940b-47d5-b4ac-f83544db869f.png">
+
+
+
+## EXAMPLE - DNA EXISTS AND NEED MORE LAYERS TO GROW EDITION
+When you encounter `DNA exists!`, do not panic as this simply means the combination of elements have already created an image and it will try a different combination. If you encounter `You need more layers or elements to grow your edition to 20 artworks!`, with `20` being the number of NFTs you are trying to generate, then it simply means you do not have enough unique items within your layers to create the total number of NFTs that you are trying to create. You need to add more items to your layers, so maybe add a `blank` image so that your layers only sometimes populate. Another item that you can look to modify when you are working with **big** collections is the `uniqueDnaTorrance` setting in the `src/config.js` file. This is set to `10000` by default, but if you might need to make that a higher number and try to generate your collection again. For demo purposes, I set my `uniqueDnaTorrance` to `2` to for demo purposes to trigger the error.
+
+<img width="478" alt="Screenshot 2022-01-14 at 09 33 11" src="https://user-images.githubusercontent.com/52892685/149468855-8e1406d1-9403-4e7a-8406-b47b574c7d11.png">
+
+<img width="191" alt="Screenshot 2022-01-14 at 09 38 09" src="https://user-images.githubusercontent.com/52892685/149469412-49b5fbed-790f-4bf1-a61a-bbb24521c982.png">
+
+
+## EXAMPLE - FILE ALREADY UPLOADED
+When you encounter `5 already uploaded.` error in the uploadFiles script, it means that your json file already contains a `https://xxxx` URL for the `file_url` key. If you would really like to re-upload the image, simply remove the URL value (not the whole line, just the value, otherwise you will see an error if the field key is not there) or change it to `IPFS`, then run the uploadFiles script again and the files will be re-uploaded.
+
+<img width="1137" alt="Screenshot 2022-01-14 at 09 56 57" src="https://user-images.githubusercontent.com/52892685/149471713-41fe163b-de25-4a48-ad24-f7e2c474b3a4.png">
+
+<img width="631" alt="Screenshot 2022-01-14 at 09 56 03" src="https://user-images.githubusercontent.com/52892685/149471584-a8548b72-aa90-4d4c-a4e6-604a85ace6a1.png">
+
+<img width="624" alt="Screenshot 2022-01-14 at 09 58 40" src="https://user-images.githubusercontent.com/52892685/149471944-b46f4316-ee3d-45a7-88b0-50b8e2d3a2c8.png">
+
+<img width="608" alt="Screenshot 2022-01-14 at 09 59 21" src="https://user-images.githubusercontent.com/52892685/149472026-2bd2cb0c-5869-448a-bb7d-baebe056c6a2.png">
+
+<img width="1148" alt="Screenshot 2022-01-14 at 10 03 21" src="https://user-images.githubusercontent.com/52892685/149472534-109be0d2-e61c-448c-8376-6086b3bc5dff.png">
+
+
+## EXAMPLE - UPLOAD GENERIC METAS WITHOUT CREATING GENERIC METAS FILES
+When you are trying to upload your metadata files via the uploadMetas script, but you haven't run the `update_json_to_generic_meta` script before attempting the upload, then the below error will be seen as no `genericJSON` directory can be found.
+
+<img width="1388" alt="Screenshot 2022-01-14 at 10 46 13" src="https://user-images.githubusercontent.com/52892685/149484977-d4ebf628-5c10-44f3-9267-3fe65fe57653.png">
+
+<img width="1388" alt="Screenshot 2022-01-14 at 10 44 21" src="https://user-images.githubusercontent.com/52892685/149483988-6cf54750-90d5-4ad3-84b5-e91846f26917.png">
 
 
 ## EXAMPLE - METADATA ALREADY UPLOADED OUTPUT
 <img width="1594" alt="Screenshot 2022-01-14 at 01 46 44" src="https://user-images.githubusercontent.com/52892685/149426543-1226ae6c-63b6-4ab7-9ee6-8cc8ece04acb.png">
 
 
+## EXAMPLE - MINT FAILED, USING CHECK_MINTS AND REMINT
+<img width="820" alt="Screenshot 2022-01-14 at 01 48 42" src="https://user-images.githubusercontent.com/52892685/149426726-c581480a-b3ef-4f9f-b5b0-a55f02ee0dc2.png">
+
 
 ## EXAMPLE - EDITION ALREADY MINTED
 <img width="545" alt="Screenshot 2022-01-14 at 01 47 30" src="https://user-images.githubusercontent.com/52892685/149426612-5036e729-9e1e-4492-8652-88037d4f054e.png">
 
 
-## EXAMPLE - MINT FAILED, USING CHECK_MINTS AND REMINT
-<img width="820" alt="Screenshot 2022-01-14 at 01 48 42" src="https://user-images.githubusercontent.com/52892685/149426726-c581480a-b3ef-4f9f-b5b0-a55f02ee0dc2.png">
+## EXAMPLE - CONTRACT ALREADY HAS THE GIVEN TOKEN ID
+This means the edition number of the token that you are trying to mint already exists against your contract. Go to your contract address on your chain's explorer and you should see that the tokenid is already there. 
+
+**Please note that there is no need to panic as you can't upload the same tokenid against a given contract, so you won't have any duplicates.**
+
+<img width="1019" alt="Screenshot 2022-01-14 at 10 59 49" src="https://user-images.githubusercontent.com/52892685/149487898-4500a598-2129-4e2c-9a91-f356829e02d9.png">
+
+<img width="1403" alt="Screenshot 2022-01-14 at 11 02 40" src="https://user-images.githubusercontent.com/52892685/149488352-f14a8236-5bea-44d2-8b55-6870884c6364.png">
+
+<img width="1442" alt="Screenshot 2022-01-14 at 11 02 59" src="https://user-images.githubusercontent.com/52892685/149488412-300f54bb-f24a-4b67-8649-c3f13abaf562.png">
+
