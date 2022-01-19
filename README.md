@@ -1,5 +1,15 @@
 # The Peanut Gallery And Co's take on the code bases created by Hashlips and codeSTACKr
 
+To find out more about please visit:
+
+[💻 Discord](https://discord.com/invite/ShakdpwGEn)
+
+[🐦 Twitter](https://twitter.com/PeanutGalAndCo)
+
+[📱 Instagram](https://www.instagram.com/thepeanutgalleryandco/)
+
+[🌲 Linktree](https://linktr.ee/ThePeanutGalleryandco)
+
 Base code is from the below repos - Massive thank you to the teams behind these repos!
 - [hashlips_art_engine](https://github.com/HashLips/hashlips_art_engine)
 - [codeSTACKr](https://github.com/codeSTACKr/video-source-code-create-nft-collection/)
