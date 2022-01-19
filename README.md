@@ -1,6 +1,6 @@
 # The Peanut Gallery And Co's take on the code bases created by Hashlips and codeSTACKr
 
-To find out more about please visit:
+To find out more about The Peanut Gallery And Co, please visit:
 
 [💻 Discord](https://discord.com/invite/ShakdpwGEn)
 
