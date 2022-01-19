@@ -49,9 +49,21 @@ If you would like to support my NFT collection, please take a look at the below.
 Below is a rough guideline of the order in which the processes can be used.
 
 ### 1. Download and unzip the main branch of this repo
+Please note that when extracting the code base, there's two possibilities for the extracted folder. Please always make sure that you are opening the folder in VS Code or your terminal which matches the folder structure in step 2.
+
+#### a. Extracted folder contains another folder called create-and-mint-nft-collection
+If this is the caase when extracting your folder, then be sure to "cd" or move into that folder before running step 2's install commands, otherwise you will receive module errors and the npm installs won't work and your build and upload commands will not work correctly.
+<img width="1040" alt="Screenshot 2022-01-19 at 15 44 26" src="https://user-images.githubusercontent.com/52892685/150142674-9371b030-5d2e-442d-88c4-aa6df8604eea.png">
+
+
+#### b. Extracted folder contains all the files as in step 2
+No need for any extra steps, you can start with step 2 where you run the npm install commands.
+<img width="990" alt="Screenshot 2022-01-19 at 15 46 52" src="https://user-images.githubusercontent.com/52892685/150143042-91287da1-7d54-4a3f-8ced-50915cacdcde.png">
 
 
 ### 2. Run the dependency npm commands in the unzipped folder.
+Ensure that you are in this diretory before running the npm install commands, otherwise some of your commands will not work correctly.
+
 Example of the contents of the root folder before running the installs:
 <img width="1021" alt="Screenshot 2022-01-13 at 12 45 28" src="https://user-images.githubusercontent.com/52892685/149315776-324ddb37-7942-4369-86ee-7ce5d664a0e8.png">
 
