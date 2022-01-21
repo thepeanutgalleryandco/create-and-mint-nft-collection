@@ -3,6 +3,8 @@ const path = require('path');
 const BASEDIR = process.cwd();
 const BUILDPATH = '/build';
 const BUILDDIR = path.join(BASEDIR, `${BUILDPATH}`);
+const BATCHIPFSMETASPATH = '/batchIPFSMetas';
+const BATCHIPFSMETASDIR = path.join(BUILDDIR, `${BATCHIPFSMETASPATH}`);
 const BACKUPPATH = '/backup';
 const BACKUPDIR = path.join(BUILDDIR, `${BACKUPPATH}`);
 const CONSTANTSPATH = '/constants';
@@ -37,9 +39,11 @@ const SOURCEPATH = '/src';
 const SOURCEDIR = path.join(BASEDIR, `${SOURCEPATH}`);
 
 const FOLDERS = {
-  baseDir: `${BASEDIR}`,
+  baseDir: `${BASEDIR}`, 
   buildPath: `${BUILDPATH}`,
   buildDir: `${BUILDDIR}`,
+  batchIPFSMetasPath: `${BATCHIPFSMETASPATH}`,
+  batchIPFSMetasDir: `${BATCHIPFSMETASDIR}`,  
   backupPath: `${BACKUPPATH}`,
   backupDir: `${BACKUPDIR}`,
   constantsPath: `${CONSTANTSPATH}`,
