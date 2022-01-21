@@ -359,7 +359,7 @@ Use the following command from the code's root directory.
 - npm run uploadMetas
 
 
-## EXAMPLE - NO REVEAL
+## EXAMPLE - NO REVEAL (ERC721)
 
 ### Download Repo And Extract
 <img width="1002" alt="Screenshot 2022-01-14 at 01 26 11" src="https://user-images.githubusercontent.com/52892685/149424701-b7db389e-2be7-4be5-a597-af1400cdaa1e.png">
@@ -405,7 +405,7 @@ Use the following command from the code's root directory.
 <img width="623" alt="Screenshot 2022-01-14 at 01 42 34" src="https://user-images.githubusercontent.com/52892685/149426210-8bbc03ae-d658-42c7-9a52-d275883ac738.png">
 
 
-## EXAMPLE - REVEAL
+## EXAMPLE - REVEAL (ERC721)
 ### Download Repo And Extract
 <img width="1002" alt="Screenshot 2022-01-14 at 01 26 11" src="https://user-images.githubusercontent.com/52892685/149424701-b7db389e-2be7-4be5-a597-af1400cdaa1e.png">
 
