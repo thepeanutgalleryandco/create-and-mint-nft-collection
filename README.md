@@ -168,7 +168,7 @@ This process will create a new `genericJSON` directory where the `_metadata.json
 
 **Please remember that your contract needs to be updateable to use this, otherwise this image will stay the image of your NFT, before and after purchase.**
 
-**Please remember to update the file_url field with the URL where the generic image is, otherwise you will get the one in the code base.**
+**Please remember to update the genericURL field with the URL where the generic image is, otherwise you will get the one in the code base.**
 
 
 ### 10. Uploading Files (Images and Metadata)
