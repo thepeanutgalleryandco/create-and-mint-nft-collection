@@ -113,7 +113,7 @@ Modify only the parts that you will be using and keep the rest as set by default
 For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURL` fields. If you want your NFT properties on Opensea to show, for example "Shirt - Blank - 15%", then set the `blankFilenameInLayers` value to false. If you want to remove all "blank" layer items from your NFT properties on Opensea, for example "white_eyes_blank", then set the `ignoreAllNamesWithBlank` value to true.
 
 Example configuration:
-<img width="1605" alt="Screenshot 2022-01-13 at 12 50 38" src="https://user-images.githubusercontent.com/52892685/149316620-6b7f64c3-705c-4ff3-93b6-990180b7f1d5.png">
+<img width="1346" alt="Screenshot 2022-01-21 at 16 57 02" src="https://user-images.githubusercontent.com/52892685/150548633-b6700f26-1359-4610-bcf8-52bdeb14d5fb.png">
 
 
 ### 5. Configure The NFTPort Account Details And API Limits - Only modify this if you are using NFTPort for uploading
@@ -137,7 +137,6 @@ For example, if you are having issues and want more retries on the API or a high
 
 Example configuration:
 <img width="1341" alt="Screenshot 2022-01-21 at 15 15 22" src="https://user-images.githubusercontent.com/52892685/150533194-886a63e5-14f2-46f2-bee1-1428e11144d2.png">
-
 
 
 ### 6. Create Image Layers
@@ -374,11 +373,11 @@ Use the following command from the code's root directory.
 
 
 ### Update constants/account_details.js
-<img width="1599" alt="Screenshot 2022-01-14 at 01 28 02" src="https://user-images.githubusercontent.com/52892685/149424830-25efe8f5-a83f-4c5d-ae55-53ff14345e2b.png">
+<img width="1343" alt="Screenshot 2022-01-21 at 16 49 35" src="https://user-images.githubusercontent.com/52892685/150547469-0ad44be2-6dc5-489e-aee1-9ebda8c1a04f.png">
 
 
 ### Update constants/nft_details.js
-<img width="1597" alt="Screenshot 2022-01-14 at 01 28 27" src="https://user-images.githubusercontent.com/52892685/149424877-e52dc6f2-b365-4905-b261-91bd6fe3a5bb.png">
+<img width="1345" alt="Screenshot 2022-01-21 at 16 58 58" src="https://user-images.githubusercontent.com/52892685/150549003-090c8754-f2e8-4140-90d0-21ba9354d1f8.png">
 
 
 ### Art Engine - Build
@@ -420,11 +419,11 @@ Use the following command from the code's root directory.
 
 ### Update constants/account_details.js
 Make sure that your `uploadGenericMeta` key's value is set to `false` initially and that your contract's `metadata_updatable` value is set to `true`.
-<img width="1387" alt="Screenshot 2022-01-14 at 11 15 57" src="https://user-images.githubusercontent.com/52892685/149490361-b42e8b80-e495-4629-afb5-a1b009e722b8.png">
+<img width="1343" alt="Screenshot 2022-01-21 at 16 49 35" src="https://user-images.githubusercontent.com/52892685/150547469-0ad44be2-6dc5-489e-aee1-9ebda8c1a04f.png">
 
 
 ### Update constants/nft_details.js
-<img width="1597" alt="Screenshot 2022-01-14 at 01 28 27" src="https://user-images.githubusercontent.com/52892685/149424877-e52dc6f2-b365-4905-b261-91bd6fe3a5bb.png">
+<img width="1342" alt="Screenshot 2022-01-21 at 17 01 53" src="https://user-images.githubusercontent.com/52892685/150549665-1fb84e56-3ca1-4697-971f-22fc890b0373.png">
 
 
 ### Art Engine - Build
@@ -432,7 +431,7 @@ Make sure that your `uploadGenericMeta` key's value is set to `false` initially 
 
 
 ### Update JSON To Generic Meta
-This script will utilize the generic field's values set in the `constants/nft_details.js` file and create a new `genericJSON` directory which will contain the metadata that you want to mint for the unrevealed NFTs.
+This script will utilize the generic field's values set in the `constants/nft_details.js` file and create a new `genericJSON` directory which will contain the metadata that you want to mint for the unrevealed NFTs. Ensure that you have updated the generic fields within the `constants/nft_details.js` file before running the script as it will use these fields to build the new generic json files.
 
 <img width="569" alt="Screenshot 2022-01-14 at 11 34 41" src="https://user-images.githubusercontent.com/52892685/149493069-446f1000-d0a4-4dcc-a199-566e7ea1b8a0.png">
 
@@ -463,7 +462,7 @@ Rename the `ipfsMetas` directory to `realIPFSMetas` or anything other than `ipfs
 
 ### Update constants/account_details.js
 Update your `uploadGenericMeta` key's value to `true`.
-<img width="1388" alt="Screenshot 2022-01-14 at 11 07 32" src="https://user-images.githubusercontent.com/52892685/149489118-e8163e8d-bd6f-4a19-8135-990af69b883c.png">
+<img width="1339" alt="Screenshot 2022-01-21 at 17 15 10" src="https://user-images.githubusercontent.com/52892685/150551676-ec480599-a7ab-40f1-9744-c3da9d1b7929.png">
 
 
 ### Upload Metas - This will upload your `genericJSON` directory's files
@@ -507,11 +506,11 @@ Send the API request on the right hand side and if all goes well, then your NFT'
 
 
 ### Update constants/account_details.js
-<img width="1599" alt="Screenshot 2022-01-14 at 01 28 02" src="https://user-images.githubusercontent.com/52892685/149424830-25efe8f5-a83f-4c5d-ae55-53ff14345e2b.png">
+<img width="1343" alt="Screenshot 2022-01-21 at 16 49 35" src="https://user-images.githubusercontent.com/52892685/150547469-0ad44be2-6dc5-489e-aee1-9ebda8c1a04f.png">
 
 
 ### Update constants/nft_details.js
-<img width="1597" alt="Screenshot 2022-01-14 at 01 28 27" src="https://user-images.githubusercontent.com/52892685/149424877-e52dc6f2-b365-4905-b261-91bd6fe3a5bb.png">
+<img width="1345" alt="Screenshot 2022-01-21 at 16 58 58" src="https://user-images.githubusercontent.com/52892685/150549003-090c8754-f2e8-4140-90d0-21ba9354d1f8.png">
 
 
 ### Art Engine - Build
@@ -531,14 +530,21 @@ Send the API request on the right hand side and if all goes well, then your NFT'
 
 
 ### Batch IPFS Metas Migration
+<img width="659" alt="Screenshot 2022-01-21 at 17 19 10" src="https://user-images.githubusercontent.com/52892685/150552305-fd35b413-a6ab-4f39-9249-ff30d7b0ae5a.png">
+
+<img width="254" alt="Screenshot 2022-01-21 at 17 21 59" src="https://user-images.githubusercontent.com/52892685/150552819-c7378d7b-5674-40da-92cf-40bfbe9aaf50.png">
+
+<img width="762" alt="Screenshot 2022-01-21 at 17 22 07" src="https://user-images.githubusercontent.com/52892685/150552867-6ad3f673-4746-4d05-97a7-290c61455fa3.png">
+
+<img width="720" alt="Screenshot 2022-01-21 at 17 22 13" src="https://user-images.githubusercontent.com/52892685/150552889-7f151a3a-a821-4a9b-9cb0-5b25dc038fcb.png">
 
 
-### Mint Batch
-<img width="526" alt="Screenshot 2022-01-14 at 01 41 35" src="https://user-images.githubusercontent.com/52892685/149426121-0cbe6184-5723-43a9-90d1-ad6aff9d9268.png">
+### Mint Batch - This will mint your `unrevealed` NFTs' metadata
+<img width="535" alt="Screenshot 2022-01-21 at 17 27 10" src="https://user-images.githubusercontent.com/52892685/150554008-8c3a57b2-2deb-436a-af57-18fe79f0bd52.png">
 
-<img width="225" alt="Screenshot 2022-01-14 at 11 56 04" src="https://user-images.githubusercontent.com/52892685/149496202-dadf2585-3bcd-4143-bcb2-a13b33c9dff5.png">
+<img width="214" alt="Screenshot 2022-01-21 at 17 28 29" src="https://user-images.githubusercontent.com/52892685/150554028-d76389c7-bc73-4179-95ce-70f14f06016c.png">
 
-<img width="623" alt="Screenshot 2022-01-14 at 01 42 34" src="https://user-images.githubusercontent.com/52892685/149426210-8bbc03ae-d658-42c7-9a52-d275883ac738.png">
+<img width="859" alt="Screenshot 2022-01-21 at 17 31 46" src="https://user-images.githubusercontent.com/52892685/150554401-58ec00cc-6b27-4988-b596-0ded5663f2dc.png">
 
 
 ## EXAMPLE - REVEAL (ERC1155)
@@ -556,11 +562,11 @@ Send the API request on the right hand side and if all goes well, then your NFT'
 
 ### Update constants/account_details.js
 Make sure that your `uploadGenericMeta` key's value is set to `false` initially and that your contract's `metadata_updatable` value is set to `true`.
-<img width="1387" alt="Screenshot 2022-01-14 at 11 15 57" src="https://user-images.githubusercontent.com/52892685/149490361-b42e8b80-e495-4629-afb5-a1b009e722b8.png">
+<img width="1343" alt="Screenshot 2022-01-21 at 16 49 35" src="https://user-images.githubusercontent.com/52892685/150547469-0ad44be2-6dc5-489e-aee1-9ebda8c1a04f.png">
 
 
 ### Update constants/nft_details.js
-<img width="1597" alt="Screenshot 2022-01-14 at 01 28 27" src="https://user-images.githubusercontent.com/52892685/149424877-e52dc6f2-b365-4905-b261-91bd6fe3a5bb.png">
+<img width="1342" alt="Screenshot 2022-01-21 at 17 01 53" src="https://user-images.githubusercontent.com/52892685/150549665-1fb84e56-3ca1-4697-971f-22fc890b0373.png">
 
 
 ### Art Engine - Build
@@ -568,7 +574,7 @@ Make sure that your `uploadGenericMeta` key's value is set to `false` initially 
 
 
 ### Update JSON To Generic Meta
-This script will utilize the generic field's values set in the `constants/nft_details.js` file and create a new `genericJSON` directory which will contain the metadata that you want to mint for the unrevealed NFTs.
+This script will utilize the generic field's values set in the `constants/nft_details.js` file and create a new `genericJSON` directory which will contain the metadata that you want to mint for the unrevealed NFTs. Ensure that you have updated the generic fields within the `constants/nft_details.js` file before running the script as it will use these fields to build the new generic json files.
 
 <img width="569" alt="Screenshot 2022-01-14 at 11 34 41" src="https://user-images.githubusercontent.com/52892685/149493069-446f1000-d0a4-4dcc-a199-566e7ea1b8a0.png">
 
@@ -599,7 +605,7 @@ Rename the `ipfsMetas` directory to `realIPFSMetas` or anything other than `ipfs
 
 ### Update constants/account_details.js
 Update your `uploadGenericMeta` key's value to `true`.
-<img width="1388" alt="Screenshot 2022-01-14 at 11 07 32" src="https://user-images.githubusercontent.com/52892685/149489118-e8163e8d-bd6f-4a19-8135-990af69b883c.png">
+<img width="1339" alt="Screenshot 2022-01-21 at 17 15 10" src="https://user-images.githubusercontent.com/52892685/150551676-ec480599-a7ab-40f1-9744-c3da9d1b7929.png">
 
 
 ### Upload Metas - This will upload your `genericJSON` directory's files
@@ -611,14 +617,21 @@ Update your `uploadGenericMeta` key's value to `true`.
 
 
 ### Batch IPFS Metas Migration
+<img width="659" alt="Screenshot 2022-01-21 at 17 19 10" src="https://user-images.githubusercontent.com/52892685/150552305-fd35b413-a6ab-4f39-9249-ff30d7b0ae5a.png">
+
+<img width="254" alt="Screenshot 2022-01-21 at 17 21 59" src="https://user-images.githubusercontent.com/52892685/150552819-c7378d7b-5674-40da-92cf-40bfbe9aaf50.png">
+
+<img width="762" alt="Screenshot 2022-01-21 at 17 22 07" src="https://user-images.githubusercontent.com/52892685/150552867-6ad3f673-4746-4d05-97a7-290c61455fa3.png">
+
+<img width="720" alt="Screenshot 2022-01-21 at 17 22 13" src="https://user-images.githubusercontent.com/52892685/150552889-7f151a3a-a821-4a9b-9cb0-5b25dc038fcb.png">
 
 
 ### Mint Batch - This will mint your `unrevealed` NFTs' metadata
-<img width="423" alt="Screenshot 2022-01-14 at 11 53 47" src="https://user-images.githubusercontent.com/52892685/149495913-28fd8389-497d-4fd0-b396-f2b16a119fc1.png">
+<img width="535" alt="Screenshot 2022-01-21 at 17 27 10" src="https://user-images.githubusercontent.com/52892685/150554008-8c3a57b2-2deb-436a-af57-18fe79f0bd52.png">
 
-<img width="225" alt="Screenshot 2022-01-14 at 11 56 04" src="https://user-images.githubusercontent.com/52892685/149496202-dadf2585-3bcd-4143-bcb2-a13b33c9dff5.png">
+<img width="214" alt="Screenshot 2022-01-21 at 17 28 29" src="https://user-images.githubusercontent.com/52892685/150554028-d76389c7-bc73-4179-95ce-70f14f06016c.png">
 
-<img width="862" alt="Screenshot 2022-01-14 at 11 58 51" src="https://user-images.githubusercontent.com/52892685/149496615-308986e6-6398-430f-a9b4-a41a765bd7c9.png">
+<img width="859" alt="Screenshot 2022-01-21 at 17 31 46" src="https://user-images.githubusercontent.com/52892685/150554401-58ec00cc-6b27-4988-b596-0ded5663f2dc.png">
 
 
 ### Manually Update Metadata After Purchase
@@ -666,7 +679,15 @@ When you are trying to upload your metadata files via the uploadMetas script, bu
 
 
 ## EXAMPLE - MINT FAILED, USING CHECK_MINTS AND REMINT
-<img width="820" alt="Screenshot 2022-01-14 at 01 48 42" src="https://user-images.githubusercontent.com/52892685/149426726-c581480a-b3ef-4f9f-b5b0-a55f02ee0dc2.png">
+<img width="884" alt="Screenshot 2022-01-21 at 17 48 58" src="https://user-images.githubusercontent.com/52892685/150557178-09646270-945c-42b7-b2a9-b147574ded2e.png">
+
+<img width="215" alt="Screenshot 2022-01-21 at 17 44 30" src="https://user-images.githubusercontent.com/52892685/150556493-5ba8c92a-0d21-4856-9736-3119617c9e9c.png">
+
+
+## EXAMPLE - MINT BATCH FAILED, USING CHECK_MINTS_BATCH AND REMINT_BATCH
+<img width="877" alt="Screenshot 2022-01-21 at 17 44 02" src="https://user-images.githubusercontent.com/52892685/150556470-ce40a4aa-9b79-4b4d-8b09-7cf52a37c47c.png">
+
+<img width="215" alt="Screenshot 2022-01-21 at 17 44 30" src="https://user-images.githubusercontent.com/52892685/150556493-5ba8c92a-0d21-4856-9736-3119617c9e9c.png">
 
 
 ## EXAMPLE - EDITION ALREADY MINTED
