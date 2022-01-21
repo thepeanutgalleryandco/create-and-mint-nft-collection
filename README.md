@@ -45,6 +45,10 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
+### Added Support For ERC1155 Batch Minting And Total Token Count
+The new scripts can now be used to mint NFT editions in batches.
+
+
 ## How To Use The Codebase
 Below is a rough guideline of the order in which the processes can be used.
 
@@ -103,12 +107,13 @@ Update the `constants/nft_details.js` file with the details that you want to be 
 - `genericTitle` - Replace with what you want the generic titles to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `genericDescription` - Replace with what you want the generic descriptions to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `genericURL` - Replace with the image URL that your generic NFTs should show. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
+- `ignoreAllNamesWithBlank` - This value is a boolean with a value of false or true. If true, then any layer item that contains the word blank within the filename will be skipped from being added to the metadata information. When set to false, then the information will be added to the metadata. E.x white_eyes_blank #100.png will be added to metadata if set to false, while being skipped if true.
 
 Modify only the parts that you will be using and keep the rest as set by default.
-For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURL` fields. If you want your NFT properties on Opensea to show, for example "Shirt - Blank - 15%", then set the `blankFilenameInLayers` value to false.
+For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURL` fields. If you want your NFT properties on Opensea to show, for example "Shirt - Blank - 15%", then set the `blankFilenameInLayers` value to false. If you want to remove all "blank" layer items from your NFT properties on Opensea, for example "white_eyes_blank", then set the `ignoreAllNamesWithBlank` value to true.
 
 Example configuration:
-<img width="1605" alt="Screenshot 2022-01-13 at 12 50 38" src="https://user-images.githubusercontent.com/52892685/149316620-6b7f64c3-705c-4ff3-93b6-990180b7f1d5.png">
+<img width="1346" alt="Screenshot 2022-01-21 at 16 57 02" src="https://user-images.githubusercontent.com/52892685/150548633-b6700f26-1359-4610-bcf8-52bdeb14d5fb.png">
 
 
 ### 5. Configure The NFTPort Account Details And API Limits - Only modify this if you are using NFTPort for uploading
@@ -124,12 +129,14 @@ Update the `constants/account_details.js` file with the NFTPort account details.
 - `mint_range` - If you only want to mint a specific range of editions, e.x everything between editions 5 and 10.
 - `mint_item` - If you only want to mint a specific edition, e.x 1.
 - `uploadGenericMeta` - If you are planning on using a reveal, then set this value to true, otherwise keep this as false. When it is true, then the uploadMetas file will read from the genericJSON directory to upload the metadata. If set to false (default), then it will read from the json directory which contains your revealed items.
+- `batch_mint_size` - The number of NFTs that are minted per batch_mint. Maximum is 50 NFTs per batch_mint. This is only applicable to ERC1155 contracts, not ERC721.
+- `batch_mint_nft_amount` - The number of times that each NFT will be minted. For example, if set to 5, then each NFT edition can be sold 5 times. This is only applicable to ERC1155 contracts, not ERC721.
 
 Modify only the parts that you will be using and keep the rest as set by default.
-For example, if you are having issues and want more retries on the API or a higher rate limit, only then modify those fields. If you are planning on only minting a single edition or a range of editions, only then modify those fields. If you are planning on doing a reveal, only then modify the `uploadGenericMeta` field.
+For example, if you are having issues and want more retries on the API or a higher rate limit, only then modify those fields. If you are planning on only minting a single edition or a range of editions, only then modify those fields. If you are planning on doing a reveal, only then modify the `uploadGenericMeta` field. If you are making use of ERC1155 contract, then update the `batch_mint_size` and `batch_mint_nft_amount` fields to change the number of NFTs per mint and the number of times that each NFT can be sold for.
 
 Example configuration:
-<img width="1619" alt="Screenshot 2022-01-13 at 12 51 10" src="https://user-images.githubusercontent.com/52892685/149316724-d88b9ea9-54d4-427c-acd8-ba64857f15dc.png">
+<img width="1341" alt="Screenshot 2022-01-21 at 15 15 22" src="https://user-images.githubusercontent.com/52892685/150533194-886a63e5-14f2-46f2-bee1-1428e11144d2.png">
 
 
 ### 6. Create Image Layers
@@ -138,7 +145,7 @@ Create your different art layers, keeping all of them at the same Canvas size an
 
 ### 7. Art Engine - 
 Review the Hashlips videos on what all of the configuration items in the `src/config.js` file means and what you need to set them to. 
-All of the `Art Engine Commands` make use of this configuration file along with the `constants/account_details.js` file.
+All of the `Art Engine Commands` make use of this configuration file along with the `constants/nft_details.js` file.
 
 Only run the commands from sections a, b and c that you would like to make use of.
 
@@ -168,7 +175,7 @@ This process will create a new `genericJSON` directory where the `_metadata.json
 
 **Please remember that your contract needs to be updateable to use this, otherwise this image will stay the image of your NFT, before and after purchase.**
 
-**Please remember to update the genericURL field with the URL where the generic image is, otherwise you will get the one in the code base.**
+**Please remember to update the genericURL field with the URL where the generic image is located. If you need to upload a single file to IPFS, simply use the NFTPort API via the frontend to upload a file and receive an IPFS URL that you can use for the genericURL field.**
 
 
 ### 10. Uploading Files (Images and Metadata)
@@ -197,33 +204,48 @@ The new json files in the `ipfsMetas` directory will now contain a `metadata_uri
 `Important` - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update the `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file so that the genericJSON directory's metadata will be used instead of the json directory. Please see the section on NFT reveal steps to follow in the example `EXAMPLE - Reveal` below.
 
 
-### 11. Minting NFTs
-- Use the `NFTPort - Mint Command` below to start minting all of your NFTs.
-- Use the `NFTPort - Mint_Range Command` below to start minting a range of NFTs between specific editions.
-- Use the `NFTPort - Mint_Item Command` below to start minting a specific NFT edition.
+### 12. ERC1155 Batch IPFS Metas Migration
+If you would like to make use of batch minting against an ERC1155 contract, you need to run the `Custom - Batch_Ipfs_Metas_Migration` script which will create a new `batchIPFSMetas` directory and it will create numbered json files, for example `1.json` which will contain a list of tokens for that specific batch to be minted, and a new `_batchIPFSMetas.json` file which will be a combined json file of all the numbered json files. The `NFTPort - Mint_Batch Command` will use this file these files to mint the token batches.
+
+Before you use the `Custom - Batch_Ipfs_Metas_Migration` script, please be sure to update the `batch_mint_size` and `batch_mint_nft_amount` key's values to what your requirement is. By default, it is set to 50 for the `batch_mint_size` key and 1 for the `batch_mint_nft_amount` key.
+
+
+### 13. Minting NFTs
+- Use the `NFTPort - Mint_Batch Command` below to start minting against an ERC1155 contract where your mints will happen in batches.
+- Use the `NFTPort - Mint Command` below to start minting against an ERC721 contract where your mint will happen individually.
+- Use the `NFTPort - Mint_Range Command` below to start minting against an ERC721 contract for a range of NFTs between specific editions.
+- Use the `NFTPort - Mint_Item Command` below to start minting against an ERC721 contract for a specific NFT edition.
 
 Before you use the `NFTPort - Mint_Range Command` script, please be sure to update the `mint_range` key's values to the `from` and `to` edition numbers that you would like to attempt to mint. Please note that both of these numbers are `inclusive`.
 
 Before you use the `NFTPort - Mint_Item Command` script, please be sure to update the `mint_item` key's values to the edition number that you would like to attempt to mint.
 
+Before you use the `NFTPort - Mint_Batch Command` script, please be sure to run the `Custom - Batch_Ipfs_Metas_Migration` script.
 
-### 12. Checking NFT Mint Files For Issues
-Use the `Custom - Check Mints Command` below to start checking each mint file to determine if there are any issues with the minted files. The check performs validation of the issues experienced in the `Minting NFTs` section and writes out the json files into a `failedMints` directory. 
 
-The checks that this script performs to determine if a NFT mint has failed are done in all of the minting scripts before a mint is attempted for a specific edition. The reason for adding this script is so that if you have 10 000 NFTs that you minted and you simply run one of the minting scripts again, then it will first scan the relevant edition (depending on the mint command used) and then perform mint. This means if you use the mint script again, it will go through all 10 000 items, every time you run it.
+### 14. Checking NFT Mint Files For Issues
+- Use the `Custom - Check_Mints Command` below to start checking each mint file to determine if there are any issues with the minted files for ERC721 contract files (individual files). 
+- Use the `Custom - Check_Mints_Batch Command` below to start checking each mint file to determine if there are any issues with the minted files for ERC1155 contract files (batch files). 
 
-The check mints script will go through the 10 000 editions once off, check all of their data and provide a list of items that need to be re-minted with the `NFTPort - ReMint Command`, which will only scan the files that got picked up by the check mints process.
+The check performs validation of the issues experienced in the `Minting NFTs` section and writes out the json files into a `failedMints` directory. 
+
+The checks that this script performs to determine if a NFT mint has failed are done in all of the minting scripts before a mint is attempted for a specific file. The reason for adding this script is so that if you have 10 000 NFTs that you minted and you simply run one of the minting scripts again, then it will first scan the relevant file (depending on the mint command used) and then perform mint. This means if you use the mint script again, it will go through all 10 000 items, every time you run it. Should you use batch minting, then less files will be scanned, depending on your batch sizes.
+
+The check mints scripts will go through the files once off, check all of their data and provide a list of items that need to be re-minted with the `NFTPort - Remint Command` or `NFTPort - Remint_Batch Command`, which will only scan the files that got picked up by the check mints processes.
 
 **Please note that every time this runs, it clears out the folder and starts again.**
 
-**Please note that this process takes time to complete as it runs through every minted json file.**
+**Please note that this process can take time to complete as it runs through every minted json file.**
 
 
-### 13. Re-Mint Failed NFTs
-Use the `NFTPort - ReMint Command` below to start re-minting each of the json files in the `failedMints` directory. This process will write out a newly minted file in the `reMinted` directory as well as update the json file in the original `minted` directory. Due to this, a backup folder will be created every time this process runs with the date to keep a backup of the json file in the minted directory at the time of running this process just as a safe guard so that you have access to the original information or how the information changed in between your processing.
+### 15. Re-Mint Failed NFTs
+- Use the `NFTPort - ReMint Command` below to start re-minting each of the json files in the `failedMints` directory for ERC721 (Individual files) contract files. 
+- Use the `NFTPort - ReMint_Batch Command` below to start re-minting each of the json files in the `failedMints` directory for ERC1155 (batch files) contract files.
+
+This process will write out a newly minted file in the `reMinted` directory as well as update the json file in the original `minted` directory. Due to this, a backup folder will be created every time this process runs with the date to keep a backup of the json file in the minted directory at the time of running this process just as a safe guard so that you have access to the original information or how the information changed in between your processing.
 
 
-### 14. Check Your Work On The Marketplace
+### 16. Check Your Work On The Marketplace
 You are done with your minting process!
 Well done!
 Go and check out your mints on your marketplace and refresh the metadata where needde.
@@ -259,9 +281,18 @@ GOOD LUCK!
 ## Main Commands
 Use the following command from the code's root directory.
 
+### Batch_Ipfs_Metas_Migration
+- node utils/custom/batch_ipfs_metas_migration.js
+- npm run batch_ipfs_metas_migration
+
+
 ### Check_Mints
 - node utils/custom/check_mints.js
 - npm run check_mints
+
+### Check_Mints_Batch
+- node utils/custom/check_mints_batch.js
+- npm run check_mints_batch
 
 
 ### Update_Image_Info Command
@@ -287,6 +318,11 @@ Use the following command from the code's root directory.
 ## NFTPort Commands
 Use the following command from the code's root directory.
 
+### Mint_Batch Command
+- node utils/nftport/mint_batch.js
+- npm run mint_batch
+
+
 ### Mint_Item Command
 - node utils/nftport/mint_item.js
 - npm run mint_item
@@ -302,9 +338,14 @@ Use the following command from the code's root directory.
 - npm run mint
 
 
-### ReMint Command
+### Remint Command
 - node utils/nftport/remint.js
 - npm run remint
+
+
+### Remint_Batch Command
+- node utils/nftport/remint_batch.js
+- npm run remint_batch
 
 
 ### UploadFiles Command
@@ -317,7 +358,7 @@ Use the following command from the code's root directory.
 - npm run uploadMetas
 
 
-## EXAMPLE - NO REVEAL
+## EXAMPLE - NO REVEAL (ERC721)
 
 ### Download Repo And Extract
 <img width="1002" alt="Screenshot 2022-01-14 at 01 26 11" src="https://user-images.githubusercontent.com/52892685/149424701-b7db389e-2be7-4be5-a597-af1400cdaa1e.png">
@@ -332,11 +373,11 @@ Use the following command from the code's root directory.
 
 
 ### Update constants/account_details.js
-<img width="1599" alt="Screenshot 2022-01-14 at 01 28 02" src="https://user-images.githubusercontent.com/52892685/149424830-25efe8f5-a83f-4c5d-ae55-53ff14345e2b.png">
+<img width="1343" alt="Screenshot 2022-01-21 at 16 49 35" src="https://user-images.githubusercontent.com/52892685/150547469-0ad44be2-6dc5-489e-aee1-9ebda8c1a04f.png">
 
 
 ### Update constants/nft_details.js
-<img width="1597" alt="Screenshot 2022-01-14 at 01 28 27" src="https://user-images.githubusercontent.com/52892685/149424877-e52dc6f2-b365-4905-b261-91bd6fe3a5bb.png">
+<img width="1345" alt="Screenshot 2022-01-21 at 16 58 58" src="https://user-images.githubusercontent.com/52892685/150549003-090c8754-f2e8-4140-90d0-21ba9354d1f8.png">
 
 
 ### Art Engine - Build
@@ -363,7 +404,7 @@ Use the following command from the code's root directory.
 <img width="623" alt="Screenshot 2022-01-14 at 01 42 34" src="https://user-images.githubusercontent.com/52892685/149426210-8bbc03ae-d658-42c7-9a52-d275883ac738.png">
 
 
-## EXAMPLE - REVEAL
+## EXAMPLE - REVEAL (ERC721)
 ### Download Repo And Extract
 <img width="1002" alt="Screenshot 2022-01-14 at 01 26 11" src="https://user-images.githubusercontent.com/52892685/149424701-b7db389e-2be7-4be5-a597-af1400cdaa1e.png">
 
@@ -378,11 +419,11 @@ Use the following command from the code's root directory.
 
 ### Update constants/account_details.js
 Make sure that your `uploadGenericMeta` key's value is set to `false` initially and that your contract's `metadata_updatable` value is set to `true`.
-<img width="1387" alt="Screenshot 2022-01-14 at 11 15 57" src="https://user-images.githubusercontent.com/52892685/149490361-b42e8b80-e495-4629-afb5-a1b009e722b8.png">
+<img width="1343" alt="Screenshot 2022-01-21 at 16 49 35" src="https://user-images.githubusercontent.com/52892685/150547469-0ad44be2-6dc5-489e-aee1-9ebda8c1a04f.png">
 
 
 ### Update constants/nft_details.js
-<img width="1597" alt="Screenshot 2022-01-14 at 01 28 27" src="https://user-images.githubusercontent.com/52892685/149424877-e52dc6f2-b365-4905-b261-91bd6fe3a5bb.png">
+<img width="1342" alt="Screenshot 2022-01-21 at 17 01 53" src="https://user-images.githubusercontent.com/52892685/150549665-1fb84e56-3ca1-4697-971f-22fc890b0373.png">
 
 
 ### Art Engine - Build
@@ -390,7 +431,7 @@ Make sure that your `uploadGenericMeta` key's value is set to `false` initially 
 
 
 ### Update JSON To Generic Meta
-This script will utilize the generic field's values set in the `constants/nft_details.js` file and create a new `genericJSON` directory which will contain the metadata that you want to mint for the unrevealed NFTs.
+This script will utilize the generic field's values set in the `constants/nft_details.js` file and create a new `genericJSON` directory which will contain the metadata that you want to mint for the unrevealed NFTs. Ensure that you have updated the generic fields within the `constants/nft_details.js` file before running the script as it will use these fields to build the new generic json files.
 
 <img width="569" alt="Screenshot 2022-01-14 at 11 34 41" src="https://user-images.githubusercontent.com/52892685/149493069-446f1000-d0a4-4dcc-a199-566e7ea1b8a0.png">
 
@@ -421,7 +462,7 @@ Rename the `ipfsMetas` directory to `realIPFSMetas` or anything other than `ipfs
 
 ### Update constants/account_details.js
 Update your `uploadGenericMeta` key's value to `true`.
-<img width="1388" alt="Screenshot 2022-01-14 at 11 07 32" src="https://user-images.githubusercontent.com/52892685/149489118-e8163e8d-bd6f-4a19-8135-990af69b883c.png">
+<img width="1339" alt="Screenshot 2022-01-21 at 17 15 10" src="https://user-images.githubusercontent.com/52892685/150551676-ec480599-a7ab-40f1-9744-c3da9d1b7929.png">
 
 
 ### Upload Metas - This will upload your `genericJSON` directory's files
@@ -449,6 +490,158 @@ Send the API request on the right hand side and if all goes well, then your NFT'
 
 <img width="569" alt="Screenshot 2022-01-14 at 11 48 39" src="https://user-images.githubusercontent.com/52892685/149495092-87ba2020-940b-47d5-b4ac-f83544db869f.png">
 
+
+## EXAMPLE - NO REVEAL (ERC1155)
+
+### Download Repo And Extract
+<img width="1002" alt="Screenshot 2022-01-14 at 01 26 11" src="https://user-images.githubusercontent.com/52892685/149424701-b7db389e-2be7-4be5-a597-af1400cdaa1e.png">
+
+
+### Install Packages
+<img width="1188" alt="Screenshot 2022-01-14 at 01 31 50" src="https://user-images.githubusercontent.com/52892685/149425212-9bc5dc99-a0b8-4216-8481-d1d1fe533ee0.png">
+
+
+### Update src/config.js
+<img width="1257" alt="Screenshot 2022-01-14 at 01 33 20" src="https://user-images.githubusercontent.com/52892685/149425340-fcdec29c-7e11-44d8-8f84-49d2d8b64464.png">
+
+
+### Update constants/account_details.js
+<img width="1343" alt="Screenshot 2022-01-21 at 16 49 35" src="https://user-images.githubusercontent.com/52892685/150547469-0ad44be2-6dc5-489e-aee1-9ebda8c1a04f.png">
+
+
+### Update constants/nft_details.js
+<img width="1345" alt="Screenshot 2022-01-21 at 16 58 58" src="https://user-images.githubusercontent.com/52892685/150549003-090c8754-f2e8-4140-90d0-21ba9354d1f8.png">
+
+
+### Art Engine - Build
+<img width="1167" alt="Screenshot 2022-01-14 at 01 35 14" src="https://user-images.githubusercontent.com/52892685/149425539-a5208921-cc64-4594-b3c5-0fa981254abb.png">
+
+
+### Upload Files
+<img width="1311" alt="Screenshot 2022-01-14 at 01 37 22" src="https://user-images.githubusercontent.com/52892685/149425728-b15be911-e988-4b0b-993b-71dc98d258a8.png">
+
+<img width="755" alt="Screenshot 2022-01-14 at 01 38 23" src="https://user-images.githubusercontent.com/52892685/149425829-0e99b018-0338-4d5c-912e-1b34864b811c.png">
+
+
+### Upload Metas
+<img width="1552" alt="Screenshot 2022-01-14 at 01 39 46" src="https://user-images.githubusercontent.com/52892685/149425953-716edba4-da7f-43f8-b901-5a67606dd50e.png">
+
+<img width="520" alt="Screenshot 2022-01-14 at 01 40 49" src="https://user-images.githubusercontent.com/52892685/149426049-68feafe4-84d0-4838-911d-671ed3d4415f.png">
+
+
+### Batch IPFS Metas Migration
+<img width="659" alt="Screenshot 2022-01-21 at 17 19 10" src="https://user-images.githubusercontent.com/52892685/150552305-fd35b413-a6ab-4f39-9249-ff30d7b0ae5a.png">
+
+<img width="254" alt="Screenshot 2022-01-21 at 17 21 59" src="https://user-images.githubusercontent.com/52892685/150552819-c7378d7b-5674-40da-92cf-40bfbe9aaf50.png">
+
+<img width="762" alt="Screenshot 2022-01-21 at 17 22 07" src="https://user-images.githubusercontent.com/52892685/150552867-6ad3f673-4746-4d05-97a7-290c61455fa3.png">
+
+<img width="720" alt="Screenshot 2022-01-21 at 17 22 13" src="https://user-images.githubusercontent.com/52892685/150552889-7f151a3a-a821-4a9b-9cb0-5b25dc038fcb.png">
+
+
+### Mint Batch - This will mint your `unrevealed` NFTs' metadata
+<img width="535" alt="Screenshot 2022-01-21 at 17 27 10" src="https://user-images.githubusercontent.com/52892685/150554008-8c3a57b2-2deb-436a-af57-18fe79f0bd52.png">
+
+<img width="214" alt="Screenshot 2022-01-21 at 17 28 29" src="https://user-images.githubusercontent.com/52892685/150554028-d76389c7-bc73-4179-95ce-70f14f06016c.png">
+
+<img width="859" alt="Screenshot 2022-01-21 at 17 31 46" src="https://user-images.githubusercontent.com/52892685/150554401-58ec00cc-6b27-4988-b596-0ded5663f2dc.png">
+
+
+## EXAMPLE - REVEAL (ERC1155)
+### Download Repo And Extract
+<img width="1002" alt="Screenshot 2022-01-14 at 01 26 11" src="https://user-images.githubusercontent.com/52892685/149424701-b7db389e-2be7-4be5-a597-af1400cdaa1e.png">
+
+
+### Install Packages
+<img width="1188" alt="Screenshot 2022-01-14 at 01 31 50" src="https://user-images.githubusercontent.com/52892685/149425212-9bc5dc99-a0b8-4216-8481-d1d1fe533ee0.png">
+
+
+### Update src/config.js
+<img width="1257" alt="Screenshot 2022-01-14 at 01 33 20" src="https://user-images.githubusercontent.com/52892685/149425340-fcdec29c-7e11-44d8-8f84-49d2d8b64464.png">
+
+
+### Update constants/account_details.js
+Make sure that your `uploadGenericMeta` key's value is set to `false` initially and that your contract's `metadata_updatable` value is set to `true`.
+<img width="1343" alt="Screenshot 2022-01-21 at 16 49 35" src="https://user-images.githubusercontent.com/52892685/150547469-0ad44be2-6dc5-489e-aee1-9ebda8c1a04f.png">
+
+
+### Update constants/nft_details.js
+<img width="1342" alt="Screenshot 2022-01-21 at 17 01 53" src="https://user-images.githubusercontent.com/52892685/150549665-1fb84e56-3ca1-4697-971f-22fc890b0373.png">
+
+
+### Art Engine - Build
+<img width="1167" alt="Screenshot 2022-01-14 at 01 35 14" src="https://user-images.githubusercontent.com/52892685/149425539-a5208921-cc64-4594-b3c5-0fa981254abb.png">
+
+
+### Update JSON To Generic Meta
+This script will utilize the generic field's values set in the `constants/nft_details.js` file and create a new `genericJSON` directory which will contain the metadata that you want to mint for the unrevealed NFTs. Ensure that you have updated the generic fields within the `constants/nft_details.js` file before running the script as it will use these fields to build the new generic json files.
+
+<img width="569" alt="Screenshot 2022-01-14 at 11 34 41" src="https://user-images.githubusercontent.com/52892685/149493069-446f1000-d0a4-4dcc-a199-566e7ea1b8a0.png">
+
+<img width="222" alt="Screenshot 2022-01-14 at 11 34 24" src="https://user-images.githubusercontent.com/52892685/149493036-6ef22890-73f0-45e9-84f3-63c8d6018481.png">
+
+<img width="617" alt="Screenshot 2022-01-14 at 11 24 26" src="https://user-images.githubusercontent.com/52892685/149491586-621410d4-1620-4f85-aa73-272eceac77c0.png">
+
+
+### Upload Files
+<img width="1311" alt="Screenshot 2022-01-14 at 01 37 22" src="https://user-images.githubusercontent.com/52892685/149425728-b15be911-e988-4b0b-993b-71dc98d258a8.png">
+
+<img width="755" alt="Screenshot 2022-01-14 at 01 38 23" src="https://user-images.githubusercontent.com/52892685/149425829-0e99b018-0338-4d5c-912e-1b34864b811c.png">
+
+
+### Upload Metas - This will upload your `json` directory's files
+<img width="1552" alt="Screenshot 2022-01-14 at 01 39 46" src="https://user-images.githubusercontent.com/52892685/149425953-716edba4-da7f-43f8-b901-5a67606dd50e.png">
+
+<img width="227" alt="Screenshot 2022-01-14 at 11 36 52" src="https://user-images.githubusercontent.com/52892685/149493374-4cd82378-52c7-4244-b5d0-2786b28280f1.png">
+
+<img width="520" alt="Screenshot 2022-01-14 at 01 40 49" src="https://user-images.githubusercontent.com/52892685/149426049-68feafe4-84d0-4838-911d-671ed3d4415f.png">
+
+
+### Rename `ipfsMetas` directory 
+Rename the `ipfsMetas` directory to `realIPFSMetas` or anything other than `ipfsMetas` as these are the files to be used for revealing your data after purchases.
+
+<img width="224" alt="Screenshot 2022-01-14 at 11 19 53" src="https://user-images.githubusercontent.com/52892685/149490897-c7edcaca-d620-474d-9569-d0668f8cc57b.png">
+
+
+### Update constants/account_details.js
+Update your `uploadGenericMeta` key's value to `true`.
+<img width="1339" alt="Screenshot 2022-01-21 at 17 15 10" src="https://user-images.githubusercontent.com/52892685/150551676-ec480599-a7ab-40f1-9744-c3da9d1b7929.png">
+
+
+### Upload Metas - This will upload your `genericJSON` directory's files
+<img width="1380" alt="Screenshot 2022-01-14 at 11 31 40" src="https://user-images.githubusercontent.com/52892685/149492663-2a278c8f-786a-4ffa-bc53-c2399fdf6a83.png">
+
+<img width="228" alt="Screenshot 2022-01-14 at 11 37 54" src="https://user-images.githubusercontent.com/52892685/149493517-5a087df0-0a6f-4bf8-827b-13f921170502.png">
+
+<img width="619" alt="Screenshot 2022-01-14 at 11 28 04" src="https://user-images.githubusercontent.com/52892685/149492147-cd7b71ad-e3b6-4d97-9ea7-f41309766157.png">
+
+
+### Batch IPFS Metas Migration
+<img width="659" alt="Screenshot 2022-01-21 at 17 19 10" src="https://user-images.githubusercontent.com/52892685/150552305-fd35b413-a6ab-4f39-9249-ff30d7b0ae5a.png">
+
+<img width="254" alt="Screenshot 2022-01-21 at 17 21 59" src="https://user-images.githubusercontent.com/52892685/150552819-c7378d7b-5674-40da-92cf-40bfbe9aaf50.png">
+
+<img width="762" alt="Screenshot 2022-01-21 at 17 22 07" src="https://user-images.githubusercontent.com/52892685/150552867-6ad3f673-4746-4d05-97a7-290c61455fa3.png">
+
+<img width="720" alt="Screenshot 2022-01-21 at 17 22 13" src="https://user-images.githubusercontent.com/52892685/150552889-7f151a3a-a821-4a9b-9cb0-5b25dc038fcb.png">
+
+
+### Mint Batch - This will mint your `unrevealed` NFTs' metadata
+<img width="535" alt="Screenshot 2022-01-21 at 17 27 10" src="https://user-images.githubusercontent.com/52892685/150554008-8c3a57b2-2deb-436a-af57-18fe79f0bd52.png">
+
+<img width="214" alt="Screenshot 2022-01-21 at 17 28 29" src="https://user-images.githubusercontent.com/52892685/150554028-d76389c7-bc73-4179-95ce-70f14f06016c.png">
+
+<img width="859" alt="Screenshot 2022-01-21 at 17 31 46" src="https://user-images.githubusercontent.com/52892685/150554401-58ec00cc-6b27-4988-b596-0ded5663f2dc.png">
+
+
+### Manually Update Metadata After Purchase
+Once your NFT has sold, go to [NFTPort](https://www.nftport.xyz/) and go to the docs / API section. From there, go to the Minting section and choose the `Update a minted NFT` API. Take the packet on the API's right hand side and update it with the details from your unrevealed folder. (`realIPFSMetas or whatever you called your backup folder`)
+
+Send the API request on the right hand side and if all goes well, then your NFT's metadata will now be updated and the revealed image will show.
+
+**Please note that if you want to freeze the metadata so that no more updates can happen, then include the optional `freeze_metadata: true` field and key to the json packet that you will send in the API call**
+
+<img width="569" alt="Screenshot 2022-01-14 at 11 48 39" src="https://user-images.githubusercontent.com/52892685/149495092-87ba2020-940b-47d5-b4ac-f83544db869f.png">
 
 
 ## EXAMPLE - DNA EXISTS AND NEED MORE LAYERS TO GROW EDITION
@@ -486,7 +679,15 @@ When you are trying to upload your metadata files via the uploadMetas script, bu
 
 
 ## EXAMPLE - MINT FAILED, USING CHECK_MINTS AND REMINT
-<img width="820" alt="Screenshot 2022-01-14 at 01 48 42" src="https://user-images.githubusercontent.com/52892685/149426726-c581480a-b3ef-4f9f-b5b0-a55f02ee0dc2.png">
+<img width="884" alt="Screenshot 2022-01-21 at 17 48 58" src="https://user-images.githubusercontent.com/52892685/150557178-09646270-945c-42b7-b2a9-b147574ded2e.png">
+
+<img width="215" alt="Screenshot 2022-01-21 at 17 44 30" src="https://user-images.githubusercontent.com/52892685/150556493-5ba8c92a-0d21-4856-9736-3119617c9e9c.png">
+
+
+## EXAMPLE - MINT BATCH FAILED, USING CHECK_MINTS_BATCH AND REMINT_BATCH
+<img width="877" alt="Screenshot 2022-01-21 at 17 44 02" src="https://user-images.githubusercontent.com/52892685/150556470-ce40a4aa-9b79-4b4d-8b09-7cf52a37c47c.png">
+
+<img width="215" alt="Screenshot 2022-01-21 at 17 44 30" src="https://user-images.githubusercontent.com/52892685/150556493-5ba8c92a-0d21-4856-9736-3119617c9e9c.png">
 
 
 ## EXAMPLE - EDITION ALREADY MINTED
