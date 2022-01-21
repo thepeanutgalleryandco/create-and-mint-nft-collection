@@ -176,7 +176,7 @@ This process will create a new `genericJSON` directory where the `_metadata.json
 
 **Please remember that your contract needs to be updateable to use this, otherwise this image will stay the image of your NFT, before and after purchase.**
 
-**Please remember to update the genericURL field with the URL where the generic image is, otherwise you will get the one in the code base.**
+**Please remember to update the genericURL field with the URL where the generic image is located. If you need to upload a single file to IPFS, simply use the NFTPort API via the frontend to upload a file and receive an IPFS URL that you can use for the genericURL field.**
 
 
 ### 10. Uploading Files (Images and Metadata)
@@ -205,33 +205,48 @@ The new json files in the `ipfsMetas` directory will now contain a `metadata_uri
 `Important` - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update the `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file so that the genericJSON directory's metadata will be used instead of the json directory. Please see the section on NFT reveal steps to follow in the example `EXAMPLE - Reveal` below.
 
 
-### 11. Minting NFTs
-- Use the `NFTPort - Mint Command` below to start minting all of your NFTs.
-- Use the `NFTPort - Mint_Range Command` below to start minting a range of NFTs between specific editions.
-- Use the `NFTPort - Mint_Item Command` below to start minting a specific NFT edition.
+### 12. ERC1155 Batch IPFS Metas Migration
+If you would like to make use of batch minting against an ERC1155 contract, you need to run the `Custom - Batch_Ipfs_Metas_Migration` script which will create a new `batchIPFSMetas` directory and it will create numbered json files, for example `1.json` which will contain a list of tokens for that specific batch to be minted, and a new `_batchIPFSMetas.json` file which will be a combined json file of all the numbered json files. The `NFTPort - Mint_Batch Command` will use this file these files to mint the token batches.
+
+Before you use the `Custom - Batch_Ipfs_Metas_Migration` script, please be sure to update the `batch_mint_size` and `batch_mint_nft_amount` key's values to what your requirement is. By default, it is set to 50 for the `batch_mint_size` key and 1 for the `batch_mint_nft_amount` key.
+
+
+### 13. Minting NFTs
+- Use the `NFTPort - Mint_Batch Command` below to start minting against an ERC1155 contract where your mints will happen in batches.
+- Use the `NFTPort - Mint Command` below to start minting against an ERC721 contract where your mint will happen individually.
+- Use the `NFTPort - Mint_Range Command` below to start minting against an ERC721 contract for a range of NFTs between specific editions.
+- Use the `NFTPort - Mint_Item Command` below to start minting against an ERC721 contract for a specific NFT edition.
 
 Before you use the `NFTPort - Mint_Range Command` script, please be sure to update the `mint_range` key's values to the `from` and `to` edition numbers that you would like to attempt to mint. Please note that both of these numbers are `inclusive`.
 
 Before you use the `NFTPort - Mint_Item Command` script, please be sure to update the `mint_item` key's values to the edition number that you would like to attempt to mint.
 
+Before you use the `NFTPort - Mint_Batch Command` script, please be sure to run the `Custom - Batch_Ipfs_Metas_Migration` script.
 
-### 12. Checking NFT Mint Files For Issues
-Use the `Custom - Check Mints Command` below to start checking each mint file to determine if there are any issues with the minted files. The check performs validation of the issues experienced in the `Minting NFTs` section and writes out the json files into a `failedMints` directory. 
 
-The checks that this script performs to determine if a NFT mint has failed are done in all of the minting scripts before a mint is attempted for a specific edition. The reason for adding this script is so that if you have 10 000 NFTs that you minted and you simply run one of the minting scripts again, then it will first scan the relevant edition (depending on the mint command used) and then perform mint. This means if you use the mint script again, it will go through all 10 000 items, every time you run it.
+### 14. Checking NFT Mint Files For Issues
+- Use the `Custom - Check_Mints Command` below to start checking each mint file to determine if there are any issues with the minted files for ERC721 contract files (individual files). 
+- Use the `Custom - Check_Mints_Batch Command` below to start checking each mint file to determine if there are any issues with the minted files for ERC1155 contract files (batch files). 
 
-The check mints script will go through the 10 000 editions once off, check all of their data and provide a list of items that need to be re-minted with the `NFTPort - ReMint Command`, which will only scan the files that got picked up by the check mints process.
+The check performs validation of the issues experienced in the `Minting NFTs` section and writes out the json files into a `failedMints` directory. 
+
+The checks that this script performs to determine if a NFT mint has failed are done in all of the minting scripts before a mint is attempted for a specific file. The reason for adding this script is so that if you have 10 000 NFTs that you minted and you simply run one of the minting scripts again, then it will first scan the relevant file (depending on the mint command used) and then perform mint. This means if you use the mint script again, it will go through all 10 000 items, every time you run it. Should you use batch minting, then less files will be scanned, depending on your batch sizes.
+
+The check mints scripts will go through the files once off, check all of their data and provide a list of items that need to be re-minted with the `NFTPort - Remint Command` or `NFTPort - Remint_Batch Command`, which will only scan the files that got picked up by the check mints processes.
 
 **Please note that every time this runs, it clears out the folder and starts again.**
 
-**Please note that this process takes time to complete as it runs through every minted json file.**
+**Please note that this process can take time to complete as it runs through every minted json file.**
 
 
-### 13. Re-Mint Failed NFTs
-Use the `NFTPort - ReMint Command` below to start re-minting each of the json files in the `failedMints` directory. This process will write out a newly minted file in the `reMinted` directory as well as update the json file in the original `minted` directory. Due to this, a backup folder will be created every time this process runs with the date to keep a backup of the json file in the minted directory at the time of running this process just as a safe guard so that you have access to the original information or how the information changed in between your processing.
+### 15. Re-Mint Failed NFTs
+- Use the `NFTPort - ReMint Command` below to start re-minting each of the json files in the `failedMints` directory for ERC721 (Individual files) contract files. 
+- Use the `NFTPort - ReMint_Batch Command` below to start re-minting each of the json files in the `failedMints` directory for ERC1155 (batch files) contract files.
+
+This process will write out a newly minted file in the `reMinted` directory as well as update the json file in the original `minted` directory. Due to this, a backup folder will be created every time this process runs with the date to keep a backup of the json file in the minted directory at the time of running this process just as a safe guard so that you have access to the original information or how the information changed in between your processing.
 
 
-### 14. Check Your Work On The Marketplace
+### 16. Check Your Work On The Marketplace
 You are done with your minting process!
 Well done!
 Go and check out your mints on your marketplace and refresh the metadata where needde.
@@ -267,9 +282,18 @@ GOOD LUCK!
 ## Main Commands
 Use the following command from the code's root directory.
 
+### Batch_Ipfs_Metas_Migration
+- node utils/custom/batch_ipfs_metas_migration.js
+- npm run batch_ipfs_metas_migration
+
+
 ### Check_Mints
 - node utils/custom/check_mints.js
 - npm run check_mints
+
+### Check_Mints_Batch
+- node utils/custom/check_mints_batch.js
+- npm run check_mints_batch
 
 
 ### Update_Image_Info Command
@@ -295,6 +319,11 @@ Use the following command from the code's root directory.
 ## NFTPort Commands
 Use the following command from the code's root directory.
 
+### Mint_Batch Command
+- node utils/nftport/mint_batch.js
+- npm run mint_batch
+
+
 ### Mint_Item Command
 - node utils/nftport/mint_item.js
 - npm run mint_item
@@ -310,9 +339,14 @@ Use the following command from the code's root directory.
 - npm run mint
 
 
-### ReMint Command
+### Remint Command
 - node utils/nftport/remint.js
 - npm run remint
+
+
+### Remint_Batch Command
+- node utils/nftport/remint_batch.js
+- npm run remint_batch
 
 
 ### UploadFiles Command
