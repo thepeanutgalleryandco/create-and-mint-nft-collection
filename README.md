@@ -45,6 +45,10 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
+### Added Support For ERC1155 Batch Minting And Total Token Count
+The new scripts can now be used to mint NFT editions in batches.
+
+
 ## How To Use The Codebase
 Below is a rough guideline of the order in which the processes can be used.
 
@@ -103,9 +107,10 @@ Update the `constants/nft_details.js` file with the details that you want to be 
 - `genericTitle` - Replace with what you want the generic titles to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `genericDescription` - Replace with what you want the generic descriptions to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `genericURL` - Replace with the image URL that your generic NFTs should show. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
+- `ignoreAllNamesWithBlank` - This value is a boolean with a value of false or true. If true, then any layer item that contains the word blank within the filename will be skipped from being added to the metadata information. When set to false, then the information will be added to the metadata. E.x white_eyes_blank #100.png will be added to metadata if set to false, while being skipped if true.
 
 Modify only the parts that you will be using and keep the rest as set by default.
-For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURL` fields. If you want your NFT properties on Opensea to show, for example "Shirt - Blank - 15%", then set the `blankFilenameInLayers` value to false.
+For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURL` fields. If you want your NFT properties on Opensea to show, for example "Shirt - Blank - 15%", then set the `blankFilenameInLayers` value to false. If you want to remove all "blank" layer items from your NFT properties on Opensea, for example "white_eyes_blank", then set the `ignoreAllNamesWithBlank` value to true.
 
 Example configuration:
 <img width="1605" alt="Screenshot 2022-01-13 at 12 50 38" src="https://user-images.githubusercontent.com/52892685/149316620-6b7f64c3-705c-4ff3-93b6-990180b7f1d5.png">
@@ -124,12 +129,15 @@ Update the `constants/account_details.js` file with the NFTPort account details.
 - `mint_range` - If you only want to mint a specific range of editions, e.x everything between editions 5 and 10.
 - `mint_item` - If you only want to mint a specific edition, e.x 1.
 - `uploadGenericMeta` - If you are planning on using a reveal, then set this value to true, otherwise keep this as false. When it is true, then the uploadMetas file will read from the genericJSON directory to upload the metadata. If set to false (default), then it will read from the json directory which contains your revealed items.
+- `batch_mint_size` - The number of NFTs that are minted per batch_mint. Maximum is 50 NFTs per batch_mint. This is only applicable to ERC1155 contracts, not ERC721.
+- `batch_mint_nft_amount` - The number of times that each NFT will be minted. For example, if set to 5, then each NFT edition can be sold 5 times. This is only applicable to ERC1155 contracts, not ERC721.
 
 Modify only the parts that you will be using and keep the rest as set by default.
-For example, if you are having issues and want more retries on the API or a higher rate limit, only then modify those fields. If you are planning on only minting a single edition or a range of editions, only then modify those fields. If you are planning on doing a reveal, only then modify the `uploadGenericMeta` field.
+For example, if you are having issues and want more retries on the API or a higher rate limit, only then modify those fields. If you are planning on only minting a single edition or a range of editions, only then modify those fields. If you are planning on doing a reveal, only then modify the `uploadGenericMeta` field. If you are making use of ERC1155 contract, then update the `batch_mint_size` and `batch_mint_nft_amount` fields to change the number of NFTs per mint and the number of times that each NFT can be sold for.
 
 Example configuration:
-<img width="1619" alt="Screenshot 2022-01-13 at 12 51 10" src="https://user-images.githubusercontent.com/52892685/149316724-d88b9ea9-54d4-427c-acd8-ba64857f15dc.png">
+<img width="1341" alt="Screenshot 2022-01-21 at 15 15 22" src="https://user-images.githubusercontent.com/52892685/150533194-886a63e5-14f2-46f2-bee1-1428e11144d2.png">
+
 
 
 ### 6. Create Image Layers
@@ -138,7 +146,7 @@ Create your different art layers, keeping all of them at the same Canvas size an
 
 ### 7. Art Engine - 
 Review the Hashlips videos on what all of the configuration items in the `src/config.js` file means and what you need to set them to. 
-All of the `Art Engine Commands` make use of this configuration file along with the `constants/account_details.js` file.
+All of the `Art Engine Commands` make use of this configuration file along with the `constants/nft_details.js` file.
 
 Only run the commands from sections a, b and c that you would like to make use of.
 
