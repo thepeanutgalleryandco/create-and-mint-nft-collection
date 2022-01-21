@@ -52,7 +52,7 @@ async function main() {
         // Throw an error so that the JSON object can be minted again.
         if(mintedMeta.mintData.response !== "OK" || mintedMeta.mintData.error !== null) {
           console.log(`Response: ${mintedMeta.mintData.response} , Error: ${mintedMeta.mintData.error} found, will remint ${FOLDERS.mintedDir}/${batchCounter}.json`);
-          throw 'Edition not minted at all'
+          throw 'File not minted at all'
         } // If the response was OK and the error was null, then check the transaction on the online explorer.
           else {
 
@@ -75,12 +75,12 @@ async function main() {
               // Throw an error so that the JSON object can be minted again.
               if (text.toLowerCase().includes('search not found')) {
                 console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but transaction was not found. Will remint ${FOLDERS.mintedDir}/${batchCounter}.json`);
-                throw 'Edition minted, but not on blockchain'
+                throw 'File minted, but not on blockchain'
               } // Check if the HTML text contains the works 'fail or failed'
                 // Throw an error so that the JSON object can be minted again.
                 else if (text.toLowerCase().includes('</i>fail</span>') || text.toLowerCase().includes('</i>failed</span>')) {
                 console.log(`${mintedMeta.mintData.transaction_external_url} was minted, but the transaction has a failed status on the blockchain. Will remint ${FOLDERS.mintedDir}/${batchCounter}.json`);
-                throw 'Edition minted, but is in a failed status on the blockchain'
+                throw 'File minted, but is in a failed status on the blockchain'
               }
 
               return ;
@@ -221,6 +221,6 @@ async function fetchWithRetry(meta) {
 }
 
 // Constant that is used to created a json file within the mintedDir directory for every JSON object that got minted and no errors were thrown.
-const writeMintData = (_edition, _data) => {
-  fs.writeFileSync(`${FOLDERS.mintedDir}/${_edition}.json`, JSON.stringify(_data, null, 2));
+const writeMintData = (_file, _data) => {
+  fs.writeFileSync(`${FOLDERS.mintedDir}/${_file}.json`, JSON.stringify(_data, null, 2));
 };
