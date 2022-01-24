@@ -85,6 +85,8 @@ Modify the following parts at the very least, below are just sample values that 
 <img width="1134" alt="Screenshot 2022-01-13 at 12 47 25" src="https://user-images.githubusercontent.com/52892685/149316077-8479678d-57fc-418f-9a91-4d74c26e8b59.png">
 
 #### b. Update your layer folder names, order in which they need to be processed and the number of images to create
+**Please ensure that you do not add "-" (dashes) in your layer item names as this will break your image building process due to the DNA delimiter using a dash**
+
 <img width="420" alt="Screenshot 2022-01-13 at 12 47 53" src="https://user-images.githubusercontent.com/52892685/149316165-e1b92db3-ce8d-428e-9b30-76f2b606f960.png">
 
 
@@ -103,17 +105,17 @@ Update the `constants/nft_details.js` file with the details that you want to be 
 - `namePrefix` - The name prefix that will be added for each of your NFTs. Ex. Steaks #1, Steaks #2
 - `imageFilesBase` - Pinned IPFS CID when making use of a service like Pinata. Ex. QmP12prm2rp1omr1Ap2orm1oprm12FQWFQOFOGdnasnsda . Only update this if you are planning to upload the files via a service other than NFTPort where you host a single URL / CID base.
 - `metaDataJSONFilesBase` - Pinned IPFS CID when making use of a service like Pinata. Ex. QmP12prm2rp1omr1Ap2orm1oprm12FQWFQOFOGdnasnsda . Only update this if you are planning to upload the files via a service other than NFTPort where you host a single URL / CID base.
-- `blankFilenameInLayers` - This value is a boolean with a value of false or true. If true, then any layer that contains "blank" in the metadata will be skipped and not added to the properties of the NFT. When set to false, then the information will be added to the metadata and added to the properties of the NFT.
+- `ignoreExactBlankName` - This value is a boolean with a value of false or true. If true, then any layer that contains only the name "blank" with a rarity character and value in the metadata will be skipped and not added to the properties of the NFT. When set to false, then the information will be added to the metadata and added to the properties of the NFT.
 - `genericTitle` - Replace with what you want the generic titles to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `genericDescription` - Replace with what you want the generic descriptions to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `genericURL` - Replace with the image URL that your generic NFTs should show. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `ignoreAllNamesWithBlank` - This value is a boolean with a value of false or true. If true, then any layer item that contains the word blank within the filename will be skipped from being added to the metadata information. When set to false, then the information will be added to the metadata. E.x white_eyes_blank #100.png will be added to metadata if set to false, while being skipped if true.
 
 Modify only the parts that you will be using and keep the rest as set by default.
-For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURL` fields. If you want your NFT properties on Opensea to show, for example "Shirt - Blank - 15%", then set the `blankFilenameInLayers` value to false. If you want to remove all "blank" layer items from your NFT properties on Opensea, for example "white_eyes_blank", then set the `ignoreAllNamesWithBlank` value to true.
+For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURL` fields. If you want your NFT properties on Opensea to show, for example "Blank #15.png", then set the `ignoreExactBlankName` value to false. If you want to remove all "blank" layer items from your NFT properties on Opensea, for example "white_eyes_blank #10.png", then set the `ignoreAllNamesWithBlank` value to true.
 
 Example configuration:
-<img width="1346" alt="Screenshot 2022-01-21 at 16 57 02" src="https://user-images.githubusercontent.com/52892685/150548633-b6700f26-1359-4610-bcf8-52bdeb14d5fb.png">
+<img width="1100" alt="Screenshot 2022-01-24 at 11 13 59" src="https://user-images.githubusercontent.com/52892685/150754309-05cbd195-3249-490a-a5a2-529f968d8f28.png">
 
 
 ### 5. Configure The NFTPort Account Details And API Limits - Only modify this if you are using NFTPort for uploading
@@ -377,7 +379,7 @@ Use the following command from the code's root directory.
 
 
 ### Update constants/nft_details.js
-<img width="1345" alt="Screenshot 2022-01-21 at 16 58 58" src="https://user-images.githubusercontent.com/52892685/150549003-090c8754-f2e8-4140-90d0-21ba9354d1f8.png">
+<img width="1393" alt="Screenshot 2022-01-24 at 11 19 52" src="https://user-images.githubusercontent.com/52892685/150755331-a9dad47d-22bc-40b8-bcb6-d0e96f1a8b46.png">
 
 
 ### Art Engine - Build
@@ -423,7 +425,7 @@ Make sure that your `uploadGenericMeta` key's value is set to `false` initially 
 
 
 ### Update constants/nft_details.js
-<img width="1342" alt="Screenshot 2022-01-21 at 17 01 53" src="https://user-images.githubusercontent.com/52892685/150549665-1fb84e56-3ca1-4697-971f-22fc890b0373.png">
+<img width="1393" alt="Screenshot 2022-01-24 at 11 19 52" src="https://user-images.githubusercontent.com/52892685/150755331-a9dad47d-22bc-40b8-bcb6-d0e96f1a8b46.png">
 
 
 ### Art Engine - Build
@@ -510,7 +512,7 @@ Send the API request on the right hand side and if all goes well, then your NFT'
 
 
 ### Update constants/nft_details.js
-<img width="1345" alt="Screenshot 2022-01-21 at 16 58 58" src="https://user-images.githubusercontent.com/52892685/150549003-090c8754-f2e8-4140-90d0-21ba9354d1f8.png">
+<img width="1393" alt="Screenshot 2022-01-24 at 11 19 52" src="https://user-images.githubusercontent.com/52892685/150755331-a9dad47d-22bc-40b8-bcb6-d0e96f1a8b46.png">
 
 
 ### Art Engine - Build
@@ -566,7 +568,7 @@ Make sure that your `uploadGenericMeta` key's value is set to `false` initially 
 
 
 ### Update constants/nft_details.js
-<img width="1342" alt="Screenshot 2022-01-21 at 17 01 53" src="https://user-images.githubusercontent.com/52892685/150549665-1fb84e56-3ca1-4697-971f-22fc890b0373.png">
+<img width="1393" alt="Screenshot 2022-01-24 at 11 19 52" src="https://user-images.githubusercontent.com/52892685/150755331-a9dad47d-22bc-40b8-bcb6-d0e96f1a8b46.png">
 
 
 ### Art Engine - Build

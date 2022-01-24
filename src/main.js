@@ -174,8 +174,12 @@ const addMetadata = (_dna, _edition) => {
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
 
-  //Added ability for user to state whether they are using blank images or not so that the code can already cater for it as the norm is to remove blanks from attribute lists.
-  if (NFT_DETAILS.blankFilenameInLayers) {
+  //Added ability for user to state whether they are using blank images or blank keyword within image names so that the code can already cater for it as the norm is to remove blanks from attribute lists.
+  if (NFT_DETAILS.ignoreAllNamesWithBlank) {
+    if (!selectedElement.name.trim().toLowerCase().includes("blank")) {
+      addToAttrbutesList(_element.layer.name, selectedElement.name);
+    }
+  } else if (NFT_DETAILS.ignoreExactBlankName) {
     if (selectedElement.name.trim().toLowerCase() !== "blank") {
       addToAttrbutesList(_element.layer.name, selectedElement.name);
     }
