@@ -11,8 +11,9 @@ let data = JSON.parse(rawdata);
 // Loop through each json object in the _metadata.json file
 data.forEach((item) => {
 
-  // Update the file_url value that can be updated in the nft_details.js file.
+  // Update the file_url and image values that can be updated in the nft_details.js file.
   item.file_url = `${NFT_DETAILS.imageFilesBase}/${item.custom_fields.edition}.png`;
+  item.image = `${NFT_DETAILS.imageFilesBase}/${item.custom_fields.edition}.png`;
 
   // Write the updated json file for the object edition
   fs.writeFileSync(

@@ -45,6 +45,10 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
+### Added provenance generation capability (Experimental) 
+Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance Section](./README.md#d-provenance-information) section.
+
+
 ### Added Support For ERC1155 Batch Minting And Total Token Count
 The new scripts can now be used to mint NFT editions in batches.
 
@@ -145,7 +149,7 @@ Example configuration:
 Create your different art layers, keeping all of them at the same Canvas size and ensuring they are all exported as .png files. 
 
 
-### 7. Art Engine - 
+### 7. Art Engine
 Review the Hashlips videos on what all of the configuration items in the `src/config.js` file means and what you need to set them to. 
 All of the `Art Engine Commands` make use of this configuration file along with the `constants/nft_details.js` file.
 
@@ -161,6 +165,33 @@ Use the `Art Engine - Build Command` below to create your generative art collect
 
 #### c. Rarity Information
 Use the `Art Engine - Rarity Command` below to generate a JSON output to the terminal that will show you how your layers will be distributed.
+
+
+#### d. Provenance Information
+Use the `Art Engine - Create_Provenance Command` below to generate two new JSON files within the `build/json` directory. To read up more on Provenance and how it can be used in your NFT Collections, please see the following [Medium Link](https://medium.com/coinmonks/the-elegance-of-the-nft-provenance-hash-solution-823b39f99473)
+
+- `concatedHash.json` - This is a string that contains the concated hash string of all image URIs.
+- `provenanceHash.json` - This is the final proof of your collection. This is a hash based on the `concatedHash.json` file's contents.
+
+`provenanceHash.json` structure:
+```Javascript
+{
+"provenance": "",
+collection: [
+ {
+ "tokenId": ,
+      "image": "",
+      "imageHash": "",
+      "traits": [],
+ }],
+}
+```
+
+
+#### e. Generate metadata from images (Experimental)
+Use the `Art Engine - Generate_Metadata Command` below to generate a json file for each of the image files in the `build/images` folder.
+
+**Please use this with caution as this will delete your `build/json` directory and generate a new directory with new files in it. If you would like to test this out, please be sure to backup your `build/json` directory first if you have one.**
 
 
 ### 8. Update NFT's Info (Description And Name)
@@ -258,6 +289,16 @@ GOOD LUCK!
 ## Art Engine Commands
 ### Build Command
 - npm run build
+
+
+### Create_Provenance Command
+- npm run create_provenance
+- node utils/art_engine/create_provenance.js 
+
+
+### Generate_Metadata Command
+- npm run generate_metadata
+- node utils/art_engine/generate_metadata.js 
 
 
 ### Pixelate Command

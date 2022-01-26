@@ -3,11 +3,8 @@ const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const sha1 = require(`${FOLDERS.nodeModulesDir}/sha1`);
 const { createCanvas, loadImage } = require(`${FOLDERS.nodeModulesDir}/canvas`);
-const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
 const { NETWORK } = require(`${FOLDERS.constantsDir}/network.js`);
 const { NFT_DETAILS } = require(`${FOLDERS.constantsDir}/nft_details.js`);
-const HashlipsGiffer = require(`${FOLDERS.modulesDir}/HashlipsGiffer.js`);
-
 const {
   format,
   background,
@@ -22,8 +19,6 @@ const {
   solanaMetadata,
   gif,
 } = require(`${FOLDERS.sourceDir}/config.js`);
-
-
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
@@ -31,6 +26,7 @@ var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
+const HashlipsGiffer = require(`${FOLDERS.modulesDir}/HashlipsGiffer.js`);
 
 let hashlipsGiffer = null;
 
@@ -74,6 +70,9 @@ const getElements = (path) => {
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
     .map((i, index) => {
+      if (i.includes(DNA_DELIMITER)) {
+        throw new Error(`layer name can not contain "${DNA_DELIMITER}" characters, please fix: ${i}`);
+      }
       return {
         id: index,
         name: cleanName(i),
@@ -132,6 +131,7 @@ const addMetadata = (_dna, _edition) => {
     name: `${NFT_DETAILS.namePrefix} #${_edition}`,
     description: `${NFT_DETAILS.description}`,
     file_url: `${NFT_DETAILS.imageFilesBase}/${_edition}.png`,
+    image: `${NFT_DETAILS.imageFilesBase}/${_edition}.png`,
     attributes: attributesList,
     custom_fields: {
       dna: sha1(_dna),
@@ -149,7 +149,7 @@ const addMetadata = (_dna, _edition) => {
       description: tempMetadata.description,
       //Added metadata for solana
       seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
-      image: `image.png`,
+      image: `${_edition}.png`,
       //Added metadata for solana
       external_url: solanaMetadata.external_url,
       edition: _edition,
@@ -158,13 +158,19 @@ const addMetadata = (_dna, _edition) => {
       properties: {
         files: [
           {
-            uri: "image.png",
+            uri: `${_edition}.png`,
             type: "image/png",
           },
         ],
         category: "image",
         creators: solanaMetadata.creators,
       },
+      custom_fields: {
+        dna: sha1(_dna),
+        edition: _edition,
+        date: dateTime,
+        compiler: "HashLips Art Engine",
+      }
     };
   }
   metadataList.push(tempMetadata);
@@ -174,12 +180,8 @@ const addMetadata = (_dna, _edition) => {
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
 
-  //Added ability for user to state whether they are using blank images or blank keyword within image names so that the code can already cater for it as the norm is to remove blanks from attribute lists.
-  if (NFT_DETAILS.ignoreAllNamesWithBlank) {
-    if (!selectedElement.name.trim().toLowerCase().includes("blank")) {
-      addToAttrbutesList(_element.layer.name, selectedElement.name);
-    }
-  } else if (NFT_DETAILS.ignoreExactBlankName) {
+  //Added ability for user to state whether they are using blank images or not so that the code can already cater for it as the norm is to remove blanks from attribute lists.
+  if (NFT_DETAILS.blankFilenameInLayers) {
     if (selectedElement.name.trim().toLowerCase() !== "blank") {
       addToAttrbutesList(_element.layer.name, selectedElement.name);
     }
@@ -188,18 +190,23 @@ const addAttributes = (_element) => {
   }
 };
 
-function addToAttrbutesList(layerName, elementValue) {
+function addToAttrbutesList(_layerName, _elementValue) {
   attributesList.push({
-    trait_type: layerName,
-    value: elementValue
+    trait_type: _layerName,
+    value: _elementValue
   });
 }
 
 const loadLayerImg = async (_layer) => {
-  return new Promise(async (resolve) => {
+  try {
     const image = await loadImage(`${_layer.selectedElement.path}`);
-    resolve({ layer: _layer, loadedImage: image });
-  });
+    return { 
+      layer: _layer, 
+      loadedImage: image 
+    };
+  } catch (error) {
+    console.error("Error loading image:", error);
+  }
 };
 
 const addText = (_sig, x, y, size) => {

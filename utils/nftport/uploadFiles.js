@@ -67,6 +67,7 @@ async function main() {
 
           // Assign the file_url field of the json object being processed to the ipfs_url field that is returned from the API call.
           metaData.file_url = response.ipfs_url;
+          metaData.image = response.ipfs_url;
 
           // Re-wrtie the image file's json object to contain the new file_url field.
           fs.writeFileSync(
