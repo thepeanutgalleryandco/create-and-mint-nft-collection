@@ -46,7 +46,7 @@ If you would like to support my NFT collection, please take a look at the below.
 
 
 ### Added provenance generation capability (Experimental) 
-Users can now generate provenance hashes for each image and for their whole collection. Please see the Art-Engine section.
+Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance Section](./README.md#d-provenance-information) section.
 
 
 ### Added Support For ERC1155 Batch Minting And Total Token Count
@@ -149,7 +149,7 @@ Example configuration:
 Create your different art layers, keeping all of them at the same Canvas size and ensuring they are all exported as .png files. 
 
 
-### 7. Art Engine - 
+### 7. Art Engine
 Review the Hashlips videos on what all of the configuration items in the `src/config.js` file means and what you need to set them to. 
 All of the `Art Engine Commands` make use of this configuration file along with the `constants/nft_details.js` file.
 
