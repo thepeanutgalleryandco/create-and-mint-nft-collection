@@ -23,6 +23,7 @@ data.forEach((item) => {
   item.name = `${NFT_DETAILS.genericTitle} #${item.custom_fields.edition}`;
   item.description = NFT_DETAILS.genericDescription;
   item.file_url = NFT_DETAILS.genericURL;
+  item.image = NFT_DETAILS.genericURL;
 
   // Remove the attributes and dna fiels from the json object
   delete item.attributes;
