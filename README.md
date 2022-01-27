@@ -13,6 +13,7 @@ To find out more about The Peanut Gallery And Co, please visit:
 Base code is from the below repos - Massive thank you to the teams behind these repos!
 - [hashlips_art_engine](https://github.com/HashLips/hashlips_art_engine)
 - [codeSTACKr](https://github.com/codeSTACKr/video-source-code-create-nft-collection/)
+- [Gerhard Molin - Provenance Addition](https://github.com/avocadohooman)
 
 File Uploads can be done via [Pinata](https://app.pinata.cloud/) or a similar service that gives you a single CID for images and another one for meta files or [NFTPort](https://nftport.xyz) can be used.
 
@@ -21,8 +22,8 @@ Minting uses [NFTPort](https://nftport.xyz)
 
 ## Reference the following videos from both the core code developers for more details.
 Please note that some of the commands have changed and have been updated compared to the original videos, please see them under the different sections for each script / process that you can run.
-- [Hashlips](https://www.youtube.com/playlist?list=PLvfQp12V0hS3AVImYdMNfkdvRtZEe7xqY)
-- [codeSTACKr](https://youtu.be/AaCgydeMu64)
+- [Hashlips - Youtube](https://www.youtube.com/playlist?list=PLvfQp12V0hS3AVImYdMNfkdvRtZEe7xqY)
+- [codeSTACKr - Youtube](https://youtu.be/AaCgydeMu64)
 
 
 ## TIP / Contributions Address
