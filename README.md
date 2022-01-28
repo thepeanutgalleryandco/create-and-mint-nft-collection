@@ -61,7 +61,7 @@ Below is a rough guideline of the order in which the processes can be used.
 Please note that when extracting the code base, there's two possibilities for the extracted folder. Please always make sure that you are opening the folder in VS Code or your terminal which matches the folder structure in step 2.
 
 #### a. Extracted folder contains another folder called create-and-mint-nft-collection
-If this is the caase when extracting your folder, then be sure to "cd" or move into that folder before running step 2's install commands, otherwise you will receive module errors and the npm installs won't work and your build and upload commands will not work correctly.
+If this is the case when extracting your folder, then be sure to "cd" or move into that folder before running step 2's install commands, otherwise you will receive module errors and the npm installs won't work and your build and upload commands will not work correctly.
 <img width="1040" alt="Screenshot 2022-01-19 at 15 44 26" src="https://user-images.githubusercontent.com/52892685/150142674-9371b030-5d2e-442d-88c4-aa6df8604eea.png">
 
 
