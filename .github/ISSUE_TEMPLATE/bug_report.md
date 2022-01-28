@@ -7,12 +7,6 @@ assignees: thepeanutgalleryandco
 
 ---
 
----
-name: Bug Report
-about: Report that something isn't working.
-labels: bug
----
-
 ## Description
 
 <!-- Describe the issue that you're seeing. -->
