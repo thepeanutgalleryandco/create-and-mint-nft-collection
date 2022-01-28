@@ -90,7 +90,6 @@ Modify the following parts at the very least, below are just sample values that 
 <img width="1134" alt="Screenshot 2022-01-13 at 12 47 25" src="https://user-images.githubusercontent.com/52892685/149316077-8479678d-57fc-418f-9a91-4d74c26e8b59.png">
 
 #### b. Update your layer folder names, order in which they need to be processed and the number of images to create
-**Please ensure that you do not add "-" (dashes) in your layer item names as this will break your image building process due to the DNA delimiter using a dash**
 
 <img width="420" alt="Screenshot 2022-01-13 at 12 47 53" src="https://user-images.githubusercontent.com/52892685/149316165-e1b92db3-ce8d-428e-9b30-76f2b606f960.png">
 
