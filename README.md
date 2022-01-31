@@ -39,8 +39,6 @@ If you would like to support my NFT collection, please take a look at the below.
 
 ## Dependencies for scripts to run
 - `npm install`
-- `npm install node-fetch@2`
-- `npm install async-sema`
 
 
 ## UPDATES & FIXES
