@@ -106,9 +106,9 @@ Modify the following parts at the very least, below are just sample values that 
 - Optionally add maximum repeatability rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16)
 - Optionally add layer combination exclusion rules in for the layers - Please see [Layer Combination Exclusion Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/15)
 
-Example of default configuration along with maximum repeatability and layer compatibility
-![Screenshot 2022-02-04 at 14 50 06](https://user-images.githubusercontent.com/52892685/152532081-997b5963-4a25-485c-998e-05aeae98c22c.png)
+*Example of default configuration along with maximum repeatability and layer compatibility*
 
+![Screenshot 2022-02-04 at 15 12 32](https://user-images.githubusercontent.com/52892685/152534935-739acf27-238f-4cc2-b654-e819b481892d.png)
 
 
 #### c. Update the width and height of your canvas
