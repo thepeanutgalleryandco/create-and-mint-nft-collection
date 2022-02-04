@@ -52,8 +52,10 @@ Users have new metadata exclusion configuration options
 - Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This is not on a layer item level, but instead of a layer level.
 - Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
 
+Please see the [Layer Configuration](./README.md#b-update-your-layer-configurations) section.
+
 ### Randomise generic metadata image URLs
-Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata]() section.
+Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata](./README.md#9-update-nfts-for-reveal---generic-image-until-purchased-then-only-reveal-nft) section.
 
 
 ### Added provenance generation capability (Experimental) 
@@ -99,9 +101,14 @@ Modify the following parts at the very least, below are just sample values that 
 #### a. If you are planning on using Solana, then update this section.
 <img width="1134" alt="Screenshot 2022-01-13 at 12 47 25" src="https://user-images.githubusercontent.com/52892685/149316077-8479678d-57fc-418f-9a91-4d74c26e8b59.png">
 
-#### b. Update your layer folder names, order in which they need to be processed and the number of images to create
+#### b. Update your layer configurations
+- Update your folder names, order in which they need to be processed and the number of images to create
+- Optionally add maximum repeatability rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16)
+- Optionally add layer combination exclusion rules in for the layers - Please see [Layer Combination Exclusion Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/15)
 
-<img width="420" alt="Screenshot 2022-01-13 at 12 47 53" src="https://user-images.githubusercontent.com/52892685/149316165-e1b92db3-ce8d-428e-9b30-76f2b606f960.png">
+Example of default configuration along with maximum repeatability and layer compatibility
+![Screenshot 2022-02-04 at 14 50 06](https://user-images.githubusercontent.com/52892685/152532081-997b5963-4a25-485c-998e-05aeae98c22c.png)
+
 
 
 #### c. Update the width and height of your canvas
