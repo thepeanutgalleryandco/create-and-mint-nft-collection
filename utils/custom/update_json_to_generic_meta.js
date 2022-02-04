@@ -16,14 +16,17 @@ let data = JSON.parse(rawdata);
 // Loop through each json object in the _metadata.json file
 data.forEach((item) => {
 
+  // Get a random URL from the list of generic URLs in the nft_details.js file.
+  const genericURL = NFT_DETAILS.genericURLs[Math.floor(Math.random() * NFT_DETAILS.genericURLs.length)];
+
   // Set the item's current name for logging
   const item_name = item.name;
 
   // Update the item's name, description and URL to the generic fields in the nft_details.js file
   item.name = `${NFT_DETAILS.genericTitle} #${item.custom_fields.edition}`;
   item.description = NFT_DETAILS.genericDescription;
-  item.file_url = NFT_DETAILS.genericURL;
-  item.image = NFT_DETAILS.genericURL;
+  item.file_url = genericURL;
+  item.image = genericURL;
 
   // Remove the attributes and dna fiels from the json object
   delete item.attributes;

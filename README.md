@@ -14,6 +14,7 @@ Base code is from the below repos - Massive thank you to the teams behind these 
 - [hashlips_art_engine](https://github.com/HashLips/hashlips_art_engine)
 - [codeSTACKr](https://github.com/codeSTACKr/video-source-code-create-nft-collection/)
 - [Gerhard Molin - Provenance Addition](https://github.com/avocadohooman)
+- [Arnau González - Exclusions Addition](https://github.com/arnaugm)
 
 File Uploads can be done via [Pinata](https://app.pinata.cloud/) or a similar service that gives you a single CID for images and another one for meta files or [NFTPort](https://nftport.xyz) can be used.
 
@@ -40,12 +41,25 @@ If you would like to support my NFT collection, please take a look at the below.
 ## Dependencies for scripts to run
 - `npm install`
 
+**Please note that if you have a Mac with a M1 chip and you run into issues with npm install, then please try to install Node.js version 14 instead of the latest Node version and try the npm install again **
+
 
 ## UPDATES & FIXES
 
 
+### Added metadata exclusions functionality
+Users have new metadata exclusion configuration options
+- Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This is not on a layer item level, but instead of a layer level.
+- Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
+
+Please see the [Layer Configuration](./README.md#b-update-your-layer-configurations) section.
+
+### Randomise generic metadata image URLs
+Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata](./README.md#9-update-nfts-for-reveal---generic-image-until-purchased-then-only-reveal-nft) section.
+
+
 ### Added provenance generation capability (Experimental) 
-Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance Section](./README.md#d-provenance-information) section.
+Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance](./README.md#d-provenance-information) section.
 
 
 ### Added Support For ERC1155 Batch Minting And Total Token Count
@@ -87,9 +101,14 @@ Modify the following parts at the very least, below are just sample values that 
 #### a. If you are planning on using Solana, then update this section.
 <img width="1134" alt="Screenshot 2022-01-13 at 12 47 25" src="https://user-images.githubusercontent.com/52892685/149316077-8479678d-57fc-418f-9a91-4d74c26e8b59.png">
 
-#### b. Update your layer folder names, order in which they need to be processed and the number of images to create
+#### b. Update your layer configurations
+- Update your folder names, order in which they need to be processed and the number of images to create
+- Optionally add maximum repeatability rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16)
+- Optionally add layer combination exclusion rules in for the layers - Please see [Layer Combination Exclusion Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/15)
 
-<img width="420" alt="Screenshot 2022-01-13 at 12 47 53" src="https://user-images.githubusercontent.com/52892685/149316165-e1b92db3-ce8d-428e-9b30-76f2b606f960.png">
+*Example of default configuration along with maximum repeatability and layer compatibility*
+
+![Screenshot 2022-02-04 at 15 12 32](https://user-images.githubusercontent.com/52892685/152534935-739acf27-238f-4cc2-b654-e819b481892d.png)
 
 
 #### c. Update the width and height of your canvas
@@ -110,11 +129,11 @@ Update the `constants/nft_details.js` file with the details that you want to be 
 - `ignoreExactBlankName` - This value is a boolean with a value of false or true. If true, then any layer that contains only the name "blank" with a rarity character and value in the metadata will be skipped and not added to the properties of the NFT. When set to false, then the information will be added to the metadata and added to the properties of the NFT.
 - `genericTitle` - Replace with what you want the generic titles to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `genericDescription` - Replace with what you want the generic descriptions to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
-- `genericURL` - Replace with the image URL that your generic NFTs should show. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
+- `genericURLs` - Replace with the image URLs that your generic NFTs should show. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `ignoreAllNamesWithBlank` - This value is a boolean with a value of false or true. If true, then any layer item that contains the word blank within the filename will be skipped from being added to the metadata information. When set to false, then the information will be added to the metadata. E.x white_eyes_blank #100.png will be added to metadata if set to false, while being skipped if true.
 
 Modify only the parts that you will be using and keep the rest as set by default.
-For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURL` fields. If you want your NFT properties on Opensea to show, for example "Blank #15.png", then set the `ignoreExactBlankName` value to false. If you want to remove all "blank" layer items from your NFT properties on Opensea, for example "white_eyes_blank #10.png", then set the `ignoreAllNamesWithBlank` value to true.
+For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURLs` fields. If you want your NFT properties on Opensea to show, for example "Blank #15.png", then set the `ignoreExactBlankName` value to false. If you want to remove all "blank" layer items from your NFT properties on Opensea, for example "white_eyes_blank #10.png", then set the `ignoreAllNamesWithBlank` value to true.
 
 Example configuration:
 <img width="1100" alt="Screenshot 2022-01-24 at 11 13 59" src="https://user-images.githubusercontent.com/52892685/150754309-05cbd195-3249-490a-a5a2-529f968d8f28.png">
@@ -200,13 +219,13 @@ Use this only if you want to use a different name and description for your NFTs 
 
 
 ### 9. Update NFTs For Reveal - Generic Image Until Purchased, Then Only Reveal NFT
-Use the `Custom - Update_Json_To_Generic_Meta Command` below to update all NFT files with the `genericTitle`, `genericDescription` and `genericURL` values set in the `constants/account_details.js` files. This will be shown as your NFTs details and picture before a purchase. 
+Use the `Custom - Update_Json_To_Generic_Meta Command` below to update all NFT files with the `genericTitle`, `genericDescription` and `genericURLs` values set in the `constants/nft_details.js` file. This will be shown as your NFT's details and picture before a purchase. 
 
 This process will create a new `genericJSON` directory where the `_metadata.json` file will be located along with each file's generic JSON object file. Remember to change your `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file before making use of the UploadMetas script so that it will upload the files in this directory instead of the normal `json` directory if you are making use of reveals.
 
 **Please remember that your contract needs to be updateable to use this, otherwise this image will stay the image of your NFT, before and after purchase.**
 
-**Please remember to update the genericURL field with the URL where the generic image is located. If you need to upload a single file to IPFS, simply use the NFTPort API via the frontend to upload a file and receive an IPFS URL that you can use for the genericURL field.**
+**Please remember to update the genericURLs field with the URLs where the generic images are located. You can upload your generic image files to IPFS by simply using the NFTPort API via the frontend to upload a file and receive an IPFS URL that you can use within the genericURLs field.**
 
 
 ### 10. Uploading Files (Images and Metadata)
