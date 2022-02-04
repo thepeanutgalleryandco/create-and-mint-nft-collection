@@ -14,6 +14,7 @@ Base code is from the below repos - Massive thank you to the teams behind these 
 - [hashlips_art_engine](https://github.com/HashLips/hashlips_art_engine)
 - [codeSTACKr](https://github.com/codeSTACKr/video-source-code-create-nft-collection/)
 - [Gerhard Molin - Provenance Addition](https://github.com/avocadohooman)
+- [Arnau González - Exclusions Addition](https://github.com/arnaugm)
 
 File Uploads can be done via [Pinata](https://app.pinata.cloud/) or a similar service that gives you a single CID for images and another one for meta files or [NFTPort](https://nftport.xyz) can be used.
 
@@ -46,8 +47,17 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
+### Added metadata exclusions functionality
+Users have new metadata exclusion configuration options
+- Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This is not on a layer item level, but instead of a layer level.
+- Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
+
+### Randomise generic metadata image URLs
+Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata]() section.
+
+
 ### Added provenance generation capability (Experimental) 
-Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance Section](./README.md#d-provenance-information) section.
+Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance](./README.md#d-provenance-information) section.
 
 
 ### Added Support For ERC1155 Batch Minting And Total Token Count

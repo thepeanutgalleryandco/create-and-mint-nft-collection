@@ -26,7 +26,10 @@ var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
+const selectedTraitsList = new Set();
 const HashlipsGiffer = require(`${FOLDERS.modulesDir}/HashlipsGiffer.js`);
+
+const { needsExclusion } = require('./exclusions');
 
 let hashlipsGiffer = null;
 
@@ -302,9 +305,9 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
   return !_DnaList.has(_filteredDNA);
 };
 
-const createDna = (_layers) => {
-  let randNum = [];
-  _layers.forEach((layer) => {
+const selectTraits = (layers) => {
+  let traits = [];
+  layers.forEach((layer) => {
     var totalWeight = 0;
     layer.elements.forEach((element) => {
       totalWeight += element.weight;
@@ -315,15 +318,32 @@ const createDna = (_layers) => {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;
       if (random < 0) {
-        return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${
-            layer.bypassDNA ? "?bypassDNA=true" : ""
-          }`
+        return traits.push({
+          layer: layer.name,
+          id: layer.elements[i].id,
+          name: layer.elements[i].name,
+          filename: layer.elements[i].filename,
+          bypassDNA: layer.bypassDNA,
+          },
         );
       }
     }
   });
-  return randNum.join(DNA_DELIMITER);
+  return traits;
+};
+
+const createDna = (traits) => {
+  let dna = [];
+
+  traits.forEach((trait) => {
+    dna.push(
+      `${trait.id}:${trait.filename}${
+        trait.bypassDNA ? "?bypassDNA=true" : ""
+      }`
+    );
+  });
+
+  return dna.join(DNA_DELIMITER);
 };
 
 const writeMetaData = (_data) => {
@@ -382,8 +402,23 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      let newDna = createDna(layers);
+      const traits = selectTraits(layers);
+      let newDna = createDna(traits);
       if (isDnaUnique(dnaList, newDna)) {
+
+        const maxRepeatedTraits = layerConfigurations[layerConfigIndex].maxRepeatedTraits;
+        const incompatibleTraits = layerConfigurations[layerConfigIndex].incompatibleTraits;
+        if (needsExclusion(selectedTraitsList, traits, maxRepeatedTraits, incompatibleTraits)) {
+          failedCount++;
+          if (failedCount >= uniqueDnaTorrance) {
+            console.log(
+            `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
+            );
+            process.exit();
+          }
+          continue;
+        }
+
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
 
@@ -434,6 +469,7 @@ const startCreating = async () => {
           );
         });
         dnaList.add(filterDNAOptions(newDna));
+        selectedTraitsList.add(traits);
         editionCount++;
         abstractedIndexes.shift();
       } else {
