@@ -11,7 +11,8 @@ const ACCOUNT_DETAILS = {
   mint_item: '1', // Set your NFT edition number in here and this specific NFT will be minted. Ex. '3'
   uploadGenericMeta: false, // When this value is set to false, then the build/json directory's _metadata.json file will be used when uploadMetas.js is called. When this value is set to true, then the build/genericJSON directory's _metadata.json file will be used when uploadMetas.js is called.
   batch_mint_size: '50', // Set the number of NFTs that are minted per batch_mint. Maximum is 50 NFTs per batch_mint.
-  batch_mint_nft_amount: '1' // Set the number of times that each NFT will be minted. For example, if set to 5, then each NFT edition can be sold 5 times.
+  batch_mint_nft_amount: '1', // Set the number of times that each NFT will be minted. For example, if set to 5, then each NFT edition can be sold 5 times.
+  salesInterval: '900000' // This is the interval that will be used to check for sales on your contract and then reveal the NFT. 900000 = 15 minutes.
 };
 
 module.exports = {
