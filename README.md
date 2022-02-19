@@ -384,7 +384,7 @@ This process will create a new `ipfsMetas`, update each NFT json file with a `me
 Create an account on [NFTPort](https://www.nftport.xyz/) and get an APIKey. Be sure to check your rate limit of your account as well as the amount of NFTs that you can upload with your APIKey's access levels. Update your account's details in the `constants/account_details.js` file.
 
 Use the `NFTPort - UploadFiles Command` below to upload the image files to IPFS and then update the json files for each NFT with the `file_url` and `image` details.
-This process will `only` update the `file_url` field within the json file as well as in the `_metadata.json` file.
+This process will `only` update the `file_url` and `image` fields within the json file as well as in the `_metadata.json` file.
 
 Use the `NFTPort - UploadMetas Command` below to upload the json metadata files for each NFT to IPFS and then create a `ipfsMetas` folder with an `_ipfsMetas.json` file and a json file for every NFT, containing the upload API response.
 The new json files in the `ipfsMetas` directory will now contain a `metadata_uri` field and this has also been added to each object inside the `_ipfsMetas.json` file.
