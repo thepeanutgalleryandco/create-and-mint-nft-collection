@@ -16,9 +16,9 @@ let totalBatchNFTCount = 0;
 // Main function - called asynchronously
 async function main() {
 
-  // Check if the ipfsMetasDir directory exists and if not, then create it.
+  // Check if the ipfsMetasDir directory exists and if not, then exit.
   if (!fs.existsSync(`${FOLDERS.ipfsMetasDir}`)) {
-    console.error(`The ${FOLDERS.ipfsMetasDir} directory does not exsit. Please make sure that the metadata files have been uploaded and an ${FOLDERS.ipfsMetasDir} directory exists.`);
+    console.error(`The ${FOLDERS.ipfsMetasDir} directory does not exsit. Please make sure that the metadata files have been uploaded and a ${FOLDERS.ipfsMetasDir} directory exists.`);
     process.exit(1);
   }
 
@@ -50,7 +50,7 @@ async function main() {
 
       // Create the token JSON Object for the ipfs JSON file in the format of batch processing
       const ipfsMetaObject =  {
-        mint_to_address: ACCOUNT_DETAILS.mint_to_address,
+        mint_to_address: getMintAddress(ipfsJSONFile.custom_fields.edition),
         token_id: String(ipfsJSONFile.custom_fields.edition),
         metadata_uri : ipfsJSONFile.metadata_uri,
         quantity: ACCOUNT_DETAILS.batch_mint_nft_amount
@@ -112,3 +112,27 @@ async function main() {
 
 // Start the main process.
 main();
+
+// getMintAddress function - Retrieves wallet address that will receive edition mint and if no mapping can be found, then mint to the default mint_to_address in account_details.js
+function getMintAddress(_edition) {
+  try {
+    
+    // Load the _walletAddressMintList.json file
+    const walletAddressMintList = JSON.parse(fs.readFileSync(`${FOLDERS.ipfsMetasDir}/_walletAddressMintList.json`));
+
+    // Check if the edition can be found in the _walletAddressMintList.json file.
+    if(typeof walletAddressMintList[_edition-1] === 'undefined') {
+
+      // Return the default mint_to_address from account_details.js
+      return ACCOUNT_DETAILS.mint_to_address;
+    }
+
+    // Return the wallet address from the _walletAddressMintList.json file
+    return walletAddressMintList[_edition-1];
+
+  } catch {
+    
+    // Return the default mint_to_address from account_details.js
+    return ACCOUNT_DETAILS.mint_to_address;
+  }
+}

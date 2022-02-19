@@ -12,7 +12,17 @@ const ACCOUNT_DETAILS = {
   uploadGenericMeta: false, // When this value is set to false, then the build/json directory's _metadata.json file will be used when uploadMetas.js is called. When this value is set to true, then the build/genericJSON directory's _metadata.json file will be used when uploadMetas.js is called.
   batch_mint_size: '50', // Set the number of NFTs that are minted per batch_mint. Maximum is 50 NFTs per batch_mint.
   batch_mint_nft_amount: '1', // Set the number of times that each NFT will be minted. For example, if set to 5, then each NFT edition can be sold 5 times.
-  salesInterval: '900000' // This is the interval that will be used to check for sales on your contract and then reveal the NFT. 900000 = 15 minutes.
+  salesInterval: '900000', // Set the interval that will be used to check for sales on your contract and then reveal the NFT. 900000 = 15 minutes.
+  walletMintList: [
+    {
+      "wallet_address": "WALLET_ADDRESS_ONE",
+      "nft_count": "20"
+    },
+    {
+      "wallet_address": "WALLET_ADDRESS_TWO_HERE",
+      "nft_count": "3"
+    }
+  ] // Set your wallet list that consists of multiple wallets along with how many NFTs should be minted to each wallet address. E.x [ {"wallet_address": "WALLET_ADDRESS_ONE", "nft_count": "20"}, {"wallet_address": "WALLET_ADDRESS_TWO", "nft_count": "3"}, {"wallet_address": "WALLET_ADDRESS_THREE", "nft_count": "39"}]
 };
 
 module.exports = {

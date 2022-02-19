@@ -17,6 +17,7 @@
     "check_mints": "node utils/custom/check_mints.js",
     "check_mints_batch": "node utils/custom/check_mints_batch.js",
     "create_provenance": "node utils/art_engine/create_provenance.js",
+    "create_wallet_edition_combo": "node utils/custom/create_wallet_edition_combo.js",
     "generate": "node index.js",
     "generate_metadata": "node utils/art_engine/generate_metadata.js",
     "mint_batch": "node utils/nftport/mint_batch.js",
