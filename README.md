@@ -41,7 +41,143 @@ If you would like to support my NFT collection, please take a look at the below.
 ## Dependencies for scripts to run
 - `npm install`
 
-**Please note that if you have a Mac with a M1 chip and you run into issues with npm install, then please try to install Node.js version 14 instead of the latest Node version and try the npm install again **
+**Please note that if you have a Mac with a M1 chip and you run into issues with npm install, then please try to install Node.js version 14 instead of the latest Node version and try the npm install again**
+
+
+## Code Repo Guide
+- [Updates & Fixes](#updates--fixes)
+- [How To Use The Codebase](#how-to-use-the-codebase)
+     - [1. Download and unzip the main branch of this repo](#1-download-and-unzip-the-main-branch-of-this-repo)
+          - [a. Extracted folder contains another folder called create-and-mint-nft-collection](#a-extracted-folder-contains-another-folder-called-create-and-mint-nft-collection)
+          - [b. Extracted folder contains all the files as in step 2](#b-extracted-folder-contains-all-the-files-as-in-step-2)
+     - [2. Run the dependency npm commands in the unzipped folder](#2-run-the-dependency-npm-commands-in-the-unzipped-folder)
+     - [3. Update The Main Configuration File For The Art Engine](#3-update-the-main-configuration-file-for-the-art-engine)
+          - [a. If you are planning on using Solana, then update this section](#a-if-you-are-planning-on-using-solana-then-update-this-section)
+          - [b. Update your layer configurations](#b-update-your-layer-configurations)
+          - [c. Update the width and height of your canvas](#c-update-the-width-and-height-of-your-canvas)
+          - [d. Update the extra metadata that you want to add into your NFT's metadata. You can remove both fields inside of this extraMetadata object or add more if you like](#d-update-the-extra-metadata-that-you-want-to-add-into-your-nfts-metadata-you-can-remove-both-fields-inside-of-this-extrametadata-object-or-add-more-if-you-like)
+     - [4. Configure The NFT Creation Details](#4-configure-the-nft-creation-details)
+     - [5. Configure The NFTPort Account Details And API Limits - Only modify this if you are using NFTPort for uploading](#5-configure-the-nftport-account-details-and-api-limits---only-modify-this-if-you-are-using-nftport-for-uploading)
+     - [6. Create Image Layers](#6-create-image-layers)
+     - [7. Art Engine](#7-art-engine)
+          - [a. Creation / Build](#a-creation--build)
+          - [b. Additional Art Creation Options](#b-additional-art-creation-options)
+          - [c. Rarity Information](#c-rarity-information)
+          - [d. Provenance Information](#d-provenance-information)
+          - [e. Generate metadata from images (Experimental)](#e-generate-metadata-from-images-experimental)
+     - [8. Update NFT's Info (Description And Name)](#8-update-nfts-info-description-and-name)
+     - [9. Update NFTs For Reveal - Generic Image Until Purchased, Then Only Reveal NFT](#9-update-nfts-for-reveal---generic-image-until-purchased-then-only-reveal-nft)
+     - [10. Uploading Files (Images and Metadata)](#10-uploading-files-images-and-metadata)
+          - [a. Pinata Or Similar Service](#a-pinata-or-similar-service)
+          - [b. NFTPort](#b-nftport)
+     - [11. ERC1155 Batch IPFS Metas Migration](#11-erc1155-batch-ipfs-metas-migration)
+     - [12. Minting NFTs](#12-minting-nfts)
+     - [13. Checking NFT Mint Files For Issues](#13-checking-nft-mint-files-for-issues)
+     - [14. Re-Mint Failed NFTs](#14-re-mint-failed-nfts)
+     - [15. Check Your Work On The Marketplace](#15-check-your-work-on-the-marketplace)
+
+
+## Commands
+- [Art Engine Commands](#art-engine-commands)
+     - [Build Command](#build-command)
+     - [Create_Provenance Command](#create_provenance-command)
+     - [Generate_Metadata Command](#generate_metadata-command)
+     - [Pixelate Command](#pixelate-command)
+     - [Preview Command](#preview-command)
+     - [Preview_Gif Command](#preview_gif-command)
+     - [Rarity Command](#rarity-command)
+
+- [Custom Commands](#custom-commands)
+     - [Batch_Ipfs_Metas_Migration](#batch_ipfs_metas_migration)
+     - [Check_Mints](#check_mints)
+     - [Check_Mints_Batch](#check_mints_batch)
+     - [Update_Image_Info Command](#update_image_info-command)
+     - [Update_Json_To_Generic_Meta Command](#update_json_to_generic_meta-command)
+     - [Update_Metadata_Info Command](#update_metadata_info-command)
+     - [Update_Nft_Info Command](#update_nft_info-command)
+
+- [NFTPort Commands](#nftport-commands)
+     - [Mint_Batch Command](#mint_batch-command)
+     - [Mint_Item Command](#mint_item-command)
+     - [Mint_Range Command](#mint_range-command)
+     - [Mint Command](#mint-command)
+     - [Remint Command](#remint-command)
+     - [Remint_Batch Command](#remint_batch-command)
+     - [UploadFiles Command](#uploadfiles-command)
+     - [UploadMetas Command](#uploadmetas-command)
+
+
+## ERC721 Examples
+- [EXAMPLE - NO REVEAL (ERC721)](#example---no-reveal-erc721)
+     - [Download Repo And Extract](#download-repo-and-extract)
+     - [Install Packages](#install-packages)
+     - [Update src/config.js](#update-srcconfigjs)
+     - [Update constants/account_details.js](#update-constantsaccount_detailsjs)
+     - [Update constants/nft_details.js](#update-constantsnft_detailsjs)
+     - [Art Engine - Build](#art-engine---build)
+     - [Upload Files](#upload-files)
+     - [Upload Metas](#upload-metas)
+     - [Mint](#mint)
+
+- [EXAMPLE - REVEAL (ERC721)](#example---reveal-erc721)
+     - [Download Repo And Extract](#download-repo-and-extract-1)
+     - [Install Packages](#install-packages-1)
+     - [Update src/config.js](#update-srcconfigjs-1)
+     - [Update constants/account_details.js](#update-constantsaccount_detailsjs-1)
+     - [Update constants/nft_details.js](#update-constantsnft_detailsjs-1)
+     - [Art Engine - Build](#art-engine---build-1)
+     - [Update JSON To Generic Meta](#update-json-to-generic-meta)
+     - [Upload Files](#upload-files-1)
+     - [Upload Metas - This will upload your json directory's files](#upload-metas---this-will-upload-your-json-directorys-files)
+     - [Rename ipfsMetas directory](#rename-ipfsmetas-directory)
+     - [Update constants/account_details.js](#update-constantsaccount_detailsjs-2)
+     - [Upload Metas - This will upload your genericJSON directory's files](#upload-metas---this-will-upload-your-genericjson-directorys-files)
+     - [Mint - This will mint your unrevealed NFTs' metadata](#mint---this-will-mint-your-unrevealed-nfts-metadata)
+     - [Manually Update Metadata After Purchase](#manually-update-metadata-after-purchase)
+
+
+## ERC1155 Examples
+ - [EXAMPLE - NO REVEAL (ERC1155)](#example---no-reveal-erc1155)
+     - [Download Repo And Extract](#download-repo-and-extract-2)
+     - [Install Packages](#install-packages-2)
+     - [Update src/config.js](#update-srcconfigjs-2)
+     - [Update constants/account_details.js](#update-constantsaccount_detailsjs-3)
+     - [Update constants/nft_details.js](#update-constantsnft_detailsjs-2)
+     - [Art Engine - Build](#art-engine---build-2)
+     - [Upload Files](#upload-files-2)
+     - [Upload Metas](#upload-metas-1)
+     - [Batch IPFS Metas Migration](#batch-ipfs-metas-migration)
+     - [Mint Batch - This will mint your unrevealed NFTs' metadata](#mint-batch---this-will-mint-your-unrevealed-nfts-metadata)
+
+- [EXAMPLE - REVEAL (ERC1155)](#example---reveal-erc1155)
+     - [Download Repo And Extract](#example---reveal-erc1155)
+     - [Install Packages](#install-packages-3)
+     - [Update src/config.js](#update-srcconfigjs-3)
+     - [Update constants/account_details.js](#update-constantsaccount_detailsjs-4)
+     - [Update constants/nft_details.js](#update-constantsnft_detailsjs-3)
+     - [Art Engine - Build](#art-engine---build-3)
+     - [Update JSON To Generic Meta](#update-json-to-generic-meta-1)
+     - [Upload Files](#upload-files-3)
+     - [Upload Metas - This will upload your json directory's files](#upload-metas---this-will-upload-your-json-directorys-files-1)
+     - [Rename ipfsMetas directory](#rename-ipfsmetas-directory-1)
+     - [Update constants/account_details.js](#update-constantsaccount_detailsjs-5)
+     - [Upload Metas - This will upload your genericJSON directory's files](#upload-metas---this-will-upload-your-genericjson-directorys-files-1)
+     - [Batch IPFS Metas Migration](#batch-ipfs-metas-migration-1)
+     - [Mint Batch - This will mint your unrevealed NFTs' metadata](#mint-batch---this-will-mint-your-unrevealed-nfts-metadata-1)
+     - [Manually Update Metadata After Purchase](#manually-update-metadata-after-purchase-1)
+
+
+## Error Examples
+- [EXAMPLE - DNA EXISTS AND NEED MORE LAYERS TO GROW EDITION](#example---dna-exists-and-need-more-layers-to-grow-edition)
+- [EXAMPLE - FILE ALREADY UPLOADED](#example---file-already-uploaded)
+- [EXAMPLE - UPLOAD GENERIC METAS WITHOUT CREATING GENERIC METAS FILES](#example---upload-generic-metas-without-creating-generic-metas-files)
+- [EXAMPLE - METADATA ALREADY UPLOADED OUTPUT](#example---metadata-already-uploaded-output)
+- [EXAMPLE - MINT FAILED, USING CHECK_MINTS AND REMINT](#example---mint-failed-using-check_mints-and-remint)
+- [EXAMPLE - MINT BATCH FAILED, USING CHECK_MINTS_BATCH AND REMINT_BATCH](#example---mint-batch-failed-using-check_mints_batch-and-remint_batch)
+- [EXAMPLE - EDITION ALREADY MINTED](#example---edition-already-minted)
+- [EXAMPLE - CONTRACT ALREADY HAS THE GIVEN TOKEN ID](#example---contract-already-has-the-given-token-id)
+
+<br/>
 
 
 ## UPDATES & FIXES
@@ -65,6 +201,8 @@ Users can now generate provenance hashes for each image and for their whole coll
 ### Added Support For ERC1155 Batch Minting And Total Token Count
 The new scripts can now be used to mint NFT editions in batches.
 
+<br/>
+
 
 ## How To Use The Codebase
 Below is a rough guideline of the order in which the processes can be used.
@@ -82,7 +220,7 @@ No need for any extra steps, you can start with step 2 where you run the npm ins
 <img width="990" alt="Screenshot 2022-01-19 at 15 46 52" src="https://user-images.githubusercontent.com/52892685/150143042-91287da1-7d54-4a3f-8ced-50915cacdcde.png">
 
 
-### 2. Run the dependency npm commands in the unzipped folder.
+### 2. Run the dependency npm commands in the unzipped folder
 Ensure that you are in this diretory before running the npm install commands, otherwise some of your commands will not work correctly.
 
 Example of the contents of the root folder before running the installs:
@@ -98,7 +236,7 @@ Please watch the videos linked earlier on how to configure the Art Engine.
 
 Modify the following parts at the very least, below are just sample values that I used in a demo.
 
-#### a. If you are planning on using Solana, then update this section.
+#### a. If you are planning on using Solana, then update this section
 <img width="1134" alt="Screenshot 2022-01-13 at 12 47 25" src="https://user-images.githubusercontent.com/52892685/149316077-8479678d-57fc-418f-9a91-4d74c26e8b59.png">
 
 #### b. Update your layer configurations
@@ -254,13 +392,13 @@ The new json files in the `ipfsMetas` directory will now contain a `metadata_uri
 `Important` - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update the `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file so that the genericJSON directory's metadata will be used instead of the json directory. Please see the section on NFT reveal steps to follow in the example `EXAMPLE - Reveal` below.
 
 
-### 12. ERC1155 Batch IPFS Metas Migration
+### 11. ERC1155 Batch IPFS Metas Migration
 If you would like to make use of batch minting against an ERC1155 contract, you need to run the `Custom - Batch_Ipfs_Metas_Migration` script which will create a new `batchIPFSMetas` directory and it will create numbered json files, for example `1.json` which will contain a list of tokens for that specific batch to be minted, and a new `_batchIPFSMetas.json` file which will be a combined json file of all the numbered json files. The `NFTPort - Mint_Batch Command` will use this file these files to mint the token batches.
 
 Before you use the `Custom - Batch_Ipfs_Metas_Migration` script, please be sure to update the `batch_mint_size` and `batch_mint_nft_amount` key's values to what your requirement is. By default, it is set to 50 for the `batch_mint_size` key and 1 for the `batch_mint_nft_amount` key.
 
 
-### 13. Minting NFTs
+### 12. Minting NFTs
 - Use the `NFTPort - Mint_Batch Command` below to start minting against an ERC1155 contract where your mints will happen in batches.
 - Use the `NFTPort - Mint Command` below to start minting against an ERC721 contract where your mint will happen individually.
 - Use the `NFTPort - Mint_Range Command` below to start minting against an ERC721 contract for a range of NFTs between specific editions.
@@ -273,7 +411,7 @@ Before you use the `NFTPort - Mint_Item Command` script, please be sure to updat
 Before you use the `NFTPort - Mint_Batch Command` script, please be sure to run the `Custom - Batch_Ipfs_Metas_Migration` script.
 
 
-### 14. Checking NFT Mint Files For Issues
+### 13. Checking NFT Mint Files For Issues
 - Use the `Custom - Check_Mints Command` below to start checking each mint file to determine if there are any issues with the minted files for ERC721 contract files (individual files). 
 - Use the `Custom - Check_Mints_Batch Command` below to start checking each mint file to determine if there are any issues with the minted files for ERC1155 contract files (batch files). 
 
@@ -288,14 +426,14 @@ The check mints scripts will go through the files once off, check all of their d
 **Please note that this process can take time to complete as it runs through every minted json file.**
 
 
-### 15. Re-Mint Failed NFTs
+### 14. Re-Mint Failed NFTs
 - Use the `NFTPort - ReMint Command` below to start re-minting each of the json files in the `failedMints` directory for ERC721 (Individual files) contract files. 
 - Use the `NFTPort - ReMint_Batch Command` below to start re-minting each of the json files in the `failedMints` directory for ERC1155 (batch files) contract files.
 
 This process will write out a newly minted file in the `reMinted` directory as well as update the json file in the original `minted` directory. Due to this, a backup folder will be created every time this process runs with the date to keep a backup of the json file in the minted directory at the time of running this process just as a safe guard so that you have access to the original information or how the information changed in between your processing.
 
 
-### 16. Check Your Work On The Marketplace
+### 15. Check Your Work On The Marketplace
 You are done with your minting process!
 Well done!
 Go and check out your mints on your marketplace and refresh the metadata where needde.
@@ -338,7 +476,7 @@ GOOD LUCK!
 - npm run rarity
 
 
-## Main Commands
+## Custom Commands
 Use the following command from the code's root directory.
 
 ### Batch_Ipfs_Metas_Migration
