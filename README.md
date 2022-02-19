@@ -373,23 +373,22 @@ There are two options that you can follow to upload your images and json files o
 Create an account on [Pinata](https://app.pinata.cloud/) and then upload your images folder. Please note that once you have uploaded your folder, you can't add or remove any files from there. From there copy the CID into the `constants/nft_details.js` file against the `imageFilesBase` key.
 
 Use the `Custom - Update_Image_Info Command` below to update the json files for each NFT.
-This process will `only` update the `file_url` field within the json file as well as in the `_metadata.json` file.
+This process will `only` update the `file_url` and `image` fields within the json file as well as in the `_metadata.json` file.
 
-Upload the json directory onto Pinata and copy the CID into the `constants/nft_details.js` file against the `metaDataJSONFilesBase` key. This should be either of your `json` or `genericJSON` directories, depending on whether you are doing a reveal or not. Just a note, it would make sense to get both of your json directories uploaded if you are doing a reveal so that you can simply update the metadata of your unrevealed NFT, but please see the section on NFT reveal steps to follow in the example `EXAMPLE - Reveal` below.
+Upload the json directory onto Pinata and copy the CID into the `constants/nft_details.js` file against the `metaDataJSONFilesBase` key. This should be either of your `json` or `genericJSON` directories, depending on whether you are doing a reveal or not. Just a note, it would make sense to get both of your json directories uploaded if you are doing a reveal so that you can simply update the metadata of your unrevealed NFT, but please see the section on NFT reveal steps to follow in the `EXAMPLE - REVEAL (ERC721)` and `EXAMPLE - REVEAL (ERC1155)` examples below.
 
 Use the `Custom - Update_Metadata_Info Command` below to update the json files for each NFT.
-This process will create a new `ipfsMetas`, update each NFT json file with a `metadata_uri` field and create a `_ipfsMetas.json` file. All the new json files will be added to the `ipfsMetas` folder.
+This process will create a new `ipfsMetas` folder, update each NFT json file with a `metadata_uri` field and create a `_ipfsMetas.json` file. All the new json files will be added to the `ipfsMetas` folder.
 
 #### b. NFTPort
 Create an account on [NFTPort](https://www.nftport.xyz/) and get an APIKey. Be sure to check your rate limit of your account as well as the amount of NFTs that you can upload with your APIKey's access levels. Update your account's details in the `constants/account_details.js` file.
 
-Use the `NFTPort - UploadFiles Command` below to upload the image files to IPFS and then update the json files for each NFT with the `file_url` and `image` details.
-This process will `only` update the `file_url` and `image` fields within the json file as well as in the `_metadata.json` file.
+Use the `NFTPort - UploadFiles Command` below to upload the image files to IPFS. This process will also update the json file for each NFT with the IPFS URL and add it into the `file_url` and `image` fields. This process will `only` update the `file_url` and `image` fields within the json file as well as the corresponding object in the `_metadata.json` file.
 
 Use the `NFTPort - UploadMetas Command` below to upload the json metadata files for each NFT to IPFS and then create a `ipfsMetas` folder with an `_ipfsMetas.json` file and a json file for every NFT, containing the upload API response.
 The new json files in the `ipfsMetas` directory will now contain a `metadata_uri` field and this has also been added to each object inside the `_ipfsMetas.json` file.
 
-`Important` - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update the `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file so that the genericJSON directory's metadata will be used instead of the json directory. Please see the section on NFT reveal steps to follow in the example `EXAMPLE - Reveal` below.
+`Important` - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update the `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file so that the genericJSON directory's metadata will be used instead of the json directory. Please see the section on NFT reveal steps to follow in the `EXAMPLE - REVEAL (ERC721)` and `EXAMPLE - REVEAL (ERC1155)` examples below.
 
 
 ### 11. ERC1155 Batch IPFS Metas Migration
