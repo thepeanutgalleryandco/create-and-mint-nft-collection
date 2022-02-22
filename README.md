@@ -177,6 +177,12 @@ If you would like to support my NFT collection, please take a look at the below.
 - [EXAMPLE - EDITION ALREADY MINTED](#example---edition-already-minted)
 - [EXAMPLE - CONTRACT ALREADY HAS THE GIVEN TOKEN ID](#example---contract-already-has-the-given-token-id)
 
+
+## Video Examples
+- [Example - Applications Setup](https://youtube.com/playlist?list=PL0iNFQ9GSS_poH0PTJpb1k1v3xdED2tTc)
+- [Example - NFTPort Account Setup](https://youtube.com/playlist?list=PL0iNFQ9GSS_ooNtgvoAqKzxlHzSXAHJpT)
+- [Example - Applications Setup](https://youtube.com/playlist?list=PL0iNFQ9GSS_rvq9XbNjObRJ6CN36n6KS6)
+
 <br/>
 
 
