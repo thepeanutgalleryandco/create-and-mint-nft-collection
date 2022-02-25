@@ -1,6 +1,6 @@
 // Check if the maximum repeatability have been reached
 const combinationOfTraitsAlreadyExists  = (selectedTraitsList, newTraits, maxRepeatedTraits) => {
-    //console.log(newTraits);
+
     // Check if maximum repeatability check needs to be done and if not, return false and exit this check
     if (!maxRepeatedTraits) {
       return false;
