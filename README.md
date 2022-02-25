@@ -92,7 +92,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Batch_Ipfs_Metas_Migration](#batch_ipfs_metas_migration)
      - [Check_Mints](#check_mints)
      - [Check_Mints_Batch](#check_mints_batch)
-     - [Create_Wallet_Edition_Combo Command](#create_wallet_edition_combo-command)
+     - [Create_Wallet_Edition_Combo Command](#create_wallet_edition_combo-command)     
      - [Update_Image_Info Command](#update_image_info-command)
      - [Update_Json_To_Generic_Meta Command](#update_json_to_generic_meta-command)
      - [Update_Metadata_Info Command](#update_metadata_info-command)
@@ -105,7 +105,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Mint Command](#mint-command)
      - [Remint Command](#remint-command)
      - [Remint_Batch Command](#remint_batch-command)
-     - [Reveal Command](#reveal-command)
+     - [Reveal Command](#reveal-command)     
      - [UploadFiles Command](#uploadfiles-command)
      - [UploadMetas Command](#uploadmetas-command)
 
@@ -179,6 +179,12 @@ If you would like to support my NFT collection, please take a look at the below.
 - [EXAMPLE - MINT BATCH FAILED, USING CHECK_MINTS_BATCH AND REMINT_BATCH](#example---mint-batch-failed-using-check_mints_batch-and-remint_batch)
 - [EXAMPLE - EDITION ALREADY MINTED](#example---edition-already-minted)
 - [EXAMPLE - CONTRACT ALREADY HAS THE GIVEN TOKEN ID](#example---contract-already-has-the-given-token-id)
+
+
+## Video Examples
+- [Example - Applications Setup](https://youtube.com/playlist?list=PL0iNFQ9GSS_poH0PTJpb1k1v3xdED2tTc)
+- [Example - NFTPort Account Setup](https://youtube.com/playlist?list=PL0iNFQ9GSS_ooNtgvoAqKzxlHzSXAHJpT)
+- [Example - Applications Setup](https://youtube.com/playlist?list=PL0iNFQ9GSS_rvq9XbNjObRJ6CN36n6KS6)
 
 <br/>
 
