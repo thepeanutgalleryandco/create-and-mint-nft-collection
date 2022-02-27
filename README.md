@@ -70,12 +70,11 @@ If you would like to support my NFT collection, please take a look at the below.
      - [10. Uploading Files (Images and Metadata)](#10-uploading-files-images-and-metadata)
           - [a. Pinata Or Similar Service](#a-pinata-or-similar-service)
           - [b. NFTPort](#b-nftport)
-     - [11. Create Wallet Edition Combo](#11-create-wallet-edition-combo)
-     - [12. ERC1155 Batch IPFS Metas Migration](#12-erc1155-batch-ipfs-metas-migration)
-     - [13. Minting NFTs](#13-minting-nfts)
-     - [14. Checking NFT Mint Files For Issues](#14-checking-nft-mint-files-for-issues)
-     - [15. Re-Mint Failed NFTs](#15-re-mint-failed-nfts)
-     - [16. Check Your Work On The Marketplace](#16-check-your-work-on-the-marketplace)
+     - [11. ERC1155 Batch IPFS Metas Migration](#11-erc1155-batch-ipfs-metas-migration)
+     - [12. Minting NFTs](#12-minting-nfts)
+     - [13. Checking NFT Mint Files For Issues](#13-checking-nft-mint-files-for-issues)
+     - [14. Re-Mint Failed NFTs](#14-re-mint-failed-nfts)
+     - [15. Check Your Work On The Marketplace](#15-check-your-work-on-the-marketplace)
 
 
 ## Commands
@@ -92,7 +91,6 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Batch_Ipfs_Metas_Migration](#batch_ipfs_metas_migration)
      - [Check_Mints](#check_mints)
      - [Check_Mints_Batch](#check_mints_batch)
-     - [Create_Wallet_Edition_Combo Command](#create_wallet_edition_combo-command)     
      - [Update_Image_Info Command](#update_image_info-command)
      - [Update_Json_To_Generic_Meta Command](#update_json_to_generic_meta-command)
      - [Update_Metadata_Info Command](#update_metadata_info-command)
@@ -105,7 +103,6 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Mint Command](#mint-command)
      - [Remint Command](#remint-command)
      - [Remint_Batch Command](#remint_batch-command)
-     - [Reveal Command](#reveal-command)     
      - [UploadFiles Command](#uploadfiles-command)
      - [UploadMetas Command](#uploadmetas-command)
 
@@ -194,18 +191,10 @@ If you would like to support my NFT collection, please take a look at the below.
 
 ### Added metadata exclusions functionality
 Users have new metadata exclusion configuration options
-- Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This can now be set at a global level, layer level and layer item level.
+- Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This is not on a layer item level, but instead of a layer level.
 - Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
 
 Please see the [Layer Configuration](./README.md#b-update-your-layer-configurations) section.
-
-### Reveal Script
-Users have a new Reveal script that can be used to reveal NFTs that do not belong to their wallet address anymore.
-This script runs every X number of seconds, that can be set on the salesInterval field in the account_details.js file. The default is 900000 (15 minutes).
-This script can be run manually and then stopped after running or it can be deployed to a server where it can run on the schedule of every X number of seconds.
-
-### Minting Against Wallet Address List
-Users have a new option of minting NFTs against a list of wallet addresses by making use of the create_wallet_edition_combo.js script. This script should be run before the minting process. Please see the `Create Wallet Edition Combo` section on when and how to use this functionality.
 
 ### Randomise generic metadata image URLs
 Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata](./README.md#9-update-nfts-for-reveal---generic-image-until-purchased-then-only-reveal-nft) section.
@@ -258,7 +247,7 @@ Modify the following parts at the very least, below are just sample values that 
 
 #### b. Update your layer configurations
 - Update your folder names, order in which they need to be processed and the number of images to create
-- Optionally add maximum repeatability rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16) and [Layer Item Maximum Repeatability Settings](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/20)
+- Optionally add maximum repeatability rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16)
 - Optionally add layer combination exclusion rules in for the layers - Please see [Layer Combination Exclusion Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/15)
 
 *Example of default configuration along with maximum repeatability and layer compatibility*
@@ -408,17 +397,13 @@ The new json files in the `ipfsMetas` directory will now contain a `metadata_uri
 `Important` - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update the `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file so that the genericJSON directory's metadata will be used instead of the json directory. Please see the section on NFT reveal steps to follow in the `EXAMPLE - REVEAL (ERC721)` and `EXAMPLE - REVEAL (ERC1155)` examples below.
 
 
-### 11. Create Wallet Edition Combo
-If you would like to mint your editions to different wallets, then you need to populate the account_details.js file's walletMintList with the wallet address and nft edition count. Once this is done, then run the `Custom - Create_Wallet_Edition_Combo Command`, which will generate a new `_walletAddressMintList.json` in the ipfsMetas directory. When you run the the `ERC1155 Batch IPFS Metas Migration` or `Minting NFTs` steps, then it will attempt to get the specific edition's wallet address that it needs to mint towards. If it can't find the `_walletAddressMintList.json` file or the edition is not in the file, then the mint process will default back to the mint_to_address field in the account_details.js file.
-
-
-### 12. ERC1155 Batch IPFS Metas Migration
+### 11. ERC1155 Batch IPFS Metas Migration
 If you would like to make use of batch minting against an ERC1155 contract, you need to run the `Custom - Batch_Ipfs_Metas_Migration` script which will create a new `batchIPFSMetas` directory and it will create numbered json files, for example `1.json` which will contain a list of tokens for that specific batch to be minted, and a new `_batchIPFSMetas.json` file which will be a combined json file of all the numbered json files. The `NFTPort - Mint_Batch Command` will use this file these files to mint the token batches.
 
 Before you use the `Custom - Batch_Ipfs_Metas_Migration` script, please be sure to update the `batch_mint_size` and `batch_mint_nft_amount` key's values to what your requirement is. By default, it is set to 50 for the `batch_mint_size` key and 1 for the `batch_mint_nft_amount` key.
 
 
-### 13. Minting NFTs
+### 12. Minting NFTs
 - Use the `NFTPort - Mint_Batch Command` below to start minting against an ERC1155 contract where your mints will happen in batches.
 - Use the `NFTPort - Mint Command` below to start minting against an ERC721 contract where your mint will happen individually.
 - Use the `NFTPort - Mint_Range Command` below to start minting against an ERC721 contract for a range of NFTs between specific editions.
@@ -431,7 +416,7 @@ Before you use the `NFTPort - Mint_Item Command` script, please be sure to updat
 Before you use the `NFTPort - Mint_Batch Command` script, please be sure to run the `Custom - Batch_Ipfs_Metas_Migration` script.
 
 
-### 14. Checking NFT Mint Files For Issues
+### 13. Checking NFT Mint Files For Issues
 - Use the `Custom - Check_Mints Command` below to start checking each mint file to determine if there are any issues with the minted files for ERC721 contract files (individual files). 
 - Use the `Custom - Check_Mints_Batch Command` below to start checking each mint file to determine if there are any issues with the minted files for ERC1155 contract files (batch files). 
 
@@ -446,14 +431,14 @@ The check mints scripts will go through the files once off, check all of their d
 **Please note that this process can take time to complete as it runs through every minted json file.**
 
 
-### 15. Re-Mint Failed NFTs
+### 14. Re-Mint Failed NFTs
 - Use the `NFTPort - ReMint Command` below to start re-minting each of the json files in the `failedMints` directory for ERC721 (Individual files) contract files. 
 - Use the `NFTPort - ReMint_Batch Command` below to start re-minting each of the json files in the `failedMints` directory for ERC1155 (batch files) contract files.
 
 This process will write out a newly minted file in the `reMinted` directory as well as update the json file in the original `minted` directory. Due to this, a backup folder will be created every time this process runs with the date to keep a backup of the json file in the minted directory at the time of running this process just as a safe guard so that you have access to the original information or how the information changed in between your processing.
 
 
-### 16. Check Your Work On The Marketplace
+### 15. Check Your Work On The Marketplace
 You are done with your minting process!
 Well done!
 Go and check out your mints on your marketplace and refresh the metadata where needde.
@@ -508,15 +493,9 @@ Use the following command from the code's root directory.
 - node utils/custom/check_mints.js
 - npm run check_mints
 
-
 ### Check_Mints_Batch
 - node utils/custom/check_mints_batch.js
 - npm run check_mints_batch
-
-
-### Create_Wallet_Edition_Combo
-- node utils/custom/create_wallet_edition_combo.js
-- npm run create_wallet_edition_combo
 
 
 ### Update_Image_Info Command
@@ -570,11 +549,6 @@ Use the following command from the code's root directory.
 ### Remint_Batch Command
 - node utils/nftport/remint_batch.js
 - npm run remint_batch
-
-
-### Reveal Command
-- node utils/nftport/reveal.js
-- npm run reveal
 
 
 ### UploadFiles Command
