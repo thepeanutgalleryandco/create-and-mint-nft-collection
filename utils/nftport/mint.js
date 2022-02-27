@@ -152,7 +152,7 @@ async function fetchWithRetry(meta) {
         chain: ACCOUNT_DETAILS.chain.toLowerCase(),
         contract_address: ACCOUNT_DETAILS.contract_address,
         metadata_uri: _meta.metadata_uri,
-        mint_to_address: ACCOUNT_DETAILS.mint_to_address,
+        mint_to_address: getMintAddress(_meta.custom_fields.edition),
         token_id: _meta.custom_fields.edition,
       };
 
@@ -220,3 +220,27 @@ async function fetchWithRetry(meta) {
 const writeMintData = (_edition, _data) => {
   fs.writeFileSync(`${FOLDERS.mintedDir}/${_edition}.json`, JSON.stringify(_data, null, 2));
 };
+
+// getMintAddress function - Retrieves wallet address that will receive edition mint and if no mapping can be found, then mint to the default mint_to_address in account_details.js
+function getMintAddress(_edition) {
+  try {
+    
+    // Load the _walletAddressMintList.json file
+    const walletAddressMintList = JSON.parse(fs.readFileSync(`${FOLDERS.ipfsMetasDir}/_walletAddressMintList.json`));
+
+    // Check if the edition can be found in the _walletAddressMintList.json file.
+    if(typeof walletAddressMintList[_edition-1] === 'undefined') {
+
+      // Return the default mint_to_address from account_details.js
+      return ACCOUNT_DETAILS.mint_to_address;
+    }
+
+    // Return the wallet address from the _walletAddressMintList.json file
+    return walletAddressMintList[_edition-1];
+
+  } catch {
+    
+    // Return the default mint_to_address from account_details.js
+    return ACCOUNT_DETAILS.mint_to_address;
+  }
+}

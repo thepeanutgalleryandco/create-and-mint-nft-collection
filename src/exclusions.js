@@ -3,9 +3,9 @@ const { combinationOfTraitsAlreadyExists } = require('./exclusions/combination_t
 const { incompatibleTraitsUsed } = require('./exclusions/incompatible_traits');
 
 // Checks the different exclusions and return true if any of them are true
-const needsExclusion = (selectedTraitsList, newTraits, maxRepeatedTraits, incompatibleTraits) => {
+const needsExclusion = (selectedTraitsList, newTraits, maxRepeatedTraits, incompatibleTraits, layerItemsMaxRepeatedTraits) => {
 
-  return combinationOfTraitsAlreadyExists(selectedTraitsList, newTraits, maxRepeatedTraits) || incompatibleTraitsUsed(newTraits, incompatibleTraits);
+  return combinationOfTraitsAlreadyExists(selectedTraitsList, newTraits, maxRepeatedTraits, layerItemsMaxRepeatedTraits) || incompatibleTraitsUsed(newTraits, incompatibleTraits);
 };
 
 module.exports = {

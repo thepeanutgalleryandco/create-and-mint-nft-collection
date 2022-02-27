@@ -94,6 +94,7 @@ const layersSetup = (layersOrder) => {
       layerObj.options?.["displayName"] != undefined
         ? layerObj.options?.["displayName"]
         : layerObj.name,
+    maxRepeatedTrait: layerObj.maxRepeatedTrait,    
     blend:
       layerObj.options?.["blend"] != undefined
         ? layerObj.options?.["blend"]
@@ -324,6 +325,7 @@ const selectTraits = (layers) => {
           name: layer.elements[i].name,
           filename: layer.elements[i].filename,
           bypassDNA: layer.bypassDNA,
+          maxRepeatedTrait: layer.maxRepeatedTrait
           },
         );
       }
@@ -408,12 +410,14 @@ const startCreating = async () => {
 
         const maxRepeatedTraits = layerConfigurations[layerConfigIndex].maxRepeatedTraits;
         const incompatibleTraits = layerConfigurations[layerConfigIndex].incompatibleTraits;
-        if (needsExclusion(selectedTraitsList, traits, maxRepeatedTraits, incompatibleTraits)) {
+        const layerItemsMaxRepeatedTraits = layerConfigurations[layerConfigIndex].layerItemsMaxRepeatedTraits;
+        if (needsExclusion(selectedTraitsList, traits, maxRepeatedTraits, incompatibleTraits, layerItemsMaxRepeatedTraits)) {
           failedCount++;
           if (failedCount >= uniqueDnaTorrance) {
             console.log(
             `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
             );
+            writeMetaData(JSON.stringify(metadataList, null, 2));
             process.exit();
           }
           continue;
@@ -479,6 +483,7 @@ const startCreating = async () => {
           console.log(
             `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
           );
+          writeMetaData(JSON.stringify(metadataList, null, 2));
           process.exit();
         }
       }
