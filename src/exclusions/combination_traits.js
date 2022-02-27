@@ -29,8 +29,8 @@ const combinationOfTraitsAlreadyExists  = (selectedTraitsList, newTraits, maxRep
       return true;
     }
 
-    // Check if the selected trait has breached the maximum repeatability limit and return true if that is the case
-    if (traitLayerCounts[`${newTraits[i].layer}`] > maxRepeatedTraits) {
+    // Check if the selected trait has breached the global maximum repeatability limit and return true if that is the case
+    if (traitLayerItemCounts[`${newTraits[i].layer}/${newTraits[i].name}`] > maxRepeatedTraits) {
       console.log(`Combination of traits excluded because of global (${maxRepeatedTraits}) maximum repeatability exclusion rule!`);
       return true;
     }
@@ -39,7 +39,7 @@ const combinationOfTraitsAlreadyExists  = (selectedTraitsList, newTraits, maxRep
   // Loops through layerItemsMaxRepeatedTraits list
   for (layerItem in layerItemsMaxRepeatedTraits) {
 
-    // Check if the selected trait has breached the maximum layer item repeatability limit and return true if that is the case
+    // Check if the selected trait has breached the layer item maximum repeatability limit and return true if that is the case
     if (traitLayerItemCounts[`${layerItemsMaxRepeatedTraits[layerItem].name}`] > layerItemsMaxRepeatedTraits[layerItem].layerItemMaxRepeatedTrait) {
       console.log(`Combination of traits excluded because of layer item (${layerItemsMaxRepeatedTraits[layerItem].name}) maximum repeatability exclusion rule!`);
       return true;
