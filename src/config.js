@@ -29,9 +29,40 @@ const layerConfigurations = [
       { name: "Shine" },
       { name: "Bottom lid" },
       { name: "Top lid" },
-    ],
+    ]
   },
 ];
+
+/* Example of configuration settings
+const layerConfigurations = [
+  {
+    growEditionSizeTo: 2,
+    maxRepeatedTraits: 1,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Eyeball" },
+      { name: "Eye color", maxRepeatedTrait: 2 },
+      { name: "Iris" },
+      { name: "Shine" },
+      { name: "Bottom lid", maxRepeatedTrait: 3 },
+      { name: "Top lid" },
+    ],
+    layerItemsMaxRepeatedTraits: [
+      { name: "Background/Black", layerItemMaxRepeatedTrait: 4 },
+      { name: "Eyeball/Red", layerItemMaxRepeatedTrait: 5 }
+    ],
+    incompatibleTraits: {
+      "Eye color/Cyan": [
+        "Eyeball/Red",
+      ],
+      "Iris/Large": [
+        "Bottom lid/High",
+        "Top lid/High",
+      ],
+    }
+  },
+];
+*/
 
 const shuffleLayerConfigurations = false;
 

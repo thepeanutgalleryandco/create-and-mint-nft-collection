@@ -1,40 +1,55 @@
 // Check if the maximum repeatability have been reached
-const combinationOfTraitsAlreadyExists  = (selectedTraitsList, newTraits, maxRepeatedTraits) => {
+const combinationOfTraitsAlreadyExists  = (selectedTraitsList, newTraits, maxRepeatedTraits, layerItemsMaxRepeatedTraits) => {
+  
+  let traitLayerCounts = {};
+  let traitLayerItemCounts = {};
 
-    // Check if maximum repeatability check needs to be done and if not, return false and exit this check
-    if (!maxRepeatedTraits) {
-      return false;
-    }
-    
-    // Loops through each trait within the selected traits list
-    for (let existingTraits of selectedTraitsList) {
+  // Loops through each trait list of previous selected traits list
+  for (let existingTraits of selectedTraitsList) {
+
+    // Loops through each trait and add to count
+    for (let i = 0; i < existingTraits.length; i++) {
       
-      // Set a starting value of 0 for the selected traits
-      let commonTraits = 0;
+      // Check if trait exists in traitLayerCounts and traitLayerItemCounts objects and if it does, then add to the count, otherwise initialize with a count of 1.
+      traitLayerCounts[`${existingTraits[i].layer}`] = traitLayerCounts[`${existingTraits[i].layer}`] ? traitLayerCounts[`${existingTraits[i].layer}`] + 1 : 1 ;
+      traitLayerItemCounts[`${existingTraits[i].layer}/${existingTraits[i].name}`] = traitLayerItemCounts[`${existingTraits[i].layer}/${existingTraits[i].name}`] ? traitLayerItemCounts[`${existingTraits[i].layer}/${existingTraits[i].name}`] + 1 : 1 ; 
+    }
+  }
 
-      // Loops through each new trait and only keep on looping if maximum repeatability have not been reached
-      for (let i = 0; (i < newTraits.length) && (commonTraits <= maxRepeatedTraits); i++) {
+  // Loops through each new trait and add to count
+  for (let i = 0; i < newTraits.length; i++) {
+    
+    // Check if trait exists in traitLayerCounts and traitLayerItemCounts objects and if it does, then add to the count, otherwise initialize with a count of 1.
+    traitLayerCounts[`${newTraits[i].layer}`] = traitLayerCounts[`${newTraits[i].layer}`] ? traitLayerCounts[`${newTraits[i].layer}`] + 1 : 1 ;
+    traitLayerItemCounts[`${newTraits[i].layer}/${newTraits[i].name}`] = traitLayerItemCounts[`${newTraits[i].layer}/${newTraits[i].name}`] ? traitLayerItemCounts[`${newTraits[i].layer}/${newTraits[i].name}`] + 1 : 1 ;
 
-        // Checks if the new trait is already in the selected traits list
-        if (newTraits[i].id === existingTraits[i].id) {
-
-          // Increment the selected traits value as it has been found before
-          commonTraits++;
-        }
-      }
-
-      // Check if the selected trait has breached the maximum repeatability limit and return true if that is the case
-      if (commonTraits > maxRepeatedTraits) {
-        console.log("Combination of traits excluded because of maximum repeatability exclusion rule!");
-        return true;
-      }
-  
+    // Check if the selected trait has breached the layer maximum repeatability limit and return true if that is the case
+    if (traitLayerCounts[`${newTraits[i].layer}`] > newTraits[i].maxRepeatedTrait) {
+      console.log(`Combination of traits excluded because of layer (${newTraits[i].layer}) maximum repeatability exclusion rule!`);
+      return true;
     }
 
-    // Return false if the traits have been looped through and the maximum repeatability have not been breached
-    return false;
-  };
-  
-  module.exports = {
-    combinationOfTraitsAlreadyExists,
-  };
+    // Check if the selected trait has breached the maximum repeatability limit and return true if that is the case
+    if (traitLayerCounts[`${newTraits[i].layer}`] > maxRepeatedTraits) {
+      console.log(`Combination of traits excluded because of global (${maxRepeatedTraits}) maximum repeatability exclusion rule!`);
+      return true;
+    }
+  }
+
+  // Loops through layerItemsMaxRepeatedTraits list
+  for (layerItem in layerItemsMaxRepeatedTraits) {
+
+    // Check if the selected trait has breached the maximum layer item repeatability limit and return true if that is the case
+    if (traitLayerItemCounts[`${layerItemsMaxRepeatedTraits[layerItem].name}`] > layerItemsMaxRepeatedTraits[layerItem].layerItemMaxRepeatedTrait) {
+      console.log(`Combination of traits excluded because of layer item (${layerItemsMaxRepeatedTraits[layerItem].name}) maximum repeatability exclusion rule!`);
+      return true;
+    }
+  }
+
+  // Return false if the traits have been looped through and the maximum repeatability have not been breached
+  return false;
+};
+
+module.exports = {
+  combinationOfTraitsAlreadyExists,
+};
