@@ -198,7 +198,7 @@ If you would like to support my NFT collection, please take a look at the below.
 
 
 ### Refresh NFT Metadata For Opensea
-Added a new script that can be used to refresh the metadata of your NFT collection on Opensea. This process will make use of Puppeteer and chrome automation. Please see [Refresh NFT Metadata For Opensea](./README.md#17-refresh-nft-metadata-for-opensea) 
+Added a new script that can be used to refresh the metadata of your NFT collection on Opensea. This process will make use of Puppeteer and chrome automation. Please see [Refresh NFT Metadata For Opensea](#17-refresh-nft-metadata-for-opensea) 
 
 **Please note that I have only tested this on a single NFT collection, so feel free to test it out and let me know if it worked for you!**
 **Please note that this will be time consuming, so grab a cup of coffee!**
@@ -211,7 +211,7 @@ Users have new metadata exclusion configuration options
 - Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This can now be set at a global level, layer level and layer item level.
 - Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
 
-Please see the [Layer Configuration](./README.md#b-update-your-layer-configurations) section.
+Please see the [Layer Configuration](#b-update-your-layer-configurations) section.
 
 ### Reveal Script
 Users have a new Reveal script that can be used to reveal NFTs that do not belong to their wallet address anymore.
@@ -222,11 +222,11 @@ This script can be run manually and then stopped after running or it can be depl
 Users have a new option of minting NFTs against a list of wallet addresses by making use of the create_wallet_edition_combo.js script. This script should be run before the minting process. Please see the `Create Wallet Edition Combo` section on when and how to use this functionality.
 
 ### Randomise generic metadata image URLs
-Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata](./README.md#9-update-nfts-for-reveal---generic-image-until-purchased-then-only-reveal-nft) section.
+Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata](#9-update-nfts-for-reveal---generic-image-until-purchased-then-only-reveal-nft) section.
 
 
 ### Added provenance generation capability (Experimental) 
-Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance](./README.md#d-provenance-information) section.
+Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance](#d-provenance-information) section.
 
 
 ### Added Support For ERC1155 Batch Minting And Total Token Count
