@@ -511,7 +511,7 @@ GOOD LUCK!
 
 
 ### 17. Refresh NFT Metadata For Opensea
-Go to the utils/custom/update_opensea_metadata.js file and update `START_EDITION`, `END_EDITION` and `COLLECTION_BASE_URL` (Only if your contract is deployed on Ethereum - Comments in the file itself will explain how this should be updated between Ethereum and Polygon collections). Please make sure that the contract address that you are trying refresh has been set for the `contract_address` field in the constants/account_details.js file.
+Go to the utils/custom/update_opensea_metadata.js file and update `START_EDITION`, `END_EDITION` and `COLLECTION_BASE_URL` (Only if your contract is deployed on Ethereum - Comments in the file itself will explain how this should be updated between Ethereum and Polygon collections). Please make sure that the contract address that you are trying refresh has been set for the `contract_address` field in the `constants/account_details.js` file.
 
 Use the  `Custom - Update_Opensea_Metadata Command` below to start the refresh of metadata for each NFT edition between your start and end editions.
 
