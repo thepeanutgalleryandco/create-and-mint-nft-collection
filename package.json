@@ -1,6 +1,6 @@
 {
   "name": "create-and-mint-nft-collection",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Source code to create and mint generative art via NFTPort API. Special thanks to codeSTACKr and Hashlips for their source codebase.",
   "main": "index.js",
   "bin": "index.js",
@@ -28,12 +28,15 @@
     "preview_gif": "node utils/art_engine/preview_gif.js",
     "preview": "node utils/art_engine/preview.js",
     "rarity": "node utils/art_engine/rarity.js",
+    "rarity_md": "node utils/custom/getRarity_fromMetadata.js",
+    "rarity_rank": "node utils/custom/rarity_rank.js",
     "remint": "node utils/nftport/remint.js",
     "remint_batch": "node utils/nftport/remint_batch.js",
     "reveal": "node utils/nftport/reveal.js",
     "update_image_info": "node utils/custom/update_image_info.js",
     "update_json_to_generic_meta": "node utils/custom/update_json_to_generic_meta.js",
     "update_metadata_info": "node utils/custom/update_metadata_info.js",
+    "update_opensea_metadata": "node utils/custom/update_opensea_metadata.js",
     "update_nft_info": "node utils/custom/update_nft_info.js",
     "uploadFiles": "node utils/nftport/uploadFiles.js",
     "uploadMetas": "node utils/nftport/uploadMetas.js"
@@ -46,6 +49,7 @@
     "form-data": "^4.0.0",
     "gif-encoder-2": "^1.0.5",
     "node-fetch": "^2.6.7",
+    "puppeteer": "^13.4.1",
     "sha1": "^1.1.1",
     "simple-get": "4.0.1"
   }
