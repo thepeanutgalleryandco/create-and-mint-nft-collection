@@ -201,6 +201,7 @@ If you would like to support my NFT collection, please take a look at the below.
 Added a new script that can be used to refresh the metadata of your NFT collection on Opensea. This process will make use of Puppeteer and chrome automation. Please see [Refresh NFT Metadata For Opensea](#17-refresh-nft-metadata-for-opensea) 
 
 **Please note that I have only tested this on a single NFT collection, so feel free to test it out and let me know if it worked for you!**
+
 **Please note that this will be time consuming, so grab a cup of coffee!**
 
 ### Added rarity calculator 
