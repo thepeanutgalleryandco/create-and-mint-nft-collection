@@ -92,7 +92,9 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Batch_Ipfs_Metas_Migration](#batch_ipfs_metas_migration)
      - [Check_Mints](#check_mints)
      - [Check_Mints_Batch](#check_mints_batch)
-     - [Create_Wallet_Edition_Combo Command](#create_wallet_edition_combo-command)     
+     - [Create_Wallet_Edition_Combo Command](#create_wallet_edition_combo-command)
+     - [Rarity_Md](#rarity_md)
+     - [Rarity_Rank](#rarity_rank)
      - [Update_Image_Info Command](#update_image_info-command)
      - [Update_Json_To_Generic_Meta Command](#update_json_to_generic_meta-command)
      - [Update_Metadata_Info Command](#update_metadata_info-command)
@@ -191,6 +193,9 @@ If you would like to support my NFT collection, please take a look at the below.
 
 ## UPDATES & FIXES
 
+
+### Added rarity calculator 
+Added codeSTACKr's rarity scripts. See this [codeSTACKR Youtube Video](https://youtu.be/Uz1y4j9gvP8) for the walkthrough and the [Art-Engine's Rarity](#c-rarity-information) section below.
 
 ### Added metadata exclusions functionality
 Users have new metadata exclusion configuration options
@@ -338,6 +343,41 @@ Use the `Art Engine - Build Command` below to create your generative art collect
 #### c. Rarity Information
 Use the `Art Engine - Rarity Command` below to generate a JSON output to the terminal that will show you how your layers will be distributed.
 
+Use the `Custom - Rarity_Md Command` below to generate a JSON file (`_metadata_with_rarity.json`) in the build/json/ directory. This will add a `rarity_score` key to each attribute as well as a `total_rarity_score` and `rank` for each NFT edition. Use the `Custom - Rarity_Rank Command` below to pull information from the `_metadata_with_rarity.json` file, like the top X editions or the rank of a specific NFT edition. 
+
+**Example of top 20 editions from my collection**
+````
+create-and-mint-nft-collection roebou$ npm run rarity_rank
+
+> create-and-mint-nft-collection@1.6.1 rarity_rank
+> node utils/custom/rarity_rank.js
+
+Enter 1 to get top ## NFTs by rarity or 2 to get a specific NFTs rarity: 1
+Enter the number of NFTs you want to get: 20
+[
+  { name: 'Steak Bite #8237', rank: 1, total_rarity_score: 110.84 },
+  { name: 'Steak Bite #5552', rank: 2, total_rarity_score: 110.66 },
+  { name: 'Steak Bite #342', rank: 3, total_rarity_score: 105.64 },
+  { name: 'Steak Bite #7612', rank: 4, total_rarity_score: 105.08 },
+  { name: 'Steak Bite #5086', rank: 5, total_rarity_score: 103.83 },
+  { name: 'Steak Bite #1093', rank: 6, total_rarity_score: 103.45 },
+  { name: 'Steak Bite #2898', rank: 7, total_rarity_score: 101.94 },
+  { name: 'Steak Bite #3326', rank: 8, total_rarity_score: 100.11 },
+  { name: 'Steak Bite #4257', rank: 9, total_rarity_score: 98.16 },
+  { name: 'Steak Bite #435', rank: 10, total_rarity_score: 96.26 },
+  { name: 'Steak Bite #8675', rank: 11, total_rarity_score: 96.06 },
+  { name: 'Steak Bite #1288', rank: 12, total_rarity_score: 95.43 },
+  { name: 'Steak Bite #2966', rank: 13, total_rarity_score: 95.16 },
+  { name: 'Steak Bite #7232', rank: 14, total_rarity_score: 95 },
+  { name: 'Steak Bite #9128', rank: 15, total_rarity_score: 94.62 },
+  { name: 'Steak Bite #6542', rank: 16, total_rarity_score: 94.58 },
+  { name: 'Steak Bite #3942', rank: 17, total_rarity_score: 94.52 },
+  { name: 'Steak Bite #9162', rank: 18, total_rarity_score: 94.41 },
+  { name: 'Steak Bite #3864', rank: 19, total_rarity_score: 93.61 },
+  { name: 'Steak Bite #1150', rank: 20, total_rarity_score: 93.46 }
+]
+create-and-mint-nft-collection roebou$
+````
 
 #### d. Provenance Information
 Use the `Art Engine - Create_Provenance Command` below to generate two new JSON files within the `build/json` directory. To read up more on Provenance and how it can be used in your NFT Collections, please see the following [Medium Link](https://medium.com/coinmonks/the-elegance-of-the-nft-provenance-hash-solution-823b39f99473)
@@ -517,6 +557,16 @@ Use the following command from the code's root directory.
 ### Create_Wallet_Edition_Combo
 - node utils/custom/create_wallet_edition_combo.js
 - npm run create_wallet_edition_combo
+
+
+### Rarity_Md
+- node utils/custom/getRarity_fromMetadata.js
+- npm run rarity_md
+
+
+### Rarity_Rank
+- node utils/custom/rarity_rank.js
+- npm run rarity_rank
 
 
 ### Update_Image_Info Command

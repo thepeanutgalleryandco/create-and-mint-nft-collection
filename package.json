@@ -1,6 +1,6 @@
 {
   "name": "create-and-mint-nft-collection",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Source code to create and mint generative art via NFTPort API. Special thanks to codeSTACKr and Hashlips for their source codebase.",
   "main": "index.js",
   "bin": "index.js",
@@ -28,6 +28,8 @@
     "preview_gif": "node utils/art_engine/preview_gif.js",
     "preview": "node utils/art_engine/preview.js",
     "rarity": "node utils/art_engine/rarity.js",
+    "rarity_md": "node utils/custom/getRarity_fromMetadata.js",
+    "rarity_rank": "node utils/custom/rarity_rank.js",
     "remint": "node utils/nftport/remint.js",
     "remint_batch": "node utils/nftport/remint_batch.js",
     "reveal": "node utils/nftport/reveal.js",
