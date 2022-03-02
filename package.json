@@ -36,6 +36,7 @@
     "update_image_info": "node utils/custom/update_image_info.js",
     "update_json_to_generic_meta": "node utils/custom/update_json_to_generic_meta.js",
     "update_metadata_info": "node utils/custom/update_metadata_info.js",
+    "update_opensea_metadata": "node utils/custom/update_opensea_metadata.js",
     "update_nft_info": "node utils/custom/update_nft_info.js",
     "uploadFiles": "node utils/nftport/uploadFiles.js",
     "uploadMetas": "node utils/nftport/uploadMetas.js"
@@ -48,6 +49,7 @@
     "form-data": "^4.0.0",
     "gif-encoder-2": "^1.0.5",
     "node-fetch": "^2.6.7",
+    "puppeteer": "^13.4.1",
     "sha1": "^1.1.1",
     "simple-get": "4.0.1"
   }

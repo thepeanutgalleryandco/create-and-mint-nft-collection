@@ -15,6 +15,7 @@ Base code is from the below repos - Massive thank you to the teams behind these 
 - [codeSTACKr](https://github.com/codeSTACKr/video-source-code-create-nft-collection/)
 - [Gerhard Molin - Provenance Addition](https://github.com/avocadohooman)
 - [Arnau González - Exclusions Addition](https://github.com/arnaugm)
+- [Andy Jiang Pro - Opensea Metadata Refresh](https://github.com/AndyJiangPro)
 
 File Uploads can be done via [Pinata](https://app.pinata.cloud/) or a similar service that gives you a single CID for images and another one for meta files or [NFTPort](https://nftport.xyz) can be used.
 
@@ -76,6 +77,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [14. Checking NFT Mint Files For Issues](#14-checking-nft-mint-files-for-issues)
      - [15. Re-Mint Failed NFTs](#15-re-mint-failed-nfts)
      - [16. Check Your Work On The Marketplace](#16-check-your-work-on-the-marketplace)
+     - [17. Refresh NFT Metadata For Opensea](#17-refresh-nft-metadata-for-opensea)
 
 
 ## Commands
@@ -99,6 +101,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Update_Json_To_Generic_Meta Command](#update_json_to_generic_meta-command)
      - [Update_Metadata_Info Command](#update_metadata_info-command)
      - [Update_Nft_Info Command](#update_nft_info-command)
+     - [Update_Opensea_Metadata Command](#update_opensea_metadata-command)
 
 - [NFTPort Commands](#nftport-commands)
      - [Mint_Batch Command](#mint_batch-command)
@@ -193,6 +196,12 @@ If you would like to support my NFT collection, please take a look at the below.
 
 ## UPDATES & FIXES
 
+
+### Refresh NFT Metadata For Opensea
+Added a new script that can be used to refresh the metadata of your NFT collection on Opensea. This process will make use of Puppeteer and chrome automation. Please see [Refresh NFT Metadata For Opensea](./README.md#17-refresh-nft-metadata-for-opensea) 
+
+**Please note that I have only tested this on a single NFT collection, so feel free to test it out and let me know if it worked for you!**
+**Please note that this will be time consuming, so grab a cup of coffee!**
 
 ### Added rarity calculator 
 Added codeSTACKr's rarity scripts. See this [codeSTACKR Youtube Video](https://youtu.be/Uz1y4j9gvP8) for the walkthrough and the [Art-Engine's Rarity](#c-rarity-information) section below.
@@ -501,6 +510,14 @@ Go and check out your mints on your marketplace and refresh the metadata where n
 GOOD LUCK!
 
 
+### 17. Refresh NFT Metadata For Opensea
+Go to the utils/custom/update_opensea_metadata.js file and update `START_EDITION`, `END_EDITION` and `COLLECTION_BASE_URL` (Only if your contract is deployed on Ethereum - Comments in the file itself will explain how this should be updated between Ethereum and Polygon collections). Please make sure that the contract address that you are trying refresh has been set for the `contract_address` field in the constants/account_details.js file.
+
+Use the  `Update_Opensea_Metadata Command` below to start the refresh of metadata for each NFT edition between your start and end editions.
+
+**Please note this process will be time consuming for large editions.**
+
+
 ## Art Engine Commands
 ### Build Command
 - npm run build
@@ -587,6 +604,11 @@ Use the following command from the code's root directory.
 ### Update_Nft_Info Command
 - node utils/custom/update_nft_info.js
 - npm run update_nft_info
+
+
+### Update_Opensea_Metadata Command
+- node utils/custom/update_opensea_metadata.js
+- npm run update_opensea_metadata
 
 
 ## NFTPort Commands
