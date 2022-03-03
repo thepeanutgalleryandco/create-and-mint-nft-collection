@@ -15,6 +15,7 @@ Base code is from the below repos - Massive thank you to the teams behind these 
 - [codeSTACKr](https://github.com/codeSTACKr/video-source-code-create-nft-collection/)
 - [Gerhard Molin - Provenance Addition](https://github.com/avocadohooman)
 - [Arnau González - Exclusions Addition](https://github.com/arnaugm)
+- [Andy Jiang Pro - Opensea Metadata Refresh](https://github.com/AndyJiangPro)
 
 File Uploads can be done via [Pinata](https://app.pinata.cloud/) or a similar service that gives you a single CID for images and another one for meta files or [NFTPort](https://nftport.xyz) can be used.
 
@@ -76,6 +77,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [14. Checking NFT Mint Files For Issues](#14-checking-nft-mint-files-for-issues)
      - [15. Re-Mint Failed NFTs](#15-re-mint-failed-nfts)
      - [16. Check Your Work On The Marketplace](#16-check-your-work-on-the-marketplace)
+     - [17. Refresh NFT Metadata For Opensea](#17-refresh-nft-metadata-for-opensea)
 
 
 ## Commands
@@ -92,11 +94,14 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Batch_Ipfs_Metas_Migration](#batch_ipfs_metas_migration)
      - [Check_Mints](#check_mints)
      - [Check_Mints_Batch](#check_mints_batch)
-     - [Create_Wallet_Edition_Combo Command](#create_wallet_edition_combo-command)     
+     - [Create_Wallet_Edition_Combo Command](#create_wallet_edition_combo-command)
+     - [Rarity_Md](#rarity_md)
+     - [Rarity_Rank](#rarity_rank)
      - [Update_Image_Info Command](#update_image_info-command)
      - [Update_Json_To_Generic_Meta Command](#update_json_to_generic_meta-command)
      - [Update_Metadata_Info Command](#update_metadata_info-command)
      - [Update_Nft_Info Command](#update_nft_info-command)
+     - [Update_Opensea_Metadata Command](#update_opensea_metadata-command)
 
 - [NFTPort Commands](#nftport-commands)
      - [Mint_Batch Command](#mint_batch-command)
@@ -192,13 +197,23 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
+### Refresh NFT Metadata For Opensea
+Added a new script that can be used to refresh the metadata of your NFT collection on Opensea. This process will make use of Puppeteer and chrome automation. Please see [Refresh NFT Metadata For Opensea](#17-refresh-nft-metadata-for-opensea) 
+
+**Please note that I have only tested this on a single NFT collection, so feel free to test it out and let me know if it worked for you!**
+
+**Please note that this will be time consuming, so grab a cup of coffee!**
+
+### Added rarity calculator 
+Added codeSTACKr's rarity scripts. See this [codeSTACKR Youtube Video](https://youtu.be/Uz1y4j9gvP8) for the walkthrough and the [Art-Engine's Rarity](#c-rarity-information) section below.
+
 ### Added metadata exclusions functionality
 Users have new metadata exclusion configuration options
 - Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This can now be set at a global level, layer level and layer item level.
 - Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
 - Trait dependencies - Set traits that require other traits.
 
-Please see the [Layer Configuration](./README.md#b-update-your-layer-configurations) section.
+Please see the [Layer Configuration](#b-update-your-layer-configurations) section.
 
 ### Reveal Script
 Users have a new Reveal script that can be used to reveal NFTs that do not belong to their wallet address anymore.
@@ -209,11 +224,11 @@ This script can be run manually and then stopped after running or it can be depl
 Users have a new option of minting NFTs against a list of wallet addresses by making use of the create_wallet_edition_combo.js script. This script should be run before the minting process. Please see the `Create Wallet Edition Combo` section on when and how to use this functionality.
 
 ### Randomise generic metadata image URLs
-Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata](./README.md#9-update-nfts-for-reveal---generic-image-until-purchased-then-only-reveal-nft) section.
+Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata](#9-update-nfts-for-reveal---generic-image-until-purchased-then-only-reveal-nft) section.
 
 
 ### Added provenance generation capability (Experimental) 
-Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance](./README.md#d-provenance-information) section.
+Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance](#d-provenance-information) section.
 
 
 ### Added Support For ERC1155 Batch Minting And Total Token Count
@@ -340,6 +355,41 @@ Use the `Art Engine - Build Command` below to create your generative art collect
 #### c. Rarity Information
 Use the `Art Engine - Rarity Command` below to generate a JSON output to the terminal that will show you how your layers will be distributed.
 
+Use the `Custom - Rarity_Md Command` below to generate a JSON file (`_metadata_with_rarity.json`) in the build/json/ directory. This will add a `rarity_score` key to each attribute as well as a `total_rarity_score` and `rank` for each NFT edition. Use the `Custom - Rarity_Rank Command` below to pull information from the `_metadata_with_rarity.json` file, like the top X editions or the rank of a specific NFT edition. 
+
+**Example of top 20 editions from my collection**
+````
+create-and-mint-nft-collection roebou$ npm run rarity_rank
+
+> create-and-mint-nft-collection@1.6.1 rarity_rank
+> node utils/custom/rarity_rank.js
+
+Enter 1 to get top ## NFTs by rarity or 2 to get a specific NFTs rarity: 1
+Enter the number of NFTs you want to get: 20
+[
+  { name: 'Steak Bite #8237', rank: 1, total_rarity_score: 110.84 },
+  { name: 'Steak Bite #5552', rank: 2, total_rarity_score: 110.66 },
+  { name: 'Steak Bite #342', rank: 3, total_rarity_score: 105.64 },
+  { name: 'Steak Bite #7612', rank: 4, total_rarity_score: 105.08 },
+  { name: 'Steak Bite #5086', rank: 5, total_rarity_score: 103.83 },
+  { name: 'Steak Bite #1093', rank: 6, total_rarity_score: 103.45 },
+  { name: 'Steak Bite #2898', rank: 7, total_rarity_score: 101.94 },
+  { name: 'Steak Bite #3326', rank: 8, total_rarity_score: 100.11 },
+  { name: 'Steak Bite #4257', rank: 9, total_rarity_score: 98.16 },
+  { name: 'Steak Bite #435', rank: 10, total_rarity_score: 96.26 },
+  { name: 'Steak Bite #8675', rank: 11, total_rarity_score: 96.06 },
+  { name: 'Steak Bite #1288', rank: 12, total_rarity_score: 95.43 },
+  { name: 'Steak Bite #2966', rank: 13, total_rarity_score: 95.16 },
+  { name: 'Steak Bite #7232', rank: 14, total_rarity_score: 95 },
+  { name: 'Steak Bite #9128', rank: 15, total_rarity_score: 94.62 },
+  { name: 'Steak Bite #6542', rank: 16, total_rarity_score: 94.58 },
+  { name: 'Steak Bite #3942', rank: 17, total_rarity_score: 94.52 },
+  { name: 'Steak Bite #9162', rank: 18, total_rarity_score: 94.41 },
+  { name: 'Steak Bite #3864', rank: 19, total_rarity_score: 93.61 },
+  { name: 'Steak Bite #1150', rank: 20, total_rarity_score: 93.46 }
+]
+create-and-mint-nft-collection roebou$
+````
 
 #### d. Provenance Information
 Use the `Art Engine - Create_Provenance Command` below to generate two new JSON files within the `build/json` directory. To read up more on Provenance and how it can be used in your NFT Collections, please see the following [Medium Link](https://medium.com/coinmonks/the-elegance-of-the-nft-provenance-hash-solution-823b39f99473)
@@ -463,6 +513,14 @@ Go and check out your mints on your marketplace and refresh the metadata where n
 GOOD LUCK!
 
 
+### 17. Refresh NFT Metadata For Opensea
+Go to the utils/custom/update_opensea_metadata.js file and update `START_EDITION`, `END_EDITION` and `COLLECTION_BASE_URL` (Only if your contract is deployed on Ethereum - Comments in the file itself will explain how this should be updated between Ethereum and Polygon collections). Please make sure that the contract address that you are trying refresh has been set for the `contract_address` field in the `constants/account_details.js` file.
+
+Use the  `Custom - Update_Opensea_Metadata Command` below to start the refresh of metadata for each NFT edition between your start and end editions.
+
+**Please note this process will be time consuming for large editions.**
+
+
 ## Art Engine Commands
 ### Build Command
 - npm run build
@@ -521,6 +579,16 @@ Use the following command from the code's root directory.
 - npm run create_wallet_edition_combo
 
 
+### Rarity_Md
+- node utils/custom/getRarity_fromMetadata.js
+- npm run rarity_md
+
+
+### Rarity_Rank
+- node utils/custom/rarity_rank.js
+- npm run rarity_rank
+
+
 ### Update_Image_Info Command
 - node utils/custom/update_image_info.js
 - npm run update_image_info
@@ -539,6 +607,11 @@ Use the following command from the code's root directory.
 ### Update_Nft_Info Command
 - node utils/custom/update_nft_info.js
 - npm run update_nft_info
+
+
+### Update_Opensea_Metadata Command
+- node utils/custom/update_opensea_metadata.js
+- npm run update_opensea_metadata
 
 
 ## NFTPort Commands
