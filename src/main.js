@@ -30,6 +30,8 @@ const selectedTraitsList = new Set();
 const HashlipsGiffer = require(`${FOLDERS.modulesDir}/HashlipsGiffer.js`);
 
 const { needsExclusion } = require('./exclusions');
+const { fixDNAWithTraitDependencies: fixTraitDependencies } = require('./exclusions/dependency_traits');
+const { traitDependenciesInvalid } = require('./exclusions/dependency_traits');
 
 let hashlipsGiffer = null;
 
@@ -404,14 +406,24 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      const traits = selectTraits(layers);
+      let traits = selectTraits(layers);
       let newDna = createDna(traits);
       if (isDnaUnique(dnaList, newDna)) {
-
         const maxRepeatedTraits = layerConfigurations[layerConfigIndex].maxRepeatedTraits;
         const incompatibleTraits = layerConfigurations[layerConfigIndex].incompatibleTraits;
         const layerItemsMaxRepeatedTraits = layerConfigurations[layerConfigIndex].layerItemsMaxRepeatedTraits;
-        if (needsExclusion(selectedTraitsList, traits, maxRepeatedTraits, incompatibleTraits, layerItemsMaxRepeatedTraits)) {
+        const autoFullfillDependency = layerConfigurations[layerConfigIndex].dependendTraits.autoFullfillDependency;
+        let dependendTraits = layerConfigurations[layerConfigIndex].dependendTraits.traits;
+
+        if (dependendTraits === undefined)
+          console.log("already undefined :(");
+
+        if (autoFullfillDependency) {
+          traits = fixTraitDependencies(traits, dependendTraits);
+          dependendTraits = undefined;
+        }
+
+        if (needsExclusion(selectedTraitsList, traits, maxRepeatedTraits, incompatibleTraits, layerItemsMaxRepeatedTraits, dependendTraits)) {
           failedCount++;
           if (failedCount >= uniqueDnaTorrance) {
             console.log(

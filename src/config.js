@@ -59,7 +59,20 @@ const layerConfigurations = [
         "Bottom lid/High",
         "Top lid/High",
       ],
-    }
+    },
+    dependendTraits: {
+      autoFullfillDependency: true,
+      traits:
+      {
+        "Eye color/Cyan": [
+          "Eyeball/Red",
+        ],
+        "Iris/Large": [
+          "Bottom lid/High",
+          "Top lid/High",
+        ],
+      },
+    },
   },
 ];
 */

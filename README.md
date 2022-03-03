@@ -196,6 +196,7 @@ If you would like to support my NFT collection, please take a look at the below.
 Users have new metadata exclusion configuration options
 - Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This can now be set at a global level, layer level and layer item level.
 - Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
+- Trait dependencies - Set traits that require other traits.
 
 Please see the [Layer Configuration](./README.md#b-update-your-layer-configurations) section.
 
@@ -260,6 +261,7 @@ Modify the following parts at the very least, below are just sample values that 
 - Update your folder names, order in which they need to be processed and the number of images to create
 - Optionally add maximum repeatability rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16) and [Layer Item Maximum Repeatability Settings](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/20)
 - Optionally add layer combination exclusion rules in for the layers - Please see [Layer Combination Exclusion Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/15)
+- Optionally add layer dependency rules - Set traits that require another trait. You can also set `autoFullfillDependency` to true to not reject invalid combinations, but fix them. This only works correctly, if the trait list for a dependency has at most one entry per layer. As all exclusion rules this can influence the final trait distribution as trait weights will be overruled.
 
 *Example of default configuration along with maximum repeatability and layer compatibility*
 
