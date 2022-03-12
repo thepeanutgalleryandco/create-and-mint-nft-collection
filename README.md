@@ -113,6 +113,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Reveal Command](#reveal-command)     
      - [UploadFiles Command](#uploadfiles-command)
      - [UploadMetas Command](#uploadmetas-command)
+     - [UploadMetas_Directory Command](#uploadmetas_directory-command)
 
 
 ## ERC721 Examples
@@ -197,6 +198,9 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
+### Added NFTPort UploadMetas Directory API
+Added a new script that will allow users to upload the json files in a directory in a single API call instead of individual API calls for each JSON file. This should typically be used with collection contracts on NFTPort or if a single CID is needed for the JSON files. [NFTPort API - Upload Metadata Directory To IPFS](https://docs.nftport.xyz/docs/nftport/b3A6NDMwNTE5ODY-upload-metadata-directory-to-ipfs)
+
 ### Refresh NFT Metadata For Opensea
 Added a new script that can be used to refresh the metadata of your NFT collection on Opensea. This process will make use of Puppeteer and chrome automation. Please see [Refresh NFT Metadata For Opensea](#17-refresh-nft-metadata-for-opensea) 
 
@@ -213,17 +217,6 @@ Users have new metadata exclusion configuration options
 - Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
 
 Please see the [Layer Configuration](#b-update-your-layer-configurations) section.
-
-### Reveal Script
-Users have a new Reveal script that can be used to reveal NFTs that do not belong to their wallet address anymore.
-This script runs every X number of seconds, that can be set on the salesInterval field in the account_details.js file. The default is 900000 (15 minutes).
-This script can be run manually and then stopped after running or it can be deployed to a server where it can run on the schedule of every X number of seconds.
-
-### Minting Against Wallet Address List
-Users have a new option of minting NFTs against a list of wallet addresses by making use of the create_wallet_edition_combo.js script. This script should be run before the minting process. Please see the `Create Wallet Edition Combo` section on when and how to use this functionality.
-
-### Randomise generic metadata image URLs
-Uses can now generate generic metadata where each NFT contains a different / randomised image URL instead of a static image URL. Users manually upload their generic images and retrieve the IPFS URLs and then simply add them into the list for genericURLs. Please see the [Generic Metadata](#9-update-nfts-for-reveal---generic-image-until-purchased-then-only-reveal-nft) section.
 
 
 ### Added provenance generation capability (Experimental) 
@@ -321,7 +314,7 @@ Update the `constants/account_details.js` file with the NFTPort account details.
 - `timeout` - This is the waiting time in between API calls when errors arise on the APIs. This has been disabled at the moment as it causes the scripts to hang at times. E.x. 5000 = 5 seconds.
 - `mint_range` - If you only want to mint a specific range of editions, e.x everything between editions 5 and 10.
 - `mint_item` - If you only want to mint a specific edition, e.x 1.
-- `uploadGenericMeta` - If you are planning on using a reveal, then set this value to true, otherwise keep this as false. When it is true, then the uploadMetas file will read from the genericJSON directory to upload the metadata. If set to false (default), then it will read from the json directory which contains your revealed items.
+- `uploadGenericMeta` - If you are planning on using a reveal, then set this value to true, otherwise keep this as false. When it is true, then the uploadMetas files will read from the genericJSON directory to upload the metadata. If set to false (default), then it will read from the json directory which contains your revealed items.
 - `batch_mint_size` - The number of NFTs that are minted per batch_mint. Maximum is 50 NFTs per batch_mint. This is only applicable to ERC1155 contracts, not ERC721.
 - `batch_mint_nft_amount` - The number of times that each NFT will be minted. For example, if set to 5, then each NFT edition can be sold 5 times. This is only applicable to ERC1155 contracts, not ERC721.
 
@@ -419,14 +412,14 @@ Use the `Art Engine - Generate_Metadata Command` below to generate a json file f
 ### 8. Update NFT's Info (Description And Name)
 Use the `Custom - Update_Nft_Info Command` below to update all NFT JSON files with the new `namePrefix` and `description` from the `constants/nft_details.js` file.
 
-Please note that this should be run before you run the `NFTPort - UploadFiles Command`, `NFTPORT - UploadMetas Command` and `NFTPORT - Mint Command` commands.
+Please note that this should be run before you run the `NFTPort - UploadFiles Command`, `NFTPORT - UploadMetas Command`, `NFTPORT - UploadMetas_Directory Command` and `NFTPORT - Mint Command` commands.
 Use this only if you want to use a different name and description for your NFTs compared to what got generated with the `Art Engine - Build Command` command.
 
 
 ### 9. Update NFTs For Reveal - Generic Image Until Purchased, Then Only Reveal NFT
 Use the `Custom - Update_Json_To_Generic_Meta Command` below to update all NFT files with the `genericTitle`, `genericDescription` and `genericURLs` values set in the `constants/nft_details.js` file. This will be shown as your NFT's details and picture before a purchase. 
 
-This process will create a new `genericJSON` directory where the `_metadata.json` file will be located along with each file's generic JSON object file. Remember to change your `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file before making use of the UploadMetas script so that it will upload the files in this directory instead of the normal `json` directory if you are making use of reveals.
+This process will create a new `genericJSON` directory where the `_metadata.json` file will be located along with each file's generic JSON object file. Remember to change your `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file before making use of the UploadMetas and UploadMetas_Directory scripts so that it will upload the files in this directory instead of the normal `json` directory if you are making use of reveals.
 
 **Please remember that your contract needs to be updateable to use this, otherwise this image will stay the image of your NFT, before and after purchase.**
 
@@ -452,7 +445,7 @@ Create an account on [NFTPort](https://www.nftport.xyz/) and get an APIKey. Be s
 
 Use the `NFTPort - UploadFiles Command` below to upload the image files to IPFS. This process will also update the json file for each NFT with the IPFS URL and add it into the `file_url` and `image` fields. This process will `only` update the `file_url` and `image` fields within the json file as well as the corresponding object in the `_metadata.json` file.
 
-Use the `NFTPort - UploadMetas Command` below to upload the json metadata files for each NFT to IPFS and then create a `ipfsMetas` folder with an `_ipfsMetas.json` file and a json file for every NFT, containing the upload API response.
+Use the `NFTPort - UploadMetas Command` or `NFTPORT - UploadMetas_Directory Command` below to upload the json metadata files for each NFT to IPFS and then create a `ipfsMetas` folder with an `_ipfsMetas.json` file and a json file for every NFT, containing the upload API response.
 The new json files in the `ipfsMetas` directory will now contain a `metadata_uri` field and this has also been added to each object inside the `_ipfsMetas.json` file.
 
 `Important` - Should you wish to do a reveal, please remember that your contract should allow for updates to your NFT files. You also need to update the `uploadGenericMeta` key's value to `true` in the `constants/account_details.js` file so that the genericJSON directory's metadata will be used instead of the json directory. Please see the section on NFT reveal steps to follow in the `EXAMPLE - REVEAL (ERC721)` and `EXAMPLE - REVEAL (ERC1155)` examples below.
@@ -658,6 +651,11 @@ Use the following command from the code's root directory.
 ### UploadMetas Command
 - node utils/nftport/uploadMetas.js
 - npm run uploadMetas
+
+
+### UploadMetas_Directory Command
+- node utils/nftport/uploadMetas_directory.js
+- npm run uploadMetas_directory
 
 
 ## EXAMPLE - NO REVEAL (ERC721)

@@ -1,7 +1,7 @@
 // Load modules and constants
 const { RateLimit } = require('async-sema');
 const fs = require("fs");
-const fetch = require("node-fetch");
+const FormData = require("form-data");
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
@@ -50,85 +50,90 @@ console.log(`Backed up ${readDir}/_metadata.json to ${FOLDERS.backupJSONDir}/${b
 // Main function - called asynchronously
 async function main() {
 
+  console.log("Starting to load metadata of all JSON files.");
+  
   // Load the list of file names from the readDir directory and sort them numerically
   const files = fs.readdirSync(readDir);
   files.sort(function(a, b){
     return a.split(".")[0] - b.split(".")[0];
   });
 
+  // Create formData object
+  const formData = new FormData();
+
   // Loop through each file in the list.
   for (const file of files) {
     
     if (re.test(file)) {
-      // Load the json file and parse it as JSON
-      let jsonFile = fs.readFileSync(`${readDir}/${file}`);
-      let metaData = JSON.parse(jsonFile);
 
-      // Create a new filename for a file that will be created in the ipfsMetasDir directory.
-      const uploadedMeta = `${FOLDERS.ipfsMetasDir}/${metaData.custom_fields.edition}.json`;
-
-      try {
-
-        // Access the file and if it can be found, load the file.
-        fs.accessSync(uploadedMeta);
-        const uploadedMetaFile = fs.readFileSync(uploadedMeta)
-
-        // Check if the file is not empty and proceed to try and parse the file
-        if(uploadedMetaFile.length > 0) {
-
-          // Parse the file as JSON  
-          const ipfsMeta = JSON.parse(uploadedMetaFile)
-
-          // Check if the file's response field is not equal to  OK and if this is true, then throw an exception and go to the catch section to upload again.
-          if(ipfsMeta.response !== "OK") throw 'metadata not uploaded'
-
-          // If response was OK, then add the file's json object to the allMetadata array.
-          allMetadata.push(ipfsMeta);
-          console.log(`${metaData.name} metadata already uploaded`);
-
-        } // File is empty, need to upload metadata. Will go to the catch section.
-          else {
-
-          // Throw exception to begin uploading process.
-          throw 'metadata not uploaded'
-        }
-      } catch(err) {
-        try {
-
-          // Apply rate limit that was set in the account_details.js file
-          await limit()
-
-          // Setup the API details
-          let options = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: ACCOUNT_DETAILS.auth,
-            },
-            body: jsonFile,
-          };
-
-          // Call the fetchWithRetry function that will perform the API call
-          const response = await fetchWithRetry("https://api.nftport.xyz/v0/metadata", options);
-
-          // Add the response JSON object to the allMetadata array.
-          allMetadata.push(response);
-
-          // Write the response JSON object to the ipfsMetasDir directory
-          fs.writeFileSync(`${uploadedMeta}`, JSON.stringify(response, null, 2));
-
-          console.log(`${response.name} metadata uploaded!`);
-
-        } catch(err) {
-          console.log(`Catch: ${err}`)
-        }
-      }
-
-      // Write the allMetadata array to the ipfsMetasDir directory
-      fs.writeFileSync(`${FOLDERS.ipfsMetasDir}/_ipfsMetas.json`,JSON.stringify(allMetadata, null, 2));
+      // Add file into formData object
+      const fileStream = fs.createReadStream(`${readDir}/${file}`);
+      formData.append("metadata_files", fileStream);
       
     }
   }
+
+  console.log("Done loading metadata of all JSON files.");
+
+  try {
+
+    // Apply rate limit that was set in the account_details.js file
+    await limit()
+
+    console.log("Starting upload of metadata.");
+
+    // Setup the API details
+    let options = {
+      method: "POST",
+      headers: {
+        Authorization: ACCOUNT_DETAILS.auth
+      },
+      body: formData
+    };
+
+    // Call the fetchWithRetry function that will perform the API call
+    const response = await fetchWithRetry("https://api.nftport.xyz/v0/metadata/directory", options);
+
+    console.log("Done with upload of metadata.");
+
+    // Loop through each file in the list.
+    for (const file of files) {
+    
+      if (re.test(file)) {
+
+        // Load the json file and parse it as JSON
+        const jsonFile = fs.readFileSync(`${readDir}/${file}`);
+        let metaData = JSON.parse(jsonFile);
+
+        // Add response data to original metadata
+        metaData.response = response.response ;
+        metaData.metadata_uri = `${response.metadata_directory_ipfs_uri}${metaData.custom_fields.edition}` ;
+        metaData.metadata_directory_ipfs_uri = response.metadata_directory_ipfs_uri ;
+        metaData.metadata_directory_ipfs_url = response.metadata_directory_ipfs_url ;
+        metaData.error = response.error ;
+
+        // Create a new filename for a file that will be created in the ipfsMetasDir directory.
+        const uploadedMeta = `${FOLDERS.ipfsMetasDir}/${metaData.custom_fields.edition}.json`;
+
+        // Add the response JSON object to the allMetadata array.
+        allMetadata.push(metaData);
+
+        // Write the response JSON object to the ipfsMetasDir directory
+        fs.writeFileSync(`${uploadedMeta}`, JSON.stringify(metaData, null, 2));
+        
+        // Write the allMetadata array to the ipfsMetasDir directory
+        fs.writeFileSync(`${FOLDERS.ipfsMetasDir}/_ipfsMetas.json`,JSON.stringify(allMetadata, null, 2));
+
+        console.log(`${metaData.name} metadata uploaded!`);
+
+      }
+    }
+
+    console.log("Done with uploading and updating metadata.");
+
+  } catch(err) {
+    console.log(`Catch: ${err}`);
+  }  
 }
 
 // Start the main process.

@@ -1,10 +1,10 @@
 // Load modules and constants
 const { RateLimit } = require('async-sema');
-const fetch = require("node-fetch");
 const fs = require("fs");
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
+const { fetchWithRetry } = require(`${FOLDERS.modulesDir}/fetchWithRetry.js`);
 
 const TIMEOUT = Number(ACCOUNT_DETAILS.timeout); // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.
 const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); // Ratelimit for your APIKey
@@ -125,9 +125,6 @@ async function reveal() {
       } catch(err) {
         try {
 
-          // Set the API URL
-          let url = "https://api.nftport.xyz/v0/mints/customizable";
-
           // Set the updated metadata info required for the API from the meta field and account_details.js file
           const updateInfo = {
             chain: ACCOUNT_DETAILS.chain,
@@ -150,7 +147,7 @@ async function reveal() {
           await limit()
 
           // Call the fetchWithRetry function that will perform the API call to update the metadata
-          let updateData = await fetchWithRetry(url, options, meta)
+          let updateData = await fetchWithRetry("https://api.nftport.xyz/v0/mints/customizable", options)
 
           // Combine the metadata from the JSON object with the updatedData from the API call
           const combinedData = {
@@ -173,66 +170,6 @@ async function reveal() {
   }
 
   console.log(`Done revealing! Will run again in ${(ACCOUNT_DETAILS.salesInterval/1000)/60} minutes`)
-}
-
-// fetchWithRetry function - This function is used to perform API calls
-async function fetchWithRetry(url, options, meta)  {
-  return new Promise((resolve, reject) => {
-
-    // Set maximum number of retries as defined in account_details.js file
-    let numberOfRetries = Number(ACCOUNT_DETAILS.numberOfRetries);
-
-    // Constant that will perform an API call and return a resolve or reject
-    const fetch_retry = (_url, _options, _meta, _numberOfRetries) => {
-      
-      // Perform the API call
-      return fetch(url, options).then(async (res) => {
-
-        // Create a variable that will contain the HTTP Status code
-        const status = res.status;
-
-        // Check the status and if 200, then move to the processing part of the object
-        if(status === 200) {
-          return res.json();
-        } // If the status is not 200, throw an error and move to the catch block           
-          else {
-            throw `ERROR STATUS: ${status}`;
-        }            
-      })
-      .then(async (json) => {
-
-        // Check if the response field in the JSON packet contains "OK" and then return to the parent process with the packet and a resolve
-        if(json.response === "OK"){
-          return resolve(json);
-        } // If the response field in the JSON packet does not contain "OK", throw an error and move to the catch block
-          else {
-            throw `NOK: ${json.error}`;
-        }
-      })
-      .catch(async (error) => {
-        console.error(`CATCH ERROR: ${error}`)
-
-        // Check if there are any retry attempts left
-        if (_numberOfRetries !== 0) {
-          console.log(`Retrying mint update`);
-
-          // Before performing the next API call, wait for the timeout specified in the account_details.js file
-          // The total number of retries gets decremented when issuing the API call again
-          //await timer(TIMEOUT) // Commented out functionality as it cause the process to hang at times.
-          fetch_retry(_url, _options, _meta, _numberOfRetries - 1)
-
-        } // If the total number of retries have been reached, then respond with a reject and finish the fetch_retry process
-          else {
-          console.log(`All requests unsuccessful`);
-          reject(error)
-
-        }
-      });
-    }    
-    
-    // Call the fetch_retry constant. Pass in the url, options, meta JSON object and the total number of retries for the API call should it experience any issues.
-    return fetch_retry(url, options, meta, numberOfRetries);
-  });
 }
 
 // timer function - This function is used to add a timeout in between actions.

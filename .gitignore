@@ -53,6 +53,8 @@ build/
 dist/
 node_modules/
 jspm_packages/
+yarn.lock
+package-lock.json
 
 # TypeScript v1 declaration files
 

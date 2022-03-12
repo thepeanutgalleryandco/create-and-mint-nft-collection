@@ -1,11 +1,11 @@
 // Load modules and constants
 const { RateLimit } = require('async-sema');
 const fs = require("fs");
-const fetch = require("node-fetch");
 
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
+const { fetchWithRetry } = require(`${FOLDERS.modulesDir}/fetchWithRetry.js`);
 
 const TIMEOUT = Number(ACCOUNT_DETAILS.timeout); // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.
 const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); // Ratelimit for your APIKey
@@ -127,9 +127,26 @@ async function main() {
 
           // Apply rate limit that was set in the account_details.js file
           await limit()
-  
+
+          // Set the mint info required for the API from the meta field and account_details.js file
+          const mintInfo = {
+            chain: ACCOUNT_DETAILS.chain.toLowerCase(),
+            contract_address: ACCOUNT_DETAILS.contract_address,
+            tokens: meta_metaData.tokens
+          };
+
+          // Setup the API details
+          let options = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: ACCOUNT_DETAILS.auth,
+            },
+            body: JSON.stringify(mintInfo),
+          };
+
           // Call the fetchWithRetry function that will perform the API call to mint the JSON object
-          let mintData = await fetchWithRetry(meta_metaData)
+          const mintData = await fetchWithRetry("https://api.nftport.xyz/v0/mints/customizable/batch", options)
   
           // Combine the metadata from the JSON object with the mintedData from the API call
           const combinedData = {
@@ -176,25 +193,7 @@ async function fetchWithRetry(meta) {
     // Constant that will perform an API call and return a resolve or reject
     const fetch_retry = (_meta, _numberOfRetries) => {
 
-      // Set the API URL
-      let url = "https://api.nftport.xyz/v0/mints/customizable/batch";
 
-      // Set the mint info required for the API from the meta field and account_details.js file
-      const mintInfo = {
-        chain: ACCOUNT_DETAILS.chain.toLowerCase(),
-        contract_address: ACCOUNT_DETAILS.contract_address,
-        tokens: _meta.tokens
-      };
-
-      // Setup the API details
-      let options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: ACCOUNT_DETAILS.auth,
-        },
-        body: JSON.stringify(mintInfo),
-      };
 
       // Perform the API call
       return fetch(url, options).then(async (res) => {
