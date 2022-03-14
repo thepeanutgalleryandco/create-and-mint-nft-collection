@@ -41,7 +41,7 @@ const incompatibleTraitsUsed = (newTraits, incompatibleTraits) => {
                 
                 // Check if the layer name and layer item combination can be found in the layer_name and layer_item json object and if it can be found, return true and stop processing further
                 if (simpleNewTraits[layer] === trait) {
-                    console.log("Combination of traits excluded because of incompatible layers exclusion rule!");
+                    console.log("Combination of traits filtered because of incompatible layers filtration rule!");
                     return true;
                 }
             }

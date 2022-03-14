@@ -39,7 +39,7 @@ If you would like to support my NFT collection, please take a look at the below.
 ![Banner V4](https://user-images.githubusercontent.com/52892685/149317695-82707703-a8db-4e17-8dc2-98d59aefae2e.png)
 
 
-## Dependencies for scripts to run
+## Run Below Command To Install Depedencies
 - `npm install`
 
 **Please note that if you have a Mac with a M1 chip and you run into issues with npm install, then please try to install Node.js version 14 instead of the latest Node version and try the npm install again**
@@ -198,8 +198,14 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
+### Added metadata filtration rule - Dependency Traits
+Users have a new metadata filtration configuration option
+- Dependency Traits - Set the combination of traits that needs to be generated together to enforce certain combinations.
+
+
 ### Added NFTPort UploadMetas Directory API
 Added a new script that will allow users to upload the json files in a directory in a single API call instead of individual API calls for each JSON file. This should typically be used with collection contracts on NFTPort or if a single CID is needed for the JSON files. [NFTPort API - Upload Metadata Directory To IPFS](https://docs.nftport.xyz/docs/nftport/b3A6NDMwNTE5ODY-upload-metadata-directory-to-ipfs)
+
 
 ### Refresh NFT Metadata For Opensea
 Added a new script that can be used to refresh the metadata of your NFT collection on Opensea. This process will make use of Puppeteer and chrome automation. Please see [Refresh NFT Metadata For Opensea](#17-refresh-nft-metadata-for-opensea) 
@@ -208,11 +214,13 @@ Added a new script that can be used to refresh the metadata of your NFT collecti
 
 **Please note that this will be time consuming, so grab a cup of coffee!**
 
+
 ### Added rarity calculator 
 Added codeSTACKr's rarity scripts. See this [codeSTACKR Youtube Video](https://youtu.be/Uz1y4j9gvP8) for the walkthrough and the [Art-Engine's Rarity](#c-rarity-information) section below.
 
+
 ### Added metadata exclusions functionality
-Users have new metadata exclusion configuration options
+Users have new metadata filtration configuration options
 - Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This can now be set at a global level, layer level and layer item level.
 - Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
 
@@ -266,8 +274,9 @@ Modify the following parts at the very least, below are just sample values that 
 
 #### b. Update your layer configurations
 - Update your folder names, order in which they need to be processed and the number of images to create
-- Optionally add maximum repeatability rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16) and [Layer Item Maximum Repeatability Settings](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/20)
-- Optionally add layer combination exclusion rules in for the layers - Please see [Layer Combination Exclusion Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/15)
+- Optionally add maximum repeatability filtration rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16) and [Layer Item Maximum Repeatability Settings](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/20)
+- Optionally add layer combination filtration rules in for the layers - Please see [Layer Combination Exclusion Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/15)
+- Optionally add layer dependent traits filtration rules in for the layers - Please see [Layer Trait Dependencies Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/29)
 
 *Example of default configuration along with maximum repeatability and layer compatibility*
 
