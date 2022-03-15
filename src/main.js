@@ -26,7 +26,6 @@ var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
-const selectedTraitsList = new Set();
 const HashlipsGiffer = require(`${FOLDERS.modulesDir}/HashlipsGiffer.js`);
 
 const { needsFiltration } = require('./filters');
@@ -398,6 +397,7 @@ const startCreating = async () => {
     ? console.log("Editions left to create: ", abstractedIndexes)
     : null;
   while (layerConfigIndex < layerConfigurations.length) {
+    const selectedTraitsList = new Set();
     const layers = layersSetup(
       layerConfigurations[layerConfigIndex].layersOrder
     );
