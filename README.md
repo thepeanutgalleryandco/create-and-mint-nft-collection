@@ -280,7 +280,7 @@ Modify the following parts at the very least, below are just sample values that 
 
 *Example of default configuration along with maximum repeatability and layer compatibility*
 
-![Screenshot 2022-02-04 at 15 12 32](https://user-images.githubusercontent.com/52892685/152534935-739acf27-238f-4cc2-b654-e819b481892d.png)
+![Screenshot 2022-03-15 at 01 10 17](https://user-images.githubusercontent.com/52892685/158283474-cba5a3cd-011c-4e1b-8371-69093f5dff9d.png)
 
 
 #### c. Update the width and height of your canvas
