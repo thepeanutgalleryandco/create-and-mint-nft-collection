@@ -3,7 +3,7 @@ const fs = require("fs");
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const re = new RegExp("^([0-9]+).json$"); // Will be used to ensure only JSON files from the JSONDIR is used in the meta's updated.
-const { fetchWithRetry } = require(`${FOLDERS.modulesDir}/fetchWithRetry.js`);
+const fetch = require('node-fetch');
 
 let failedErrorCount = 0;
 let failedTxnCount = 0;
@@ -80,7 +80,7 @@ async function checkFileForFailures(file) {
       };
 
       // Perform an API call to the URL.
-      const txnCheck = await fetchWithRetry(`${jsonFile.mintData.transaction_external_url}`, options)
+      const txnCheck = await fetch(`${jsonFile.mintData.transaction_external_url}`, options)
         .then(response => {
           // Convert the response from the API call into text as it is a HTML response and not a JSON object.
           return response.text();

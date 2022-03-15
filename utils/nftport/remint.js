@@ -7,6 +7,7 @@ const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
 const { fetchWithRetry } = require(`${FOLDERS.modulesDir}/fetchWithRetry.js`);
 const { getMintAddress } = require(`${FOLDERS.modulesDir}/getMintAddress.js`);
+const fetch = require('node-fetch');
 
 const TIMEOUT = Number(ACCOUNT_DETAILS.timeout); // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.
 const limit = RateLimit(Number(ACCOUNT_DETAILS.max_rate_limit)); // Ratelimit for your APIKey
