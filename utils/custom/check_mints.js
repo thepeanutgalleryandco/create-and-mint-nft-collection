@@ -1,9 +1,9 @@
 // Load modules and constants
 const fs = require("fs");
-const fetch = require('node-fetch');
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const re = new RegExp("^([0-9]+).json$"); // Will be used to ensure only JSON files from the JSONDIR is used in the meta's updated.
+const fetch = require('node-fetch');
 
 let failedErrorCount = 0;
 let failedTxnCount = 0;

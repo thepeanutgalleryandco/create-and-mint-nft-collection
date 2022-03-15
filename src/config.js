@@ -57,7 +57,16 @@ const layerConfigurations = [
       ],
       "Iris/Large": [
         "Bottom lid/High",
-        "Top lid/High",
+        "Top lid/High"
+      ],
+    },
+    dependentTraits: {
+      "Eye color/Cyan": [
+        "Eyeball/White",
+      ],
+      "Background/Blue": [
+        "Eyeball/Red",
+        "Top lid/low"
       ],
     }
   },

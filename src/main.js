@@ -29,7 +29,7 @@ const DNA_DELIMITER = "-";
 const selectedTraitsList = new Set();
 const HashlipsGiffer = require(`${FOLDERS.modulesDir}/HashlipsGiffer.js`);
 
-const { needsExclusion } = require('./exclusions');
+const { needsFiltration } = require('./filters');
 
 let hashlipsGiffer = null;
 
@@ -141,7 +141,7 @@ const addMetadata = (_dna, _edition) => {
       dna: sha1(_dna),
       edition: _edition,
       date: dateTime,
-      compiler: "HashLips Art Engine",
+      compiler: "HashLips Art Engine - Modified By ThePeanutGalleryAndCo",
     },
     ...extraMetadata,
   };
@@ -411,7 +411,9 @@ const startCreating = async () => {
         const maxRepeatedTraits = layerConfigurations[layerConfigIndex].maxRepeatedTraits;
         const incompatibleTraits = layerConfigurations[layerConfigIndex].incompatibleTraits;
         const layerItemsMaxRepeatedTraits = layerConfigurations[layerConfigIndex].layerItemsMaxRepeatedTraits;
-        if (needsExclusion(selectedTraitsList, traits, maxRepeatedTraits, incompatibleTraits, layerItemsMaxRepeatedTraits)) {
+        const dependentTraits = layerConfigurations[layerConfigIndex].dependentTraits;
+
+        if (needsFiltration(selectedTraitsList, traits, maxRepeatedTraits, incompatibleTraits, layerItemsMaxRepeatedTraits, dependentTraits)) {
           failedCount++;
           if (failedCount >= uniqueDnaTorrance) {
             console.log(
