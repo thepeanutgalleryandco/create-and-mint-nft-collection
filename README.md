@@ -313,7 +313,7 @@ Modify only the parts that you will be using and keep the rest as set by default
 For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURLs` fields. If you want your NFT properties on Opensea to show, for example "Blank #15.png", then set the `ignoreExactBlankName` value to false. If you want to remove all "blank" layer items from your NFT properties on Opensea, for example "white_eyes_blank #10.png", then set the `ignoreAllNamesWithBlank` value to true.
 
 Example configuration:
-
+<img width="1351" alt="Screenshot 2022-03-17 at 21 50 54" src="https://user-images.githubusercontent.com/52892685/158884234-3596584e-a1d6-4bb6-9deb-ca8bca5bb1e1.png">
 
 
 ### 5. Configure The NFTPort Account Details And API Limits - Only modify this if you are using NFTPort for uploading
