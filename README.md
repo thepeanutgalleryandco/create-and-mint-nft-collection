@@ -199,7 +199,7 @@ If you would like to support my NFT collection, please take a look at the below.
 
 
 ### Added Start Collection Edition Setting
-Users can now set at which edition number the collection creation process should start add. The `startCollectionEditionFromNumber` setting can be found in the `constants/nft_details.js` file.
+Users can now set at which edition number the collection creation process should start add. The `startCollectionEditionFrom` setting can be found in the `constants/nft_details.js` file.
 
 
 ### Added metadata filtration rule - Dependency Traits
@@ -307,7 +307,7 @@ Update the `constants/nft_details.js` file with the details that you want to be 
 - `genericDescription` - Replace with what you want the generic descriptions to say. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `genericURLs` - Replace with the image URLs that your generic NFTs should show. Only change if you are planning on using NFT reveal and want a different name for your NFTs.
 - `ignoreAllNamesWithBlank` - This value is a boolean with a value of false or true. If true, then any layer item that contains the word blank within the filename will be skipped from being added to the metadata information. When set to false, then the information will be added to the metadata. E.x white_eyes_blank #100.png will be added to metadata if set to false, while being skipped if true.
-- `startCollectionEditionFromNumber` - This value is used to determine at which edition number the collection creation should start. It is set to `'1'` as default, which will start Sol collections at 0, while starting Eth collections at 1. If you plan on using Collection contracts from NFTPort, then be sure to set this value to `'0'` before generating your art work.
+- `startCollectionEditionFrom` - This value is used to determine from which edition number the collection creation should start. It is set to `'1'` as default, which will start Sol collections at 0, while starting Eth collections at 1. If you plan on using Collection contracts from NFTPort, then be sure to set this value to `'0'` before generating your art work.
 
 Modify only the parts that you will be using and keep the rest as set by default.
 For example, if you are planning on using NFTPort for your file and metadata uploads, then do not modify the `imageFilesBase` and `metaDataJSONFilesBase` fields. If you are planning on not doing a reveal NFT collection and simply have everything revealed, then do not modify the `genericTitle`, `genericDescription` and `genericURLs` fields. If you want your NFT properties on Opensea to show, for example "Blank #15.png", then set the `ignoreExactBlankName` value to false. If you want to remove all "blank" layer items from your NFT properties on Opensea, for example "white_eyes_blank #10.png", then set the `ignoreAllNamesWithBlank` value to true.

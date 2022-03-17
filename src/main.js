@@ -383,15 +383,15 @@ const startCreating = async () => {
   let editionCount = 1;
   let failedCount = 0;
   let abstractedIndexes = [];
-  const _startCollectionEditionFromNumber = Number(NFT_DETAILS.startCollectionEditionFromNumber);
+  const _startCollectionEditionFrom = Number(NFT_DETAILS.startCollectionEditionFrom);
   for (
     let i =
       network == NETWORK.sol
-        ? _startCollectionEditionFromNumber > 1
-          ? _startCollectionEditionFromNumber
+        ? _startCollectionEditionFrom > 1
+          ? _startCollectionEditionFrom
           : 0
-        : _startCollectionEditionFromNumber ? _startCollectionEditionFromNumber : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo + (_startCollectionEditionFromNumber > 1 && _startCollectionEditionFromNumber);
+        : _startCollectionEditionFrom ? _startCollectionEditionFrom : 1;
+    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo + (_startCollectionEditionFrom > 1 && _startCollectionEditionFrom);
     i++
   ) {
     abstractedIndexes.push(i);
