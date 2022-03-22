@@ -390,7 +390,11 @@ const startCreating = async () => {
         ? _startCollectionEditionFrom > 1
           ? _startCollectionEditionFrom
           : 0
-        : _startCollectionEditionFrom ? _startCollectionEditionFrom : 1;
+        : NFT_DETAILS.startCollectionEditionFrom === '0'
+          ? 0
+          : _startCollectionEditionFrom
+            ? _startCollectionEditionFrom 
+            : 1;
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo + (_startCollectionEditionFrom > 1 && _startCollectionEditionFrom);
     i++
   ) {
