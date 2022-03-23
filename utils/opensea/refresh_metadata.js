@@ -6,17 +6,20 @@ const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
 
 const START_EDITION = 1; // Set the start edition of the collection where you want to start refreshing metadata.
-const END_EDITION = 50; // Set the end edition of the collection where you want to stop refreshing metadata.
-/*
-Set your collection URL. 
-By default, the contract address from the account_details.js file will be used. 
-Please note that this URL will be used for Polygon and a slight change would be needed for Ethereum based contracts.
+const END_EDITION = 1; // Set the end edition of the collection where you want to stop refreshing metadata.
 
-Polygon base URL - https://opensea.io/assets/matic/CONTRACT_ADDRESS/
-Ethereum base URL - https://opensea.io/assets/CONTRACT_ADDRESS/
+let COLLECTION_BASE_URL = '';
 
-*/
-const COLLECTION_BASE_URL = `https://opensea.io/assets/matic/${ACCOUNT_DETAILS.contract_address}/` ;
+if (ACCOUNT_DETAILS.chain.toLowerCase().includes('polygon')) {
+    // Set the base of the collection URL on Opensea
+    COLLECTION_BASE_URL = "https://opensea.io/assets/matic" ;
+} else {
+    // Set the base of the collection URL on Opensea
+    COLLECTION_BASE_URL = "https://opensea.io/assets" ;
+}
+
+// Set your collection URL. The contract address from the account_details.js file will be used.
+COLLECTION_BASE_URL = `${COLLECTION_BASE_URL}/${ACCOUNT_DETAILS.contract_address}/` ;
 
 // Main function
 async function main() {
