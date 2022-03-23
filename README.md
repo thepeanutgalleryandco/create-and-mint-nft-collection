@@ -78,6 +78,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [15. Re-Mint Failed NFTs](#15-re-mint-failed-nfts)
      - [16. Check Your Work On The Marketplace](#16-check-your-work-on-the-marketplace)
      - [17. Refresh NFT Metadata For Opensea](#17-refresh-nft-metadata-for-opensea)
+     - [18. Sell NFTs Opensea](#18-sell-nfts-on-opensea)
 
 
 ## Commands
@@ -101,7 +102,6 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Update_Json_To_Generic_Meta Command](#update_json_to_generic_meta-command)
      - [Update_Metadata_Info Command](#update_metadata_info-command)
      - [Update_Nft_Info Command](#update_nft_info-command)
-     - [Update_Opensea_Metadata Command](#update_opensea_metadata-command)
 
 - [NFTPort Commands](#nftport-commands)
      - [Mint_Batch Command](#mint_batch-command)
@@ -114,6 +114,10 @@ If you would like to support my NFT collection, please take a look at the below.
      - [UploadFiles Command](#uploadfiles-command)
      - [UploadMetas Command](#uploadmetas-command)
      - [UploadMetas_Directory Command](#uploadmetas_directory-command)
+
+- [Opensea Commands](#opensea-commands)
+     - [Refresh_Metadata Command](#refresh-metadata-command)
+     - [Sell_Nfts Command](#sell-nfts-command)
 
 
 ## ERC721 Examples
@@ -519,10 +523,22 @@ GOOD LUCK!
 
 
 ### 17. Refresh NFT Metadata For Opensea
-Go to the utils/custom/update_opensea_metadata.js file and update `START_EDITION`, `END_EDITION` and `COLLECTION_BASE_URL` (Only if your contract is deployed on Ethereum - Comments in the file itself will explain how this should be updated between Ethereum and Polygon collections). Please make sure that the contract address that you are trying refresh has been set for the `contract_address` field in the `constants/account_details.js` file.
+Go to the utils/opensea/refresh_metadata.js file and update the `START_EDITION` and `END_EDITION` fields. Please make sure that the contract address that you are trying refresh has been set for the `contract_address` field in the `constants/account_details.js` file.
 
-Use the  `Custom - Update_Opensea_Metadata Command` below to start the refresh of metadata for each NFT edition between your start and end editions.
+Use the  `Opensea - Refresh_Metadata Command` below to start the refresh of metadata for each NFT edition between your start and end editions.
 
+**Please note this process will be time consuming for large editions.**
+
+
+### 18. Sell NFTS On Opensea
+Go to the utils/opensea/sell_nfts.js file and update the `START_EDITION`, `END_EDITION`, `NFT_PRICE` and potentially `seed` fields. Please make sure that the contract address that you are trying sell NFTs for has been set in the `contract_address` field in the `constants/account_details.js` file as well as that the `chain` value is correct for the specific contract address.
+
+Use the  `Opensea - Sell_Nfts Command` below to start the putting each NFT edition up for sale between your start and end editions for the given price.
+
+[Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42)
+
+**Please read the warning very carefully within the the sell_nfts.js file with regards to the seed field.**
+**Please note that this script will only work with the Polygon network**
 **Please note this process will be time consuming for large editions.**
 
 
@@ -614,11 +630,6 @@ Use the following command from the code's root directory.
 - npm run update_nft_info
 
 
-### Update_Opensea_Metadata Command
-- node utils/custom/update_opensea_metadata.js
-- npm run update_opensea_metadata
-
-
 ## NFTPort Commands
 Use the following command from the code's root directory.
 
@@ -670,6 +681,19 @@ Use the following command from the code's root directory.
 ### UploadMetas_Directory Command
 - node utils/nftport/uploadMetas_directory.js
 - npm run uploadMetas_directory
+
+
+## Opensea Commands
+Use the following command from the code's root directory.
+
+### Refresh_Metadata Command
+- node utils/opensea/refresh_metadata.js
+- npm run refresh_metadata
+
+
+### Sell_Nfts Command
+- node utils/opensea/sell_nfts.js
+- npm run sell_nfts
 
 
 ## EXAMPLE - NO REVEAL (ERC721)
