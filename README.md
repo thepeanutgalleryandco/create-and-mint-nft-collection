@@ -92,12 +92,12 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Rarity Command](#rarity-command)
 
 - [Custom Commands](#custom-commands)
-     - [Batch_Ipfs_Metas_Migration](#batch_ipfs_metas_migration)
-     - [Check_Mints](#check_mints)
-     - [Check_Mints_Batch](#check_mints_batch)
+     - [Batch_Ipfs_Metas_Migration Command](#batch_ipfs_metas_migration-command)
+     - [Check_Mints Command](#check_mints-command)
+     - [Check_Mints_Batch Command](#check_mints_batch-command)
      - [Create_Wallet_Edition_Combo Command](#create_wallet_edition_combo-command)
-     - [Rarity_Md](#rarity_md)
-     - [Rarity_Rank](#rarity_rank)
+     - [Rarity_Md Command](#rarity_md-command)
+     - [Rarity_Rank Command](#rarity_rank-command)
      - [Update_Image_Info Command](#update_image_info-command)
      - [Update_Json_To_Generic_Meta Command](#update_json_to_generic_meta-command)
      - [Update_Metadata_Info Command](#update_metadata_info-command)
@@ -116,8 +116,8 @@ If you would like to support my NFT collection, please take a look at the below.
      - [UploadMetas_Directory Command](#uploadmetas_directory-command)
 
 - [Opensea Commands](#opensea-commands)
-     - [Refresh_Metadata Command](#refresh-metadata-command)
-     - [Sell_Nfts Command](#sell-nfts-command)
+     - [Refresh_Metadata Command](#refresh_metadata-command)
+     - [Sell_Nfts Command](#sell_nfts-command)
 
 
 ## ERC721 Examples
@@ -202,6 +202,10 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
+### Added Opensea Selling Script
+Added a new script `utils/opensea/sell_nfts.js` that will allow users to sell NFTs between two edition numbers (inclusive) to be put up for sale if the user owns the NFTs. This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your seed phrase for this functionality to work. [Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42)
+
+
 ### Added Start Collection Edition Setting
 Users can now set at which edition number the collection creation process should start add. The `startCollectionEditionFrom` setting can be found in the `constants/nft_details.js` file.
 
@@ -214,33 +218,6 @@ Users have a new metadata filtration configuration option
 ### Added NFTPort UploadMetas Directory API
 Added a new script that will allow users to upload the json files in a directory in a single API call instead of individual API calls for each JSON file. This should typically be used with collection contracts on NFTPort or if a single CID is needed for the JSON files. [NFTPort API - Upload Metadata Directory To IPFS](https://docs.nftport.xyz/docs/nftport/b3A6NDMwNTE5ODY-upload-metadata-directory-to-ipfs)
 
-
-### Refresh NFT Metadata For Opensea
-Added a new script that can be used to refresh the metadata of your NFT collection on Opensea. This process will make use of Puppeteer and chrome automation. Please see [Refresh NFT Metadata For Opensea](#17-refresh-nft-metadata-for-opensea) 
-
-**Please note that I have only tested this on a single NFT collection, so feel free to test it out and let me know if it worked for you!**
-
-**Please note that this will be time consuming, so grab a cup of coffee!**
-
-
-### Added rarity calculator 
-Added codeSTACKr's rarity scripts. See this [codeSTACKR Youtube Video](https://youtu.be/Uz1y4j9gvP8) for the walkthrough and the [Art-Engine's Rarity](#c-rarity-information) section below.
-
-
-### Added metadata exclusions functionality
-Users have new metadata filtration configuration options
-- Maximum Repeatability - Set the maximum number of times that a layer be generated per layer configuration set. This can now be set at a global level, layer level and layer item level.
-- Incompatible Traits - Set the combination of traits that may not be generated together to remove / enforce certain combinations.
-
-Please see the [Layer Configuration](#b-update-your-layer-configurations) section.
-
-
-### Added provenance generation capability (Experimental) 
-Users can now generate provenance hashes for each image and for their whole collection. Please see the [Provenance](#d-provenance-information) section.
-
-
-### Added Support For ERC1155 Batch Minting And Total Token Count
-The new scripts can now be used to mint NFT editions in batches.
 
 <br/>
 
@@ -580,32 +557,32 @@ Use the  `Opensea - Sell_Nfts Command` below to start the putting each NFT editi
 ## Custom Commands
 Use the following command from the code's root directory.
 
-### Batch_Ipfs_Metas_Migration
+### Batch_Ipfs_Metas_Migration Command
 - node utils/custom/batch_ipfs_metas_migration.js
 - npm run batch_ipfs_metas_migration
 
 
-### Check_Mints
+### Check_Mints Command
 - node utils/custom/check_mints.js
 - npm run check_mints
 
 
-### Check_Mints_Batch
+### Check_Mints_Batch Command
 - node utils/custom/check_mints_batch.js
 - npm run check_mints_batch
 
 
-### Create_Wallet_Edition_Combo
+### Create_Wallet_Edition_Combo Command
 - node utils/custom/create_wallet_edition_combo.js
 - npm run create_wallet_edition_combo
 
 
-### Rarity_Md
+### Rarity_Md Command
 - node utils/custom/getRarity_fromMetadata.js
 - npm run rarity_md
 
 
-### Rarity_Rank
+### Rarity_Rank Command
 - node utils/custom/rarity_rank.js
 - npm run rarity_rank
 
