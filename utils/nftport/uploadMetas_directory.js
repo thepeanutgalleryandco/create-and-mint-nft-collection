@@ -1,6 +1,6 @@
 // Load modules and constants
 const { RateLimit } = require('async-sema');
-const fs = require("fs");
+const fs = require("graceful-fs");
 const FormData = require("form-data");
 const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
