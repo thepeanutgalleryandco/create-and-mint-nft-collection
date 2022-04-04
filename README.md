@@ -203,7 +203,7 @@ If you would like to support my NFT collection, please take a look at the below.
 
 
 ### Added Opensea Selling Script
-Added a new script `utils/opensea/sell_nfts.js` that will allow users to sell NFTs between two edition numbers (inclusive) to be put up for sale if the user owns the NFTs. This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your seed phrase for this functionality to work. [Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42)
+Added a new script `utils/opensea/sell_nfts.js` that will allow users to sell NFTs between two edition numbers (inclusive) to be put up for sale if the user owns the NFTs. This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your seed phrase for this functionality to work. [Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42) and [Feature - Opensea Polygon Script To Auto Sell NFTs Additional Fields](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/47)
 
 
 ### Added Start Collection Edition Setting
@@ -508,11 +508,11 @@ Use the  `Opensea - Refresh_Metadata Command` below to start the refresh of meta
 
 
 ### 18. Sell NFTS On Opensea
-Go to the utils/opensea/sell_nfts.js file and update the `START_EDITION`, `END_EDITION`, `NFT_PRICE` and potentially `seed` fields. Please make sure that the contract address that you are trying sell NFTs for has been set in the `contract_address` field in the `constants/account_details.js` file as well as that the `chain` value is correct for the specific contract address.
+Go to the utils/opensea/sell_nfts.js file and update the `START_EDITION`, `END_EDITION`, `NFT_PRICE`, `DROPDOWN_OPTION`, `DATE_PICK_SKIP`, `START_HOUR`, `START_MINUTE`, `END_HOUR`, `END_MINUTE` and potentially `seed` fields. Please make sure that the contract address that you are trying sell NFTs for has been set in the `contract_address` field in the `constants/account_details.js` file as well as that the `chain` value is correct for the specific contract address.
 
 Use the  `Opensea - Sell_Nfts Command` below to start the putting each NFT edition up for sale between your start and end editions for the given price.
 
-[Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42)
+[Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42) and [Feature - Opensea Polygon Script To Auto Sell NFTs Additional Fields](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/47)
 
 **Please read the warning very carefully within the the sell_nfts.js file with regards to the seed field.**
 **Please note that this script will only work with the Polygon network**
