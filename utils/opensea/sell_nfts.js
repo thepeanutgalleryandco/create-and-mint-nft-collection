@@ -9,6 +9,12 @@ const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`
 const START_EDITION = 1; // Set the start edition of the collection where you want to start selling NFTs from.
 const END_EDITION = 1; // Set the end edition of the collection where you want to stop selling NFTs at.
 const NFT_PRICE = 0.002; // Set the price that will be given to each NFT between START_EDITION and END_EDITION.
+const DROPDOWN_OPTION = 0; // Set the dropdown option to setup the date picker. Leave at 0 to keep the default sell timeframe. Do not add more options than what there is in the Opensea list. Do not count the default item in the list.
+const DATE_PICK_SKIP = 7; // Set the tabs between the date picker drop down and the time. This value should be set between 6, 7 and 8. Please check the comment where this variable is used for more information.
+const START_HOUR = 18; // Set the start hour for the sale.
+const START_MINUTE = 00; // Set the start minute for the sale.
+const END_HOUR = 23; // Set the end hour for the sale.
+const END_MINUTE = 59; // Set the end minute for the sale.
 
 let COLLECTION_BASE_URL = '';
 
@@ -123,14 +129,46 @@ async function main() {
 
             // Go to the price input box and enter the price
             await page.waitForSelector('input[name=price]');
-            await page.type('input[name=price]', `${NFT_PRICE}`, {delay: 25});
+            await page.type('input[name=price]', `${NFT_PRICE}`, {delay: 15});
 
-            //TODO
-            // Go to the duration input box and enter the duration in days
-            //await page.focus('div[class^="Overflowreact__OverflowContainer-sc-7qr9y8-0"]');
-            //await page.type('div[class^="Overflowreact__OverflowContainer-sc-7qr9y8-0"]', 'March 16, 2022 (11:49 PM) – April 13, 2022 (11:49 PM)');
-            //March 16, 2022 (11:49 PM) – April 13, 2022 (11:49 PM)
+            // If drop down option is left at 0, then the default date, start and end hour will be used and will skip to the putting the item on sale.
+            // If drop down is populated with a positive number in the list, then navigate to that list item and choose it and also set the start date, end date and time
+            if (DROPDOWN_OPTION > 0) {
 
+                // Navigate to the date picker
+                for (j=0; j < 3; j++) {
+                    await page.keyboard.press('Tab', { page }); // navigate to button
+                }
+                
+                // Navigate to drop down option and choose it
+                for (j=0; j < DROPDOWN_OPTION; j++) {
+                    await page.keyboard.press('Tab', { page }); // navigate to button
+                }
+                await page.keyboard.press('Space', { page }); // hit space button
+
+                /* Go to the time picker
+                    Please note that sometimes, the date picker will be out by a few presses, depending on the date that you are running the script on.
+                    This happens when you are for example in a month of 31 days, and you are trying to go to a month that do not have 31 days
+                    If you face this scenario, simply change the DATE_PICK_SKIP value to the right amount of tabs that is needed from 
+                    choosing the list item on the dropdown. You simply press the tab button after choosing the drop down item until you get to the time
+                    picker. Count the number of tabs required and enter that amount at DATE_PiCK_SKIP at the top of the file. The value is usually between 
+                    6, 7 and 8, but might need some tweaking.
+                */
+                for (j=0; j < DATE_PICK_SKIP; j++) {
+                    await page.keyboard.press('Tab', { page }); // navigate to button
+                }
+    
+                // Enter start time and end time
+                await page.keyboard.type(`${START_HOUR}`, {delay: 15});
+                await page.keyboard.type(`${START_MINUTE}`, {delay: 15});
+                await page.keyboard.press('Tab', { page }); // navigate to button
+                await page.keyboard.type(`${END_HOUR}`, {delay: 15});
+                await page.keyboard.type(`${END_MINUTE}`, {delay: 15});
+    
+                // Exit date picker
+                await page.keyboard.press('Tab', { page }); // navigate to button
+            }
+            
             // Go to the submit button and click it
             await page.waitForSelector('button[type=submit]');
             await page.click('button[type=submit]');
@@ -138,9 +176,10 @@ async function main() {
 
             // Go to the sign button and click it
             await page.focus('div[aria-hidden="false"]');
-            await page.keyboard.press('Tab', { page }); // navigate to button
-            await page.keyboard.press('Tab', { page }); // navigate to button
-            await page.keyboard.press('Tab', { page }); // navigate to button
+            
+            for (j=0; j < 3; j++) {
+                await page.keyboard.press('Tab', { page }); // navigate to button
+            }
             await page.keyboard.type('\n'); // hit enter
 
             await metamask.sign();
@@ -153,6 +192,9 @@ async function main() {
 
             // If any issues come up, then log the error and continue to the next edition
             console.log(`Error ${error} when attempting to put edition on sale: ${i}`);
+
+            // Bring the main tab into view
+            await page.bringToFront();
         }
     }
 
