@@ -116,6 +116,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [UploadMetas_Directory Command](#uploadmetas_directory-command)
 
 - [Opensea Commands](#opensea-commands)
+     - [Cancel_On_Sale_Nfts Command](#cancel_on_sale_nfts-command)
      - [Refresh_Metadata Command](#refresh_metadata-command)
      - [Sell_Nfts Command](#sell_nfts-command)
 
@@ -202,9 +203,10 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
-### Added Opensea Selling Script
+### Added Opensea Selling Scripts
 Added a new script `utils/opensea/sell_nfts.js` that will allow users to sell NFTs between two edition numbers (inclusive) to be put up for sale if the user owns the NFTs. This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your seed phrase for this functionality to work. [Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42), [Feature - Opensea Polygon Script To Auto Sell NFTs Additional Fields](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/47) and [Feature - Opensea Polygon Script To Auto Sell NFTs Added Metamask Account Number](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/49)
 
+Added a new script `utils/opensea/cancel_on_sale_nfts.js` that will allow users to remove NFTs that they own from being on sale between two edition numbers (inclusive). This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your seed phrase for this functionality to work. [Feature - Cancel NFTs On Sale On Opensea](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/52)
 
 ### Added Start Collection Edition Setting
 Users can now set at which edition number the collection creation process should start add. The `startCollectionEditionFrom` setting can be found in the `constants/nft_details.js` file.
@@ -508,13 +510,26 @@ Use the  `Opensea - Refresh_Metadata Command` below to start the refresh of meta
 
 
 ### 18. Sell NFTS On Opensea
+**Selling NFTs**
+
 Go to the utils/opensea/sell_nfts.js file and update the `START_EDITION`, `END_EDITION`, `NFT_PRICE`, `DROPDOWN_OPTION`, `DATE_PICK_SKIP`, `START_HOUR`, `START_MINUTE`, `END_HOUR`, `END_MINUTE` fields. Optionally, users can also update the `METAMASK_ACCOUNT_NUMBER` and `seed` fields. Please make sure that the contract address that you are trying sell NFTs for has been set in the `contract_address` field in the `constants/account_details.js` file (also ensure that your `METAMASK_ACCOUNT_NUMBER` is mapped correctly to the `contract_address` value on your Metamask dropdown list) as well as that the `chain` value is correct for the specific contract address.
 
 Use the  `Opensea - Sell_Nfts Command` below to start the putting each NFT edition up for sale between your start and end editions for the given price.
 
-[Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42), [Feature - Opensea Polygon Script To Auto Sell NFTs Additional Fields](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/47) and [Feature - Opensea Polygon Script To Auto Sell NFTs Added Metamask Account Number](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/49)
+**Cancel On Sale NFTs**
 
-**Please read the warning very carefully within the the sell_nfts.js file with regards to the seed field.**
+Go to the utils/opensea/cancel_on_sale_nfts.js file and update the `START_EDITION` and `END_EDITION` fields. Optionally, users can also update the `METAMASK_ACCOUNT_NUMBER` and `seed` fields. Please make sure that the contract address that you are trying cancel the sale of NFTs for has been set in the `contract_address` field in the `constants/account_details.js` file (also ensure that your `METAMASK_ACCOUNT_NUMBER` is mapped correctly to the `contract_address` value on your Metamask dropdown list) as well as that the `chain` value is correct for the specific contract address.
+
+Use the  `Opensea - Cancel_On_Sale_Nfts Command` below to start the removing each NFT edition from being on sale between your start and end editions.
+
+
+**Features:**
+- [Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42)
+- [Feature - Opensea Polygon Script - To Auto Sell NFTs Additional Fields](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/47) 
+- [Feature - Opensea Polygon Script To Auto Sell NFTs Added Metamask Account Number](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/49) 
+- [Feature - Cancel NFTs On Sale On Opensea](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/52)
+
+**Please read the warning very carefully within the the sell_nfts.js and cancel_on_sale_nfts.js files with regards to the seed field.**
 **Please note that this script will only work with the Polygon network**
 **Please note this process will be time consuming for large editions.**
 
@@ -662,6 +677,11 @@ Use the following command from the code's root directory.
 
 ## Opensea Commands
 Use the following command from the code's root directory.
+
+### Cancel_On_Sale_Nfts Command
+- node utils/opensea/cancel_on_sale_nfts.js
+- npm run cancel_on_sale_nfts
+
 
 ### Refresh_Metadata Command
 - node utils/opensea/refresh_metadata.js

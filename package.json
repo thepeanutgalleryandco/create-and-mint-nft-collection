@@ -1,6 +1,6 @@
 {
   "name": "create-and-mint-nft-collection",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Source code to create and mint generative art via NFTPort API. Special thanks to codeSTACKr and Hashlips for their source codebase.",
   "main": "index.js",
   "bin": "index.js",
@@ -14,6 +14,7 @@
   "scripts": {
     "build": "rm -rf build && babel-node index.js",
     "batch_ipfs_metas_migration": "node utils/custom/batch_ipfs_metas_migration.js",
+    "cancel_on_sale_nfts": "node utils/opensea/cancel_on_sale_nfts.js",
     "check_mints": "node utils/custom/check_mints.js",
     "check_mints_batch": "node utils/custom/check_mints_batch.js",
     "create_provenance": "node utils/art_engine/create_provenance.js",
