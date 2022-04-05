@@ -12,7 +12,7 @@
     ]
   },
   "scripts": {
-    "build": "node index.js",
+    "build": "rm -rf build && babel-node index.js",
     "batch_ipfs_metas_migration": "node utils/custom/batch_ipfs_metas_migration.js",
     "check_mints": "node utils/custom/check_mints.js",
     "check_mints_batch": "node utils/custom/check_mints_batch.js",
@@ -52,9 +52,16 @@
     "form-data": "^4.0.0",
     "gif-encoder-2": "^1.0.5",
     "graceful-fs": "^4.2.9",
+    "jssoup": "0.0.15",
     "node-fetch": "^2.6.7",
     "puppeteer": "^13.5.0",
     "sha1": "^1.1.1",
     "simple-get": "4.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.8",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11"
   }
 }

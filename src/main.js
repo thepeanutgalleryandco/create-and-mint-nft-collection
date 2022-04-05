@@ -5,6 +5,7 @@ const sha1 = require(`${FOLDERS.nodeModulesDir}/sha1`);
 const { createCanvas, loadImage } = require(`${FOLDERS.nodeModulesDir}/canvas`);
 const { NETWORK } = require(`${FOLDERS.constantsDir}/network.js`);
 const { NFT_DETAILS } = require(`${FOLDERS.constantsDir}/nft_details.js`);
+const path = require('path')
 const {
   format,
   background,
@@ -18,6 +19,7 @@ const {
   network,
   solanaMetadata,
   gif,
+  IMG_FORMAT
 } = require(`${FOLDERS.sourceDir}/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -27,6 +29,20 @@ var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
 const HashlipsGiffer = require(`${FOLDERS.modulesDir}/HashlipsGiffer.js`);
+
+//Image format support - supported values "png", "svg"
+const PNG_FORMAT = "png";
+const SVG_FORMAT = "svg";
+
+const layersDir = (IMG_FORMAT == PNG_FORMAT ) ? path.join(BASEDIR, "/layers") : path.join(BASEDIR, "/layers_svgs");
+const { ImageEngine } = (IMG_FORMAT == PNG_FORMAT ) ?  require(path.join(BASEDIR, "/src/pngengine.js")) : require(path.join(BASEDIR, "/src/svgengine.js"));
+
+//IMG_FORMAT Specific constants
+const Image_uri =  (IMG_FORMAT == PNG_FORMAT ) ? "image.png" : "image.svg";
+const Image_type= (IMG_FORMAT == PNG_FORMAT ) ? "image.png" : "image/svg";
+const Image_extension = (IMG_FORMAT == PNG_FORMAT ) ? "png" : "svg";
+
+console.log("Using Image format: " + IMG_FORMAT);
 
 const { needsFiltration } = require('./filters');
 
@@ -88,7 +104,7 @@ const getElements = (path) => {
 const layersSetup = (layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
-    elements: getElements(`${FOLDERS.layersDir}/${layerObj.name}/`),
+    elements: getElements(`${layersDir}/${layerObj.name}/`),
     name:
       layerObj.options?.["displayName"] != undefined
         ? layerObj.options?.["displayName"]
@@ -112,8 +128,8 @@ const layersSetup = (layersOrder) => {
 
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
-    `${FOLDERS.imagesDir}/${_editionCount}.png`,
-    canvas.toBuffer("image/png")
+    `${FOLDERS.imagesDir}/${_editionCount}.${Image_extension}`,
+    ImageEngine.getImageBuffer()
   );
 };
 
@@ -133,8 +149,8 @@ const addMetadata = (_dna, _edition) => {
   let tempMetadata = {
     name: `${NFT_DETAILS.namePrefix} #${_edition}`,
     description: `${NFT_DETAILS.description}`,
-    file_url: `${NFT_DETAILS.imageFilesBase}/${_edition}.png`,
-    image: `${NFT_DETAILS.imageFilesBase}/${_edition}.png`,
+    file_url: `${NFT_DETAILS.imageFilesBase}/${_edition}.${Image_extension}`,
+    image: `${NFT_DETAILS.imageFilesBase}/${_edition}.${Image_extension}`,
     attributes: attributesList,
     custom_fields: {
       dna: sha1(_dna),
@@ -152,7 +168,7 @@ const addMetadata = (_dna, _edition) => {
       description: tempMetadata.description,
       //Added metadata for solana
       seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
-      image: `${_edition}.png`,
+      image: `${_edition}.${Image_extension}`,
       //Added metadata for solana
       external_url: solanaMetadata.external_url,
       edition: _edition,
@@ -161,8 +177,8 @@ const addMetadata = (_dna, _edition) => {
       properties: {
         files: [
           {
-            uri: `${_edition}.png`,
-            type: "image/png",
+            uri: Image_uri,
+            type: Image_type,
           },
         ],
         category: "image",
@@ -206,7 +222,7 @@ function addToAttrbutesList(_layerName, _elementValue) {
 
 const loadLayerImg = async (_layer) => {
   try {
-    const image = await loadImage(`${_layer.selectedElement.path}`);
+    const image = await ImageEngine.loadImage(_layer);
     return { 
       layer: _layer, 
       loadedImage: image 
@@ -225,23 +241,8 @@ const addText = (_sig, x, y, size) => {
 };
 
 const drawElement = (_renderObject, _index, _layersLen) => {
-  ctx.globalAlpha = _renderObject.layer.opacity;
-  ctx.globalCompositeOperation = _renderObject.layer.blend;
-  text.only
-    ? addText(
-        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-        text.xGap,
-        text.yGap * (_index + 1),
-        text.size
-      )
-    : ctx.drawImage(
-        _renderObject.loadedImage,
-        0,
-        0,
-        format.width,
-        format.height
-      );
-
+  ImageEngine.drawElement(_renderObject, _index, _layersLen);
+  
   addAttributes(_renderObject);
 };
 

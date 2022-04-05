@@ -3,6 +3,8 @@ const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { MODE } = require(`${FOLDERS.constantsDir}/blend_mode.js`);
 const { NETWORK } = require(`${FOLDERS.constantsDir}/network.js`);
 
+const IMG_FORMAT = "svg";
+
 const network = NETWORK.eth;
 
 const solanaMetadata = {
@@ -157,4 +159,5 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
+  IMG_FORMAT
 };
