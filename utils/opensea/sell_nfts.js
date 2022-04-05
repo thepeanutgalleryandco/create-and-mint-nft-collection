@@ -15,6 +15,7 @@ const START_HOUR = 18; // Set the start hour for the sale.
 const START_MINUTE = 00; // Set the start minute for the sale.
 const END_HOUR = 23; // Set the end hour for the sale.
 const END_MINUTE = 59; // Set the end minute for the sale.
+const METAMASK_ACCOUNT_NUMBER = 1; // Set the account to be used from your metamask wallet list.
 
 let COLLECTION_BASE_URL = '';
 
@@ -84,6 +85,12 @@ async function main() {
         COLLECTION_BASE_URL = "https://opensea.io/assets" ;
     }
 
+    // Switch to specific account on Metamask seed
+    if (METAMASK_ACCOUNT_NUMBER != 0 && METAMASK_ACCOUNT_NUMBER != 1) {
+        metamask.switchAccount(METAMASK_ACCOUNT_NUMBER);
+        console.log(`Updated Metamask account number to ${METAMASK_ACCOUNT_NUMBER}`);
+    }
+        
     // Set your collection URL. The contract address from the account_details.js file will be used.
     COLLECTION_BASE_URL = `${COLLECTION_BASE_URL}/${ACCOUNT_DETAILS.contract_address}/` ;
 
