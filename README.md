@@ -512,13 +512,13 @@ Use the  `Opensea - Refresh_Metadata Command` below to start the refresh of meta
 ### 18. Sell NFTS On Opensea
 **Selling NFTs**
 
-Go to the utils/opensea/sell_nfts.js file and update the `START_EDITION`, `END_EDITION`, `NFT_PRICE`, `DROPDOWN_OPTION`, `DATE_PICK_SKIP`, `START_HOUR`, `START_MINUTE`, `END_HOUR`, `END_MINUTE` fields. Optionally, users can also update the `METAMASK_ACCOUNT_NUMBER` and `seed` fields. Please make sure that the contract address that you are trying sell NFTs for has been set in the `contract_address` field in the `constants/account_details.js` file (also ensure that your `METAMASK_ACCOUNT_NUMBER` is mapped correctly to the `contract_address` value on your Metamask dropdown list) as well as that the `chain` value is correct for the specific contract address.
+Go to the utils/opensea/sell_nfts.js file and update the `START_EDITION`, `END_EDITION`, `NFT_PRICE`, `DROPDOWN_OPTION`, `DATE_PICK_SKIP`, `START_HOUR`, `START_MINUTE`, `END_HOUR`, `END_MINUTE` and `walletPrivateKey` fields. Please make sure that the contract address that you are trying sell NFTs for has been set in the `contract_address` field in the `constants/account_details.js` file as well as that the `chain` value is correct for the specific contract address.
 
 Use the  `Opensea - Sell_Nfts Command` below to start the putting each NFT edition up for sale between your start and end editions for the given price.
 
 **Cancel On Sale NFTs**
 
-Go to the utils/opensea/cancel_on_sale_nfts.js file and update the `START_EDITION` and `END_EDITION` fields. Optionally, users can also update the `METAMASK_ACCOUNT_NUMBER` and `seed` fields. Please make sure that the contract address that you are trying cancel the sale of NFTs for has been set in the `contract_address` field in the `constants/account_details.js` file (also ensure that your `METAMASK_ACCOUNT_NUMBER` is mapped correctly to the `contract_address` value on your Metamask dropdown list) as well as that the `chain` value is correct for the specific contract address.
+Go to the utils/opensea/cancel_on_sale_nfts.js file and update the `START_EDITION`, `END_EDITION` and `walletPrivateKey` fields. Please make sure that the contract address that you are trying cancel the sale of NFTs for has been set in the `contract_address` field in the `constants/account_details.js` file as well as that the `chain` value is correct for the specific contract address.
 
 Use the  `Opensea - Cancel_On_Sale_Nfts Command` below to start the removing each NFT edition from being on sale between your start and end editions.
 

@@ -8,7 +8,33 @@ const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`
 
 const START_EDITION = 1; // Set the start edition of the collection where you want to start cancelling NFTs from.
 const END_EDITION = 1; // Set the end edition of the collection where you want to stop cancelling NFTs at.
-const METAMASK_ACCOUNT_NUMBER = 1; // Set the account to be used from your metamask wallet list.
+const walletPrivateKey = ''; // Set the private key of the wallet that you would like to import and use. Upon importing a private key, the imported wallet will automatically be chosen.
+/* 
+Retrieving your wallet private key:
+
+Setup and login to metamask
+1. Go to your metamask
+2. Select the wallet that you would like to make use of from the drop down of accounts.
+3. Click on the settings (three dots)
+4. Choose account details
+5. Choose export private key
+6. Enter metamask password
+7. Copy your private key as the value for your walletPrivateKey field above this section.
+
+Example:
+walletPrivateKey = '8e51i2n3i2oco3o102k3k2k31k2nifn0139r17213k2hhh1i23p142e1o124ao11';
+
+***************************************************************************************************************************************************
+WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+***************************************************************************************************************************************************
+
+PLEASE DO NOT SHARE THIS WITH ANYONE ELSE AND DO NOT SHARE THIS SCRIPT FILE WITH ANYONE ELSE BEFORE REMOVING YOUR walletPrivateKey value!!!!!!!!!!!!!
+
+***************************************************************************************************************************************************
+WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+***************************************************************************************************************************************************
+
+*/
 
 let COLLECTION_BASE_URL = '';
 
@@ -28,29 +54,8 @@ async function main() {
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     
-    /* 
-    Setup and login to metamask
-    1. Go to your metamask
-    2. Click settings
-    3. Click Security & Privacy
-    4. Enter passphrase
-    5. Copy or write down your seed phrase as you will need to enter it when the script runs.
-    
-    6. 
-    ***************************************************************************************************************************************************
-    WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
-    ***************************************************************************************************************************************************
-    WHEN RUNNING THE SCRIPT, YOU CAN EITHER MANUALLY ENTER YOUR SEED PHRASE OR YOU REPLACE THE VALUE OF seed: 'test' WITH YOUR SEED PHRASE.
-    IF YOU CHOOSE THE OPTION OF STORING YOUR SEED PHRASE, THEN PLEASE DO NOT SHARE THIS WITH ANYONE ELSE AND DO NOT SHARE THIS SCRIPT FILE WITH ANYONE ELSE 
-    BEFORE REMOVING YOUR SEED PHRASE!!!!!!!!!!!!!
-    ***************************************************************************************************************************************************
-    WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
-    ***************************************************************************************************************************************************
-    
-    */
+    // Create new metamask account and sign in to metamask. A random seed phrase gets used.
     const metamask = await dappeteer.setupMetamask(browser, {
-      seed: 'test',
-      password: '1234567890',
       hideSeed: true
     });
     
@@ -78,11 +83,11 @@ async function main() {
         COLLECTION_BASE_URL = "https://opensea.io/assets" ;
     }
 
-    // Switch to specific account on Metamask seed
-    if (METAMASK_ACCOUNT_NUMBER != 0 && METAMASK_ACCOUNT_NUMBER != 1) {
-        metamask.switchAccount(METAMASK_ACCOUNT_NUMBER);
-        console.log(`Updated Metamask account number to ${METAMASK_ACCOUNT_NUMBER}`);
-    }
+    // Import private key if walletPrivateKey is populated
+    if (walletPrivateKey) {
+        await metamask.importPK(walletPrivateKey);    
+        console.log(`Imported wallet private key`);
+    }      
 
     // Set your collection URL. The contract address from the account_details.js file will be used.
     COLLECTION_BASE_URL = `${COLLECTION_BASE_URL}/${ACCOUNT_DETAILS.contract_address}/` ;
