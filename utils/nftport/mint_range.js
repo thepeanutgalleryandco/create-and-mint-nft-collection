@@ -53,7 +53,7 @@ async function main() {
 
           // Check if the value of the response key is not OK or if the value of the error key is not null within the mintData object.
           // Throw an error so that the JSON object can be minted again.
-          if(mintedMeta.mintData.response !== "OK" || mintedMeta.mintData.error !== null) {
+          if(mintedMeta.mintData.response !== "OK") {
             console.log(`Response: ${mintedMeta.mintData.response} , Error: ${mintedMeta.mintData.error} found, will remint ${FOLDERS.mintedDir}/${meta.custom_fields.edition}.json`);
             throw 'Edition not minted at all'
           } // If the response was OK and the error was null, then check the transaction on the online explorer.
@@ -141,7 +141,7 @@ async function main() {
           // Check if the mint was successful at an API level, the Transaction could still have failed on the blockchain itself,
           // so if a transaction is not showing up, then it is best to check the transaction hash / url to determine what happened.
           // The check_mints and remint processes can also be used to attempt to mint missing transactions.
-          if (mintData.response !== 'OK' || mintData.error !== null) {
+          if (mintData.response !== 'OK') {
             console.log(`Minting ${meta.name} failed! Response: ${mintData.response} , Error: ${mintData.error}`);
           } else {
             console.log(`Minted: ${meta.name}!`);
