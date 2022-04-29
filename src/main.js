@@ -106,6 +106,10 @@ const layersSetup = (layersOrder) => {
       layerObj.options?.["bypassDNA"] !== undefined
         ? layerObj.options?.["bypassDNA"]
         : false,
+    noLayerMeta:
+      layerObj.options?.["noLayerMeta"] !== undefined
+        ? layerObj.options?.["noLayerMeta"]
+        : false,
   }));
   return layers;
 };
@@ -182,17 +186,23 @@ const addMetadata = (_dna, _edition) => {
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
+  let ignore = false;
+
+  console.log("Debug - noLayerMeta: " + _element.layer.noLayerMeta);
+  if (_element.layer.noLayerMeta !== undefined && _element.layer.noLayerMeta) {
+    ignore = true;
+  }
 
   //Added ability for user to state whether they are using blank images or blank keyword within image names so that the code can already cater for it as the norm is to remove blanks from attribute lists.
-  if (NFT_DETAILS.ignoreAllNamesWithBlank) {
-    if (!selectedElement.name.trim().toLowerCase().includes("blank")) {
-      addToAttrbutesList(_element.layer.name, selectedElement.name);
-    }
-  } else if (NFT_DETAILS.ignoreExactBlankName) {
-    if (selectedElement.name.trim().toLowerCase() !== "blank") {
-      addToAttrbutesList(_element.layer.name, selectedElement.name);
-    }
-  } else {
+  if (NFT_DETAILS.ignoreAllNamesWithBlank && selectedElement.name.trim().toLowerCase().includes("blank")) {
+    ignore = true;
+  }
+
+  if (NFT_DETAILS.ignoreExactBlankName && selectedElement.name.trim().toLowerCase() === "blank") {
+    ignore = true;
+  }
+
+  if (!ignore) {
     addToAttrbutesList(_element.layer.name, selectedElement.name);
   }
 };
@@ -254,6 +264,7 @@ const constructLayerToDna = (_dna = "", _layers = []) => {
       name: layer.name,
       blend: layer.blend,
       opacity: layer.opacity,
+      noLayerMeta: layer.noLayerMeta,
       selectedElement: selectedElement,
     };
   });
@@ -324,7 +335,8 @@ const selectTraits = (layers) => {
           name: layer.elements[i].name,
           filename: layer.elements[i].filename,
           bypassDNA: layer.bypassDNA,
-          maxRepeatedTrait: layer.maxRepeatedTrait
+          maxRepeatedTrait: layer.maxRepeatedTrait,
+          noLayerMeta: layer.noLayerMeta,
           },
         );
       }
