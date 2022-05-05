@@ -94,6 +94,7 @@ const layersSetup = (layersOrder) => {
         ? layerObj.options?.["displayName"]
         : layerObj.name,
     maxRepeatedTrait: layerObj.maxRepeatedTrait,    
+    layerItemsMaxRepeatedTrait: layerObj.layerItemsMaxRepeatedTrait,
     blend:
       layerObj.options?.["blend"] != undefined
         ? layerObj.options?.["blend"]
@@ -324,7 +325,8 @@ const selectTraits = (layers) => {
           name: layer.elements[i].name,
           filename: layer.elements[i].filename,
           bypassDNA: layer.bypassDNA,
-          maxRepeatedTrait: layer.maxRepeatedTrait
+          maxRepeatedTrait: layer.maxRepeatedTrait,
+          layerItemsMaxRepeatedTrait: layer.layerItemsMaxRepeatedTrait
           },
         );
       }

@@ -95,6 +95,7 @@ async function main() {
     const response = await fetchWithRetry("https://api.nftport.xyz/v0/metadata/directory", options);
 
     console.log("Done with upload of metadata.");
+    console.log("Starting with update on metadata files to include upload data.");
 
     // Loop through each file in the list.
     for (const file of files) {
@@ -123,9 +124,6 @@ async function main() {
         
         // Write the allMetadata array to the ipfsMetasDir directory
         fs.writeFileSync(`${FOLDERS.ipfsMetasDir}/_ipfsMetas.json`,JSON.stringify(allMetadata, null, 2));
-
-        console.log(`${metaData.name} metadata uploaded!`);
-
       }
     }
 
