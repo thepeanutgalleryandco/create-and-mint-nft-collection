@@ -203,6 +203,9 @@ If you would like to support my NFT collection, please take a look at the below.
 ## UPDATES & FIXES
 
 
+### Added Layer Global Maximum Repeatability Setting
+Added a new `layerItemsMaxRepeatedTrait` setting that can be used to set the maximum repeatability for all items within a layer. If this is set to 2 for example and your layer has 8 layer items, then a maximum of 16 images will be generated. This allows users to set the maximum repeatability once off for a layer's items instead of specifying each layer item with the same maximum repeatability. [Feature - Add Maximum Repeatability For All Items In A Layer In A Single Configuration](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/65)
+
 ### Added Opensea Selling Scripts
 Added a new script `utils/opensea/sell_nfts.js` that will allow users to sell NFTs between two edition numbers (inclusive) to be put up for sale if the user owns the NFTs. This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your seed phrase for this functionality to work. [Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42), [Feature - Opensea Polygon Script To Auto Sell NFTs Additional Fields](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/47) and [Feature - Opensea Polygon Script To Auto Sell NFTs Added Metamask Account Number](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/49)
 
@@ -261,13 +264,12 @@ Modify the following parts at the very least, below are just sample values that 
 
 #### b. Update your layer configurations
 - Update your folder names, order in which they need to be processed and the number of images to create
-- Optionally add maximum repeatability filtration rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16) and [Layer Item Maximum Repeatability Settings](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/20)
+- Optionally add maximum repeatability filtration rule in for the layers - Please see [Maximum Repeatability Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/16) and [Layer Item Maximum Repeatability Settings](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/20) and [Add Maximum Repeatability For All Items In A Layer In A Single Configuration](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/65)
 - Optionally add layer combination filtration rules in for the layers - Please see [Layer Combination Exclusion Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/15)
 - Optionally add layer dependent traits filtration rules in for the layers - Please see [Layer Trait Dependencies Feature](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/29)
 
 *Example of default configuration along with maximum repeatability and layer compatibility*
-
-![Screenshot 2022-03-15 at 01 10 17](https://user-images.githubusercontent.com/52892685/158283474-cba5a3cd-011c-4e1b-8371-69093f5dff9d.png)
+<img width="554" alt="Screenshot 2022-05-05 at 17 55 14" src="https://user-images.githubusercontent.com/52892685/166963557-ee08ff09-557e-4898-a484-8dcf07db5607.png">
 
 
 #### c. Update the width and height of your canvas

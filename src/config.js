@@ -43,7 +43,7 @@ const layerConfigurations = [
       { name: "Eyeball" },
       { name: "Eye color", maxRepeatedTrait: 2 },
       { name: "Iris" },
-      { name: "Shine" },
+      { name: "Shine", layerItemsMaxRepeatedTrait: 4 },
       { name: "Bottom lid", maxRepeatedTrait: 3 },
       { name: "Top lid" },
     ],

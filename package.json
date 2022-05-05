@@ -1,6 +1,6 @@
 {
   "name": "create-and-mint-nft-collection",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "description": "Source code to create and mint generative art via NFTPort API. Special thanks to codeSTACKr and Hashlips for their source codebase.",
   "main": "index.js",
   "bin": "index.js",
