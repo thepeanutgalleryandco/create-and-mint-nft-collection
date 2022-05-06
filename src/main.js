@@ -483,12 +483,13 @@ const startCreating = async () => {
           console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
               newDna
-            )}`
+            )} (tries: ${failedCount})`
           );
         });
         dnaList.add(filterDNAOptions(newDna));
         selectedTraitsList.add(traits);
         editionCount++;
+        failedCount = 0; 
         abstractedIndexes.shift();
       } else {
         console.log("DNA exists!");
