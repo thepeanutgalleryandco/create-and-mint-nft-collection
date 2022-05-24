@@ -6,8 +6,8 @@ const BASEDIR = process.cwd();
 const { FOLDERS } = require(`${BASEDIR}/constants/folders.js`);
 const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`);
 
-const START_EDITION = 1; // Set the start edition of the collection where you want to start cancelling NFTs from.
-const END_EDITION = 1; // Set the end edition of the collection where you want to stop cancelling NFTs at.
+const MAX_LOOPS = 1; // Set the maximum number of unhide attempts that will be done on the collection if items are found.
+const NFT_COLLECTION_NAME = ''; // Set the name of the NFT collection so that it can be found in your hidden tab.
 const walletPrivateKey = ''; // Set the private key of the wallet that you would like to import and use. Upon importing a private key, the imported wallet will automatically be chosen.
 /* 
 Retrieving your wallet private key:
@@ -37,6 +37,7 @@ WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING 
 */
 
 let COLLECTION_BASE_URL = '';
+let SIGNED_ONCE = false;
 
 // Main function
 async function main() {
@@ -92,7 +93,7 @@ async function main() {
     // Set your collection URL. The contract address from the account_details.js file will be used.
     COLLECTION_BASE_URL = `${COLLECTION_BASE_URL}/${ACCOUNT_DETAILS.contract_address}/` ;
 
-    console.log("Starting with removing collection items from being on sale on Opensea - " + COLLECTION_BASE_URL);
+    console.log("Starting with unhiding collection items on Opensea - " + COLLECTION_BASE_URL);
     
     // Create a new tab and launch opensea.io, to the account page
     const page = await browser.newPage();
@@ -115,49 +116,93 @@ async function main() {
 
     // Reload the page
     await page.reload({ waitUntil: "networkidle0" });
-        
-    // Loop from the start edition up until the end edition that has been set. Both values are inclusive.
-    for (let i = START_EDITION; i <= END_EDITION; i++) {    
-        try {
-            console.log(`Starting to remove sale from edition: ${i}`);
 
-            // Set the website URL of the NFT edition
-            const url = COLLECTION_BASE_URL + i.toString();
+    await page.goto("https://opensea.io/account?tab=private", { waitUntil: "networkidle0" });
+    await page.waitForTimeout(1000);
 
-            // Open the URL on the new tab that got created
-            await page.goto(url, { waitUntil: "networkidle0" });
+    // Go to the Search box and enter the NFT collection name
+    await page.waitForSelector('input[placeholder=Search]');
+    await page.type('input[placeholder=Search]', `${NFT_COLLECTION_NAME}`, {delay: 15});
+    await page.keyboard.type('\n'); // hit enter
+    await page.waitForTimeout(2000);
 
-            // Look for a button containing Cancel on the page
-            const cancelElements = await page.$x("//button[contains(., 'Cancel')]");
-            await cancelElements[0].click() ;
-            await page.waitForTimeout(3000);
+    const unhidingPage = page.url() + '&select=unhide';
 
-            // Go to the confirm button and click it
-            await page.keyboard.press('Tab', { page }); // navigate to button
-            await page.keyboard.type('\n'); // hit enter
-            
-            // Go to the sign button and click it
-            await page.focus('div[aria-hidden="false"]');
-            
-            for (j=0; j < 3; j++) {
-                await page.keyboard.press('Tab', { page }); // navigate to button
-            }
-            await page.keyboard.type('\n'); // hit enter
+    try {
 
-            await metamask.sign();
-            await page.bringToFront();
-            await page.waitForTimeout(2000);
+        console.log(`Getting unhidden NFTs list`);
 
-            console.log(`Edition successfully removed from being on sale: ${i} , URL: ${url}`);
-
-        } catch (error) {
-
-            // If any issues come up, then log the error and continue to the next edition
-            console.log(`Error ${error} when attempting to remove edition from sale: ${i}`);
-
-            // Bring the main tab into view
-            await page.bringToFront();
+        // Press space bar 5 times to load more items
+        for (m = 0; m < 5; m++) {
+            await page.keyboard.type(`Space`, {delay: 15});
         }
+    
+        // Get the hidden NFT count on the screen
+        let childrenLength = await page.evaluate(() => {
+            return (Array.from(document.querySelector('div[role="grid"]').children).length);
+        });
+
+        console.log(childrenLength);        
+        
+        // Set the loop counter.
+        let k = 0;
+
+        while (childrenLength !== 0) {
+
+            // Increment loop counter
+            k++ ;
+
+            // Load the searched page with unhide mode already selected
+            await page.goto(unhidingPage , { waitUntil: "networkidle0" });            
+
+            // Select items to be unhidden
+            for (i = 1; i <= childrenLength && i < 21; i++) {
+                await page.waitForTimeout(100);
+                await page.click(`div[role="grid"] > div:nth-child(${i})`);
+            }
+
+            // Click unhide button
+            const unhideElements = await page.$x("//button[contains(., 'Unhide')]");
+            await unhideElements[0].click() ;
+            await page.waitForTimeout(3000);
+            console.log(`Clicked on unhide button`);
+            
+            // If it is the first time unhiding, then sign the transaction
+            if (!SIGNED_ONCE) {
+                await metamask.sign();
+                await page.bringToFront();
+                await page.waitForTimeout(2000);                
+
+                // Set signed value so that sign is not triggered on every unhide action
+                SIGNED_ONCE = true;
+
+                console.log(`Signed transaction`);
+            }
+
+            // Check if the maximum loop limit has been reached and exits the program if it is the case
+            if (k === MAX_LOOPS) {
+                console.log("Maximum loops reached, exiting the script now.");
+                process.exit();
+            }
+
+            console.log(`Getting unhidden NFTs list`);
+
+            // Press space bar 5 times to load more items
+            for (m = 0; m < 5; m++) {
+                await page.keyboard.type(`Space`, {delay: 15});
+            }
+    
+            // Get the hidden NFT count on the screen
+            childrenLength = await page.evaluate(() => {
+                return (Array.from(document.querySelector('div[role="grid"]').children).length);
+            });
+
+            console.log(childrenLength); 
+        }
+
+    } catch (error) {
+        console.log(error);
+        console.log("Your collection has no more hidden NFTs.");
     }
 
     // Wait a few seconds before closing the browser.
@@ -166,9 +211,14 @@ async function main() {
     // Close the chrome automation browser after all editions got refreshed
     await browser.close();
 
-    console.log("Done with putting collection editions on sale on Opensea - " + COLLECTION_BASE_URL);
+    console.log("Done with unhiding collection editions on Opensea - " + COLLECTION_BASE_URL);
 }
 
 // Start the Main function.
 main().then(function () {
 });
+
+async function getNFTList(_page) {
+
+    return _childrenLength;
+}

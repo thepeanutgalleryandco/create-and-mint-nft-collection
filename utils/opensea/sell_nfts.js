@@ -50,14 +50,14 @@ async function main() {
 
     /* 
     Launch a new chrome automation browser
-    metamaskVersion tested and working = "v10.1.1"
-    @chainsafe/dappeteer tested and working = "v2.3.0"
+    metamaskVersion tested and working = "v10.8.1"
+    @chainsafe/dappeteer tested and working = "v2.4.1"
     */
     const browser = await dappeteer.launch(puppeteer, {
         headless: false,
         defaultViewport: null,
         timeout: 180000,
-        metamaskVersion: `v10.1.1`,
+        metamaskVersion: `v10.8.1`,
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     
