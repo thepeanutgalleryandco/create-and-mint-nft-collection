@@ -36,7 +36,6 @@
     "remint_batch": "node utils/nftport/remint_batch.js",
     "reveal": "node utils/nftport/reveal.js",
     "sell_nfts": "node utils/opensea/sell_nfts.js",
-    "unhide_nfts": "node utils/opensea/unhide_nfts.js",
     "update_image_info": "node utils/custom/update_image_info.js",
     "update_json_to_generic_meta": "node utils/custom/update_json_to_generic_meta.js",
     "update_metadata_info": "node utils/custom/update_metadata_info.js",

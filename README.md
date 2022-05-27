@@ -120,7 +120,6 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Cancel_On_Sale_Nfts Command](#cancel_on_sale_nfts-command)
      - [Refresh_Metadata Command](#refresh_metadata-command)
      - [Sell_Nfts Command](#sell_nfts-command)
-     - [Unhide_Nfts Command](#unhide_nfts-command)
 
 
 ## ERC721 Product Contract Examples
@@ -212,8 +211,6 @@ Added a new script `utils/opensea/sell_nfts.js` that will allow users to sell NF
 - [Feature - Opensea Sell Script Support Different Currency Selection](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/61)
 
 Added a new script `utils/opensea/cancel_on_sale_nfts.js` that will allow users to remove NFTs that they own from being on sale between two edition numbers (inclusive). This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your private key for this functionality to work. [Feature - Cancel NFTs On Sale On Opensea](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/52)
-
-Added a new script `utils/opensea/unhide_nfts.js` that will allow users to unhide NFTs that they own from their hidden tab. This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your private key for this functionality to work. Please note that this script is still experimental and due to the way that Opensea refreshes their data grids, the script will go into a loop where it looks like it keeps on unhiding the same NFTs over and over. Simply cancel the script when this occurs and try it again a bit later. [Feature - Opensea Unhide NFTs Script](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/62)
 
 
 ### Added Layer Global Maximum Repeatability Setting
@@ -520,20 +517,14 @@ Go to the utils/opensea/cancel_on_sale_nfts.js file and update the `START_EDITIO
 
 Use the  `Opensea - Cancel_On_Sale_Nfts Command` below to start the removing each NFT edition from being on sale between your start and end editions.
 
-**Unhide NFTs**
-
-Go to the utils/opensea/unhide_nfts.js file and update the `MAX_LOOPS`, `NFT_COLLECTION_NAME` and `walletPrivateKey` fields.
-Use the  `Opensea - Unhide_Nfts Command` below to start the unhiding of NFTs for the specific collection from your hidden tab.
-
 
 **Features:**
 - [Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42)
 - [Feature - Opensea Polygon Script - To Auto Sell NFTs Additional Fields](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/47) 
 - [Feature - Opensea Polygon Script To Auto Sell NFTs Added Metamask Account Number](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/49) 
 - [Feature - Cancel NFTs On Sale On Opensea](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/52)
-- [Feature - Opensea Unhide NFTs Script](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/62)
 
-**Please read the warning very carefully within the the sell_nfts.js, cancel_on_sale_nfts.js and unhide_nfts.js files with regards to the walletPrivateKey field.**
+**Please read the warning very carefully within the the sell_nfts.js and cancel_on_sale_nfts.js files with regards to the walletPrivateKey field.**
 **Please note that this script will only work with the Polygon network**
 **Please note this process will be time consuming for large editions.**
 
@@ -695,11 +686,6 @@ Use the following command from the code's root directory.
 ### Sell_Nfts Command
 - node utils/opensea/sell_nfts.js
 - npm run sell_nfts
-
-
-### Unhide_Nfts Command
-- node utils/opensea/unhide_nfts.js
-- npm run unhide_nfts
 
 
 ## EXAMPLE - NO REVEAL (ERC721)
