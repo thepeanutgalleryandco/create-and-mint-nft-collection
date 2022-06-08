@@ -37,6 +37,7 @@ If you feel that this has benefitted you in any way and would like to make a con
 If you would like to support my NFT collection, please take a look at the below.
 - [Steak-Bites Collection Sale](https://opensea.io/collection/steak-bites)
 - [TheResidentLegendNFT Minting DApp ](https://theresidentlegendnft.xyz/)
+
 ![Banner V4](https://user-images.githubusercontent.com/52892685/149317695-82707703-a8db-4e17-8dc2-98d59aefae2e.png)
 
 
