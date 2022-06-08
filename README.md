@@ -35,7 +35,9 @@ If you feel that this has benefitted you in any way and would like to make a con
 
 ## NFT Collection
 If you would like to support my NFT collection, please take a look at the below.
-- [Steak-Bites Collection On Opensea](https://opensea.io/collection/steak-bites)
+- [Steak-Bites Collection Sale](https://opensea.io/collection/steak-bites)
+- [TheResidentLegendNFT Minting DApp ](https://theresidentlegendnft.xyz/)
+
 ![Banner V4](https://user-images.githubusercontent.com/52892685/149317695-82707703-a8db-4e17-8dc2-98d59aefae2e.png)
 
 
@@ -121,7 +123,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Sell_Nfts Command](#sell_nfts-command)
 
 
-## ERC721 Examples
+## ERC721 Product Contract Examples
 - [EXAMPLE - NO REVEAL (ERC721)](#example---no-reveal-erc721)
      - [Download Repo And Extract](#download-repo-and-extract)
      - [Install Packages](#install-packages)
@@ -130,7 +132,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Update constants/nft_details.js](#update-constantsnft_detailsjs)
      - [Art Engine - Build](#art-engine---build)
      - [Upload Files](#upload-files)
-     - [Upload Metas](#upload-metas)
+     - [Upload Metas (NFTPort - UploadMetas Command)](#upload-metas)
      - [Mint](#mint)
 
 - [EXAMPLE - REVEAL (ERC721)](#example---reveal-erc721)
@@ -142,15 +144,15 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Art Engine - Build](#art-engine---build-1)
      - [Update JSON To Generic Meta](#update-json-to-generic-meta)
      - [Upload Files](#upload-files-1)
-     - [Upload Metas - This will upload your json directory's files](#upload-metas---this-will-upload-your-json-directorys-files)
+     - [Upload Metas (NFTPort - UploadMetas Command) - This will upload your json directory's files](#upload-metas---this-will-upload-your-json-directorys-files)
      - [Rename ipfsMetas directory](#rename-ipfsmetas-directory)
      - [Update constants/account_details.js](#update-constantsaccount_detailsjs-2)
-     - [Upload Metas - This will upload your genericJSON directory's files](#upload-metas---this-will-upload-your-genericjson-directorys-files)
+     - [Upload Metas (NFTPort - UploadMetas Command) - This will upload your genericJSON directory's files](#upload-metas---this-will-upload-your-genericjson-directorys-files)
      - [Mint - This will mint your unrevealed NFTs' metadata](#mint---this-will-mint-your-unrevealed-nfts-metadata)
      - [Manually Update Metadata After Purchase](#manually-update-metadata-after-purchase)
+     
 
-
-## ERC1155 Examples
+## ERC1155 Product Contract Examples
  - [EXAMPLE - NO REVEAL (ERC1155)](#example---no-reveal-erc1155)
      - [Download Repo And Extract](#download-repo-and-extract-2)
      - [Install Packages](#install-packages-2)
@@ -159,7 +161,7 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Update constants/nft_details.js](#update-constantsnft_detailsjs-2)
      - [Art Engine - Build](#art-engine---build-2)
      - [Upload Files](#upload-files-2)
-     - [Upload Metas](#upload-metas-1)
+     - [Upload Metas (NFTPort - UploadMetas Command)](#upload-metas-1)
      - [Batch IPFS Metas Migration](#batch-ipfs-metas-migration)
      - [Mint Batch - This will mint your unrevealed NFTs' metadata](#mint-batch---this-will-mint-your-unrevealed-nfts-metadata)
 
@@ -172,10 +174,10 @@ If you would like to support my NFT collection, please take a look at the below.
      - [Art Engine - Build](#art-engine---build-3)
      - [Update JSON To Generic Meta](#update-json-to-generic-meta-1)
      - [Upload Files](#upload-files-3)
-     - [Upload Metas - This will upload your json directory's files](#upload-metas---this-will-upload-your-json-directorys-files-1)
+     - [Upload Metas (NFTPort - UploadMetas Command) - This will upload your json directory's files](#upload-metas---this-will-upload-your-json-directorys-files-1)
      - [Rename ipfsMetas directory](#rename-ipfsmetas-directory-1)
      - [Update constants/account_details.js](#update-constantsaccount_detailsjs-5)
-     - [Upload Metas - This will upload your genericJSON directory's files](#upload-metas---this-will-upload-your-genericjson-directorys-files-1)
+     - [Upload Metas (NFTPort - UploadMetas Command) - This will upload your genericJSON directory's files](#upload-metas---this-will-upload-your-genericjson-directorys-files-1)
      - [Batch IPFS Metas Migration](#batch-ipfs-metas-migration-1)
      - [Mint Batch - This will mint your unrevealed NFTs' metadata](#mint-batch---this-will-mint-your-unrevealed-nfts-metadata-1)
      - [Manually Update Metadata After Purchase](#manually-update-metadata-after-purchase-1)
@@ -202,26 +204,18 @@ If you would like to support my NFT collection, please take a look at the below.
 
 ## UPDATES & FIXES
 
+### Opensea Scripts
+Added a new script `utils/opensea/sell_nfts.js` that will allow users to sell NFTs between two edition numbers (inclusive) to be put up for sale if the user owns the NFTs. This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your private key for this functionality to work. 
+- [Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42)
+- [Feature - Opensea Polygon Script To Auto Sell NFTs Additional Fields](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/47)
+- [Feature - Opensea Polygon Script To Auto Sell NFTs Added Metamask Account Number](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/49)
+- [Feature - Opensea Sell Script Support Different Currency Selection](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/61)
+
+Added a new script `utils/opensea/cancel_on_sale_nfts.js` that will allow users to remove NFTs that they own from being on sale between two edition numbers (inclusive). This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your private key for this functionality to work. [Feature - Cancel NFTs On Sale On Opensea](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/52)
+
 
 ### Added Layer Global Maximum Repeatability Setting
 Added a new `layerItemsMaxRepeatedTrait` setting that can be used to set the maximum repeatability for all items within a layer. If this is set to 2 for example and your layer has 8 layer items, then a maximum of 16 images will be generated. This allows users to set the maximum repeatability once off for a layer's items instead of specifying each layer item with the same maximum repeatability. [Feature - Add Maximum Repeatability For All Items In A Layer In A Single Configuration](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/65)
-
-### Added Opensea Selling Scripts
-Added a new script `utils/opensea/sell_nfts.js` that will allow users to sell NFTs between two edition numbers (inclusive) to be put up for sale if the user owns the NFTs. This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your seed phrase for this functionality to work. [Feature - Opensea Polygon Script To Auto Sell NFTs](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/42), [Feature - Opensea Polygon Script To Auto Sell NFTs Additional Fields](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/47) and [Feature - Opensea Polygon Script To Auto Sell NFTs Added Metamask Account Number](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/49)
-
-Added a new script `utils/opensea/cancel_on_sale_nfts.js` that will allow users to remove NFTs that they own from being on sale between two edition numbers (inclusive). This functionality uses Puppeteer and Chainsafe's Dappeteer, so please use at your own discretion as you will need to make use of your seed phrase for this functionality to work. [Feature - Cancel NFTs On Sale On Opensea](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/52)
-
-### Added Start Collection Edition Setting
-Users can now set at which edition number the collection creation process should start add. The `startCollectionEditionFrom` setting can be found in the `constants/nft_details.js` file.
-
-
-### Added metadata filtration rule - Dependency Traits
-Users have a new metadata filtration configuration option
-- Dependency Traits - Set the combination of traits that needs to be generated together to enforce certain combinations.
-
-
-### Added NFTPort UploadMetas Directory API
-Added a new script that will allow users to upload the json files in a directory in a single API call instead of individual API calls for each JSON file. This should typically be used with collection contracts on NFTPort or if a single CID is needed for the JSON files. [NFTPort API - Upload Metadata Directory To IPFS](https://docs.nftport.xyz/docs/nftport/b3A6NDMwNTE5ODY-upload-metadata-directory-to-ipfs)
 
 
 <br/>
@@ -531,7 +525,7 @@ Use the  `Opensea - Cancel_On_Sale_Nfts Command` below to start the removing eac
 - [Feature - Opensea Polygon Script To Auto Sell NFTs Added Metamask Account Number](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/49) 
 - [Feature - Cancel NFTs On Sale On Opensea](https://github.com/thepeanutgalleryandco/create-and-mint-nft-collection/issues/52)
 
-**Please read the warning very carefully within the the sell_nfts.js and cancel_on_sale_nfts.js files with regards to the seed field.**
+**Please read the warning very carefully within the the sell_nfts.js and cancel_on_sale_nfts.js files with regards to the walletPrivateKey field.**
 **Please note that this script will only work with the Polygon network**
 **Please note this process will be time consuming for large editions.**
 

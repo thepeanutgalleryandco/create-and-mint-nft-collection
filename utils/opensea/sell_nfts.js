@@ -8,7 +8,7 @@ const { ACCOUNT_DETAILS } = require(`${FOLDERS.constantsDir}/account_details.js`
 
 const START_EDITION = 1; // Set the start edition of the collection where you want to start selling NFTs from.
 const END_EDITION = 1; // Set the end edition of the collection where you want to stop selling NFTs at.
-const NFT_PRICE = 0.002; // Set the price that will be given to each NFT between START_EDITION and END_EDITION.
+const NFT_PRICE = 0.005; // Set the price that will be given to each NFT between START_EDITION and END_EDITION.
 const DROPDOWN_OPTION = 0; // Set the dropdown option to setup the date picker. Leave at 0 to keep the default sell timeframe. Do not add more options than what there is in the Opensea list. Do not count the default item in the list.
 const DATE_PICK_SKIP = 7; // Set the tabs between the date picker drop down and the time. This value should be set between 6, 7 and 8. Please check the comment where this variable is used for more information.
 const START_HOUR = 18; // Set the start hour for the sale.
@@ -50,14 +50,14 @@ async function main() {
 
     /* 
     Launch a new chrome automation browser
-    metamaskVersion tested and working = "v10.1.1"
-    @chainsafe/dappeteer tested and working = "v2.3.0"
+    metamaskVersion tested and working = "v10.8.1"
+    @chainsafe/dappeteer tested and working = "v2.4.1"
     */
     const browser = await dappeteer.launch(puppeteer, {
         headless: false,
         defaultViewport: null,
         timeout: 180000,
-        metamaskVersion: `v10.1.1`,
+        metamaskVersion: `v10.8.1`,
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     

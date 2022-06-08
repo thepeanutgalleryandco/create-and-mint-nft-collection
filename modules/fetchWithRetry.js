@@ -28,7 +28,7 @@ function fetchWithRetry(url, options) {
             return res.json();
           } // If the status is not 200, throw an error and move to the catch block
             else {
-            throw `ERROR STATUS: ${status}`;
+            throw `ERROR STATUS: ${status} , ERROR STATUS TEXT: ${res.statusText}`;
           }
         })
         .then(async (json) => {

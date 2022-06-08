@@ -1,6 +1,6 @@
 {
   "name": "create-and-mint-nft-collection",
-  "version": "1.7.7",
+  "version": "1.8.0",
   "description": "Source code to create and mint generative art via NFTPort API. Special thanks to codeSTACKr and Hashlips for their source codebase.",
   "main": "index.js",
   "bin": "index.js",
@@ -47,14 +47,14 @@
   "author": "Rohan de Jongh (thepeanutgalleryandco)",
   "license": "MIT",
   "dependencies": {
-    "@chainsafe/dappeteer": "2.3.0",
+    "@chainsafe/dappeteer": "2.4.1",
     "async-sema": "^3.1.1",
     "canvas": "^2.9.0",
     "form-data": "^4.0.0",
     "gif-encoder-2": "^1.0.5",
     "graceful-fs": "^4.2.9",
     "node-fetch": "^2.6.7",
-    "puppeteer": "^13.5.0",
+    "puppeteer": "13.7.0",
     "sha1": "^1.1.1",
     "simple-get": "4.0.1"
   }
